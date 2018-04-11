@@ -32,15 +32,6 @@ namespace PlataformaZ2.Data.Util
             }
         }
 
-        /// <summary> Gets the AccessToken's expiration period (in hours) </summary>
-        public static int AccessTokenExpirationPeriod
-        {
-            get
-            {
-                return Convert.ToInt32(ConfigurationManager.AppSettings["AccessTokenExpirationPeriod"]);
-            }
-        }
-
         /// <summary> Gets the quantity results per page </summary>
         public static byte ResultsPerPage
         {
@@ -50,21 +41,12 @@ namespace PlataformaZ2.Data.Util
             }
         }
 
-        /// <summary> Gets the EmailTemplate's directory path </summary>
-        public static string EmailTemplateDirectoryPath
+        /// <summary> Gets the AccessToken's expiration period (in hours) </summary>
+        public static int AccessTokenExpirationPeriod
         {
             get
             {
-                return ConfigurationManager.AppSettings["EmailTemplateDirectoryPath"];
-            }
-        }
-
-        /// <summary> Gets the file's directory path </summary>
-        public static string FileDirectoryPath
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["FileDirectoryPath"];
+                return Convert.ToInt32(ConfigurationManager.AppSettings["AccessTokenExpirationPeriod"]);
             }
         }
 
@@ -131,6 +113,24 @@ namespace PlataformaZ2.Data.Util
             }
         }
 
+        /// <summary> Gets the EmailTemplate's directory path </summary>
+        public static string EmailTemplateDirectoryPath
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["EmailTemplateDirectoryPath"];
+            }
+        }
+
+        /// <summary> Gets the file's directory path </summary>
+        public static string FileDirectoryPath
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["FileDirectoryPath"];
+            }
+        }
+
         /// <summary> Gets the "external password change" base link </summary>
         public static string ExternalPasswordChangeBaseLink
         {
@@ -138,6 +138,15 @@ namespace PlataformaZ2.Data.Util
             {
                 return ConfigurationManager.AppSettings["ExternalPasswordChangeBaseLink"];
             }
-        }       
+        }
+
+        /// <summary> Gets the logo image link </summary>
+        public static string LogoImageLink
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["LogoImageLink"];
+            }
+        }
     }
 }

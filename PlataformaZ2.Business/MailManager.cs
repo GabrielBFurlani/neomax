@@ -45,6 +45,7 @@ namespace PlataformaZ2.Business
                 ////Reads the HTML template and replace the tags
                 mail.IsBodyHtml = true;
                 var htmlBody = File.ReadAllText(System.Web.Hosting.HostingEnvironment.MapPath(ApplicationConfiguration.EmailTemplateDirectoryPath) + "\\WelcomeEmail.html");
+                htmlBody = htmlBody.Replace("%LogoImageLink%", ApplicationConfiguration.LogoImageLink);
                 htmlBody = htmlBody.Replace("%UserName%", userName);
                 mail.Body = htmlBody;
 
@@ -92,6 +93,7 @@ namespace PlataformaZ2.Business
 
                 mail.IsBodyHtml = true;
                 var htmlBody = File.ReadAllText(System.Web.Hosting.HostingEnvironment.MapPath(ApplicationConfiguration.EmailTemplateDirectoryPath) + "\\FirstPasswordEmail.html");
+                htmlBody = htmlBody.Replace("%LogoImageLink%", ApplicationConfiguration.LogoImageLink);
                 htmlBody = htmlBody.Replace("%UserName%", userName);
                 htmlBody = htmlBody.Replace("%ExternalPasswordChangeLink%", finalLink);
                 mail.Body = htmlBody;
@@ -135,6 +137,7 @@ namespace PlataformaZ2.Business
                 ////Reads the HTML template and replace the tags
                 mail.IsBodyHtml = true;
                 var htmlBody = File.ReadAllText(System.Web.Hosting.HostingEnvironment.MapPath(ApplicationConfiguration.EmailTemplateDirectoryPath) + "\\ForgotPasswordEmail.html");
+                htmlBody = htmlBody.Replace("%LogoImageLink%", ApplicationConfiguration.LogoImageLink);
                 htmlBody = htmlBody.Replace("%UserName%", userName);
                 htmlBody = htmlBody.Replace("%ExternalPasswordChangeLink%", finalLink);
                 mail.Body = htmlBody;

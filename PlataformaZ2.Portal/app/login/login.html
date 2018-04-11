@@ -1,0 +1,55 @@
+﻿<div class="container-fluid">
+    <div class="row line-space-20">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="login-logo-place text-center">
+                <img src="assets/img/logo.png" alt="Logo" class="login-logo-size" />
+            </div>
+        </div>
+    </div>
+    <!--"Access" panel-->
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="panel panel-default login-box-place login-box">
+                <div class="panel login-box-header text-center">
+                    <h3 class="title">Acesso ao Portal</h3>
+                </div>
+                <div class="panel-body">
+                    <form role="form" novalidate angular-validator angular-validator-submit="access()" name="LoginForm">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-addon login-box-icon" id="UserIcon"><span class="glyphicon glyphicon-user"></span></span>
+                                    <input type="email" name="user" id="user" class="form-control login-box-input" aria-describedby="UserIcon"
+                                           placeholder="E-mail" ng-model="credentials.username"
+                                           validate-on="submit" required required-message="'Obrigatório'" invalid-message="'Formato inválido'" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row line-space-10">
+                            <div class="col-md-12">
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-addon login-box-icon" id="passwordIcon"><span class="glyphicon glyphicon-lock"></span></span>
+                                    <input type="password" name="password" id="password" class="form-control login-box-input" placeholder="Senha" aria-describedby="passwordIcon" ng-model="credentials.password"
+                                           validate-on="submit" required required-message="'Obrigatório'" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row line-space-10">
+                            <div class="col-md-3 col-md-offset-4">
+                                <button type="submit" class="btn btn-primary">
+                                    <span class="glyphicon glyphicon-log-in"></span> Entrar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Buttons-->
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <a href="#" ng-click="forgotPass()">Esqueci a senha</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,238 @@
+﻿
+/*..............Global Variables ..............*/
+:root {
+    /*.............. Main ..............*/
+    --PrimaryBackgroundColor: #404040;
+    --PrimaryBackgroundColorHover: #4e4e4e;
+    --PrimaryTextColor: white;
+    --PrimaryTextColorHover: black;
+    --PrimaryTextBackgroundColorHover: #808080;
+    /*.............. specific variables (using the main variables) ..............*/
+    --ButtonMenuBarHover: var(--PrimaryBackgroundColorHover);
+    --MenuIcon: var(--PrimaryTextColor);
+    --ButtonProfileBarHover: var(--PrimaryBackgroundColorHover);
+    --ButtonProfileBarLabel: var(--PrimaryTextColor);
+    --ProfileBarColor: var(--PrimaryBackgroundColor);
+    --ProfileBarLabel: var(--PrimaryTextColor);
+    --ProfileBarItemHover: var(--PrimaryTextBackgroundColorHover);
+    --ProfileBarItemTextHover: var(--PrimaryTextColorHover);
+    --MenuBarColor: var(--PrimaryBackgroundColor);
+    --MenuBarLabel: var(--PrimaryTextColor);
+    --MenuBarAccordion: var(--PrimaryBackgroundColor);
+    --MenuBarAccordionHover: var(--PrimaryBackgroundColorHover);
+    --MenuBarAccordionItemHover: var(--PrimaryTextBackgroundColorHover);
+    --MenuBarAccordionHeadingTextHover: var(--PrimaryTextColor);
+    --MenuBarAccordionLabel: var(--PrimaryTextColor); /*verificar: não está fazendo diferença*/
+    --MenuBarAccordionItemsText: var(--PrimaryTextColor);
+    --MenuBarAccordionItemsTextHover: var(--PrimaryTextColorHover);
+    --MenuBarPanel: var(--PrimaryBackgroundColor);
+    --MenuBarPanelLabel: var(--PrimaryTextColor);
+    --MenuBarPanelHover: var(--PrimaryBackgroundColorHover);
+    --MenuBarPanelHoverLabel: var(--PrimaryTextBackgroundColorHover);
+    --MenuBarPanelA: var(--PrimaryTextColor);
+    --MenuBarPanelAlabel: var(--PrimaryTextColor);
+    --NavBarCustom: var(--PrimaryBackgroundColor);
+    --NavBarCustomLabel: var(--PrimaryTextColor);
+    --NavBarCustomLinhaA: var(--PrimaryTextColor); /*verificar: não está fazendo diferença*/
+    --NavBarCustomActiveLabelA: var(--PrimaryTextColor); /*verificar: não está fazendo diferença*/
+    --NavBarCustomActiveA: transparent; /*verificar: não está fazendo diferença*/
+    --NavBarCustomNavBrand: var(--PrimaryTextColor); /*verificar: não está fazendo diferença*/
+    --NavBarCustomNavToggle: var(--PrimaryBackgroundColor); /*verificar: não está fazendo diferença*/
+    --NavBarCustomIconBar: var(--PrimaryBackgroundColor); /*verificar: não está fazendo diferença*/
+    --NavBarCustomDropdownMenu: var(--PrimaryBackgroundColor);
+    --NavBarCustomDropdownMenuLinhaA: var(--PrimaryTextColor); /*verificar: não está fazendo diferença*/
+}
+
+/*......... Panel: Visualization area (Content Box) ......... */
+.content-box {
+    padding-top: 50px;
+}
+
+.scale-down {
+    left: -50px;
+    -webkit-transform: scale(0.90, 0.90);
+    -ms-transform: scale(0.90, 0.90);
+    transform: scale(0.90, 0.90);
+}
+
+/*................. Panel: Topbar (Navbar) .................. */
+.menubar-toggle-button {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    border-radius: 5px;
+}
+
+    .menubar-toggle-button:hover {
+        background-color: var(--ButtonMenuBarHover);
+    }
+
+.menu-icon {
+    color: white;
+    font-size: 28px;
+    padding: 12px;
+}
+
+.brand-logo {
+    width: 197px;
+    height: 50px;
+    margin-top: 0px; /*keep in 0px to avoid the sidebar to overlap the menubar*/
+    margin-left: 10px;
+}
+
+    .brand-logo a:hover {
+        background-color: none;
+    }
+
+.brand-logo-image {
+    height: 45px;     /*the full height of menubar is 55px*/
+    margin-top: 5px;
+}
+
+.profilebar-toggle-button {
+    margin-top: 1px;
+    margin-bottom: 1px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+    .profilebar-toggle-button:hover {
+        background-color: var(--ButtonProfileBarHover);
+    }
+
+.user-profilebar-photo {
+    width: 40px;
+    height: 40px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.user-profilebar-button-label {
+    color: var(--ButtonProfileBarLabel);
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+/*..................... Panel: Menubar ...................... */
+.menubar {
+    background-color: var(--MenuBarColor);
+    color: var(--MenuBarLabel);
+    height: 100vh;
+    width: 220px;
+    margin-left: -17px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.menubar-label {
+    padding-left: 5px;
+}
+
+.nav > li > a:hover {
+    background-color: var(--MenuBarAccordionItemHover);
+}
+
+.menubar-accordion {
+    background-color: var(--MenuBarAccordion);
+    color: var(--MenuBarAccordionLabel);
+}
+
+    .menubar-accordion:hover {
+        background-color: var(--MenuBarAccordionHover);
+        color: var(--MenuBarAccordionHeadingTextHover);
+    }
+
+.menubar-accordion-items a {
+    color: var(--MenuBarAccordionItemsText);
+}
+
+    .menubar-accordion-items a:hover {
+        color: var(--MenuBarAccordionItemsTextHover);
+    }
+
+.menubar-panel {
+    background-color: var(--MenuBarPanel);
+    color: var(--MenuBarPanelLabel);
+}
+
+    .menubar-panel:hover {
+        background-color: var(--MenuBarPanelHover);
+        color: var(--MenuBarPanelHoverLabel);
+    }
+
+    .menubar-panel a {
+        background-color: var(--MenuBarPanelA);
+        color: var(--MenuBarPanelAlabel);
+    }
+
+/*.................... Panel: Profilebar .................... */
+.profilebar {
+    background-color: var(--ProfileBarColor);
+    color: var(--ProfileBarLabel);
+    width: auto;
+}
+
+.profilebar-item {
+    width: 100%;
+    text-align: left;
+}
+
+    .profilebar-item:hover {
+        background-color: var(--ProfileBarItemHover);
+        color: var(--ProfileBarItemTextHover);
+        width: 100%;
+        text-align: left;
+    }
+
+/*...................... Custom Colors ...................... */
+.navbar-custom {
+    background-color: var(--NavBarCustom);
+    color: var(--NavBarCustomLabel);
+    border-radius: 0;
+    z-index: 1000;
+}
+
+    .navbar-custom .navbar-nav > li > a {
+        color: var(--NavBarCustomLinhaA);
+    }
+
+    .navbar-custom .navbar-nav > .active > a {
+        color: var(--NavBarCustomActiveLabelA);
+        background-color: var(--NavBarCustomActiveA);
+    }
+
+        .navbar-custom .navbar-nav > li > a:hover,
+        .navbar-custom .navbar-nav > li > a:focus,
+        .navbar-custom .navbar-nav > .active > a:hover,
+        .navbar-custom .navbar-nav > .active > a:focus,
+        .navbar-custom .navbar-nav > .open > a {
+            text-decoration: none;
+            background-color: darkblue;
+        }
+
+    .navbar-custom .navbar-brand {
+        color: var(--NavBarCustomNavBrand);
+    }
+
+    .navbar-custom .navbar-toggle {
+        background-color: var(--NavBarCustomNavToggle);
+    }
+
+    .navbar-custom .icon-bar {
+        background-color: var(--NavBarCustomIconBar);
+    }
+
+    .navbar-custom .navbar-nav .dropdown-menu {
+        background-color: var(--NavBarCustomDropdownMenu);
+    }
+
+        .navbar-custom .navbar-nav .dropdown-menu > li > a {
+            color: var(--NavBarCustomDropdownMenuLinhaA);
+        }
+
+            .navbar-custom .navbar-nav .dropdown-menu > li > a:hover, .navbar-custom .navbar-nav .dropdown-menu > li > a:focus {
+                color: white;
+            }

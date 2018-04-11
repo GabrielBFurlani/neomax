@@ -1,0 +1,15 @@
+﻿
+    <div class="col-md-12">
+        <div class="checkout-wrap">
+            <ul class="checkout-bar">
+                <li ng-repeat="item in listItems" class="{{item.class}}" >
+                    <div>
+                        {{item.statusDescription}}
+                    </div>
+                    <div uib-tooltip="{{item.observation}}" tooltip-placement="bottom">
+                        {{item.modifiedDate | date : "dd/MM/yyyy HH:mm"}}
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>

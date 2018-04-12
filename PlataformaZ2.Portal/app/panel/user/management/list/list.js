@@ -20,7 +20,9 @@
         function loadPage() {           
 
             $http.get(_apiUrl + '/profile/all')
-                .success(function (httpResultModel) {
+                .then(function successCallback(response) {
+                    var httpResultModel = response.data;
+
                     if (httpResultModel.operationSuccess) {
                         $scope.profiles = httpResultModel.data;
                     }                    
@@ -33,7 +35,9 @@
         $scope.search = function () {
 
             $http.post(_apiUrl + '/user/management/search', $scope.filter)
-                .success(function (httpResultModel) {
+                .then(function successCallback(response) {
+                    var httpResultModel = response.data;
+
                     if (httpResultModel.operationSuccess) {
                         $scope.paginationResponse = httpResultModel.data;
                         $scope.users = $scope.paginationResponse.response;
@@ -62,8 +66,11 @@
             });
 
             modalInstance.result.then(function (idUser) {
+
                 $http.delete(_apiUrl + '/user/management/' + id)
-                     .success(function (httpResultModel) {
+                    .then(function successCallback(response) {
+                        var httpResultModel = response.data;
+
                          if (httpResultModel.operationSuccess) {
                              loadPage();
                          }                         

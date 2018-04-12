@@ -17,7 +17,9 @@
         service.login = function (credentials) {
             
             $http.post(_apiUrl + '/user/login', credentials)
-                .success(function (httpResultModel) {
+                .then(function successCallback(response) {
+                    var httpResultModel = response.data;
+
                     if (httpResultModel.operationSuccess) {
                         var session = httpResultModel.data;
 
@@ -29,7 +31,7 @@
 
                         $state.go('panel.home');
                     }                    
-                });
+                });            
         }
 
         //.................... Recovery user session from API using data stored on cookies
@@ -37,7 +39,9 @@
             
             if (username) {
                 $http.get(_apiUrl + '/user/userSession/' + username + '/')
-                    .success(function (httpResultModel) {
+                    .then(function successCallback(response) {
+                        var httpResultModel = response.data;
+
                         if (httpResultModel.operationSuccess) {
                             service.userSession = httpResultModel.data;
                             service.storage.userSession = httpResultModel.data;

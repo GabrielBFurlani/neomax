@@ -30,24 +30,22 @@
         function loadPage() {
 
             $http.get(_apiUrl + '/user/profile/all')
-                .success(function (httpResultModel) {
+                .then(function successCallback(response) {
+                    var httpResultModel = response.data;
+
                     if (httpResultModel.operationSuccess) {
                         $scope.profiles = httpResultModel.data;
                     }
                 });
 
-            $http.get(_apiUrl + '/client/all')
-                .success(function (httpResultModel) {
-                    if (httpResultModel.operationSuccess) {
-                        $scope.clients = httpResultModel.data;
-                    }
-                });
 
             //get the user data
             if (id != 0) {
 
                 $http.get(_apiUrl + '/user/management/' + id)
-                    .success(function (httpResultModel) {
+                    .then(function successCallback(response) {
+                        var httpResultModel = response.data;
+
                         if (httpResultModel.operationSuccess) {
                             $scope.user = httpResultModel.data;
 
@@ -85,55 +83,7 @@
             $scope.user.photo = null;
             $scope.hasPhoto = false;
         };
-
-        //Button: Edit Phone
-        $scope.editPhone = function (phone, index) {
-            var modalInstance = $uibModal.open({
-                templateUrl: "app/panel/user/modals/phone-edit.html",
-                controller: "phoneEdit",
-                resolve: {
-                    phoneDto: function () {
-
-                        if (phone != null) {
-                            return angular.copy(phone);
-                        }
-                        else {                            
-                            return null;
-                        }                        
-                    }
-                }
-            });
-
-            modalInstance.result.then(function (phoneDto) {
-
-                //check if it is phone update or insertion
-                if (index != null) {
-                    //phone update at specific 'index' (removes one element and substitute for another)
-                    $scope.user.phones.splice(index, 1, phoneDto);
-                }
-                else {
-                    //new phone insertion
-                    if (!$scope.user.phones) {
-                        $scope.user.phones = [];
-                    }
-
-                    $scope.user.phones.push(phoneDto);
-                }
-            });
-        };
-
-        //Button: Delete Phone
-        $scope.deletePhone = function (index) {
-            var modalInstance = $uibModal.open({
-                templateUrl: "app/panel/user/modals/phone-delete.html",
-                controller: "phoneDelete"                
-            });
-
-            modalInstance.result.then(function () {
-                //delete one element at the 'index' position
-                $scope.user.phones.splice(index, 1); 
-            });
-        };
+        
 
         //Button: Save
         $scope.save = function () {
@@ -142,7 +92,9 @@
             if ($scope.user.phones != null && $scope.user.phones.length > 0) {
 
                 $http.post(_apiUrl + '/user/management/save', $scope.user)
-                    .success(function (httpResultModel) {
+                    .then(function successCallback(response) {
+                        var httpResultModel = response.data;
+
                         if (httpResultModel.operationSuccess) {
 
                             $state.go("panel.user.management.list");

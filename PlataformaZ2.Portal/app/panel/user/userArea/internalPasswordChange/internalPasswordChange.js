@@ -14,13 +14,13 @@
         $scope.ok = function (data) {
 
             $http.post(_apiUrl + '/user/userArea/internalPasswordChange', $scope.changeInfo)
-                .success(function (httpResultModel) {
+                .then(function successCallback(response) {
+                    var httpResultModel = response.data;
+
                     if (httpResultModel.operationSuccess) {                        
                         $state.go('panel.home');                      
                     }
                 })
-                .error(function (httpResultModel) {
-                });
         };
 
     }]);

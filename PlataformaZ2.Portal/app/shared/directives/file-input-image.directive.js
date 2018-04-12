@@ -1,7 +1,7 @@
 ﻿(function () {
     "use strict";
 
-    angular.module("app").directive('imageInputDocument', function () {
+    angular.module("app").directive('fileInputImage', function () {
         return {
             restrict: 'A',
             link: function (scope, element, attrs) {

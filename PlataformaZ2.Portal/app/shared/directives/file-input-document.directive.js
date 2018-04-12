@@ -14,7 +14,7 @@
                     showUpload: false,
                     msgValidationError: 'Excede tamanho máximo permitido',
                     msgNoFilesSelected: 'Tipo de arquivo inválido',
-                    allowedFileExtensions: ["xls","xlsx","csv"]
+                    allowedFileExtensions: ["pdf", "doc", "docx", "xls", "xlsx", "csv"]
                 });
             }
         };

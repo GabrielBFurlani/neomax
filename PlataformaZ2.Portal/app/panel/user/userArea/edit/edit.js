@@ -33,7 +33,9 @@
             if (id != 0) {
 
                 $http.get(_apiUrl + '/user/userArea/' + id)
-                    .success(function (httpResultModel) {
+                    .then(function successCallback(response) {
+                        var httpResultModel = response.data;
+
                         if (httpResultModel.operationSuccess) {
                             $scope.user = httpResultModel.data;
 
@@ -128,7 +130,9 @@
             if ($scope.user.phones != null && $scope.user.phones.length > 0) {
 
                 $http.post(_apiUrl + '/user/userArea/update', $scope.user)
-                    .success(function (httpResultModel) {
+                    .then(function successCallback(response) {
+                        var httpResultModel = response.data;
+
                         if (httpResultModel.operationSuccess) {
 
                             //get the updated user session

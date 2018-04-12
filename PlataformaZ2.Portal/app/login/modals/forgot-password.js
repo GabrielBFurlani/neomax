@@ -15,7 +15,9 @@
         $scope.send = function () {
 
             $http.post(_apiUrl + '/user/forgotPassword/' + $scope.email + '/')
-                .success(function (httpResultModel) {
+                .then(function successCallback(response) {
+                    var httpResultModel = response.data;
+
                     if (httpResultModel.operationSuccess) {
                         //Closes the modal
                         $uibModalInstance.close();

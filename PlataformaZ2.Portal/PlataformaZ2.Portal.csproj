@@ -86,8 +86,8 @@
     <Content Include="app\shared\directives\flow-component\custom-flow.js" />
     <Content Include="app\shared\directives\flow-component\license.txt" />
     <Content Include="app\shared\directives\flow-component\custom-flow.css" />
-    <Content Include="app\shared\directives\image-input-document.directive.js" />
-    <Content Include="app\shared\directives\upload-file.directive.js" />
+    <Content Include="app\shared\directives\file-input-image.directive.js" />
+    <Content Include="app\shared\directives\file-upload-model.directive.js" />
     <Content Include="app\shared\services\file-upload.service.js" />
     <Content Include="app\panel\user\management\edit\edit.html" />
     <Content Include="app\panel\user\management\edit\edit.js" />
@@ -104,8 +104,8 @@
     <Content Include="app\panel\user\userArea\userArea.html" />
     <Content Include="app\routes.js" />
     <Content Include="app\shared\directives\number-only.js" />
-    <Content Include="app\shared\services\appHttpInterceptor.js" />
-    <Content Include="app\shared\services\user.service.js" />
+    <Content Include="app\shared\services\app-http-interceptor.service.js" />
+    <Content Include="app\shared\services\user-control.service.js" />
     <Content Include="assets\css\app.css" />
     <Content Include="assets\css\loading-icon.css" />
     <Content Include="assets\css\zPanel.css" />

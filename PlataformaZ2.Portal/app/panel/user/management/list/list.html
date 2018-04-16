@@ -12,18 +12,18 @@
                     <uib-accordion-heading>
                         <b>Filtro</b><i class="pull-right glyphicon" ng-class="{'glyphicon glyphicon-chevron-right': !isFilterOpen, 'glyphicon glyphicon-chevron-down': isFilterOpen}"></i>
                     </uib-accordion-heading>
-                    <form role="form" novalidate angular-validator angular-validator-submit="search()" name="filterForm">
+                    <form role="form" novalidate angular-validator angular-validator-submit="newSearch()" name="filterForm">
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="control-label">Nome ou E-mail</label>
-                                    <input type="text" name="name" class="form-control" ng-model="filter.nameOrUsername" maxLength="100" />
+                                    <input type="text" id="nameOrUsername" name="nameOrUsername" class="form-control" ng-model="filter.nameOrUsername" maxLength="100" />
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label class="control-label">Perfil</label>
-                                    <select name="profile" id="profile" class="form-control" ng-model="filter.idProfile"
+                                    <select id="profile" name="profile" class="form-control" ng-model="filter.idProfile"
                                             ng-options="item.id as item.name for item in profiles" >
                                         <option value="">---Todos---</option>
                                     </select>

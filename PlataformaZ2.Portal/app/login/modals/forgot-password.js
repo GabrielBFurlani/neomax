@@ -19,6 +19,7 @@
                     var httpResultModel = response.data;
 
                     if (httpResultModel.operationSuccess) {
+
                         //Closes the modal
                         $uibModalInstance.close();
                     }

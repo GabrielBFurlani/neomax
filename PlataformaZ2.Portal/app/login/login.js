@@ -12,16 +12,17 @@
             
             //check if the user is logged and the browser has not been closed (there are cookies)
             if ($cookies.get('username')) {
-                //continue without log-in (just update session)
+
+                //continue without log-in (just update user's session)
                 userControl.recoverUserSession(userControl.userSession.username);
             }
         }
         
         $scope.access = function () {
 
-            //call the user service to login
-            //- get the session and save it in the browser local storage
-            //- save data to cookies
+            // Call the user service to login:
+            //  - get the session and save it in the browser local storage
+            //  - save data to cookies
             userControl.login($scope.credentials);
         };
         

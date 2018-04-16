@@ -13,6 +13,7 @@
         
 
         function loadPage() {
+
             //check if the link is valid (the user exists and the token is not expired)
             $http.post(_apiUrl + '/user/passwordLinkValidation', $scope.changeInfo)
                 .then(function successCallback(response) {
@@ -24,22 +25,26 @@
                         $scope.user = httpResultModel.data;
                     }
                     else {
+
                         //Redirects to login page
                         $state.go('login');
                     }
-                })
-                .error(function (httpResultModel) { //precisa verificar erro?????
+
+                }, function errorCallback(response) {
+
                     //Redirects to login page
                     $state.go('login');
-                });            
+                })          
         }
 
-        $scope.ok = function (data) {
+        //Button: OK
+        $scope.ok = function () {
             $http.post(_apiUrl + '/user/externalPasswordChange', $scope.changeInfo)
                 .then(function successCallback(response) {
                     var httpResultModel = response.data;
 
                     if (httpResultModel.operationSuccess) {  
+
                         //Redirects to login page
                         $state.go('login');                        
                     }
@@ -47,5 +52,6 @@
         };
 
         loadPage();
+
     }]);
 }());

@@ -11,7 +11,8 @@
 
         $scope.reEnterPassword = '';
 
-        $scope.ok = function (data) {
+        //Button: OK
+        $scope.ok = function () {
 
             $http.post(_apiUrl + '/user/userArea/internalPasswordChange', $scope.changeInfo)
                 .then(function successCallback(response) {

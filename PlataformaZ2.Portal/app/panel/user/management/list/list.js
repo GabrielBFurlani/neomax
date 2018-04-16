@@ -11,12 +11,15 @@
             response: {}
         };
 
+        $scope.isFilterOpen = false;
+
         $scope.filter = {
             nameOrUsername: '',
             idProfile: null,
             pageNumber: 1
         };
 
+        //loadPage()
         function loadPage() {           
 
             $http.get(_apiUrl + '/profile/all')
@@ -31,7 +34,17 @@
             $scope.search();
         }
 
-        //search using filter (including pagination)
+        //Button: Search
+        $scope.newSearch = function () {
+
+            //set filter back to first page
+            $scope.filter.pageNumber = 1;
+
+            //search
+            $scope.search();
+        };
+
+        //Search (also called when pagination changes)
         $scope.search = function () {
 
             $http.post(_apiUrl + '/user/management/search', $scope.filter)
@@ -57,12 +70,7 @@
         $scope.delete = function (id) {
             var modalInstance = $uibModal.open({
                 templateUrl: "app/panel/user/modals/user-delete.html",
-                controller: "userDelete",
-                resolve: {
-                    idUser: function () {
-                        return id;
-                    }
-                }
+                controller: "userDelete"
             });
 
             modalInstance.result.then(function (idUser) {

@@ -575,6 +575,7 @@ namespace PlataformaZ2.Business
                 Name = userDao.Name,
                 Nickname = userDao.Nickname,
                 Cpf = userDao.Cpf,
+                FormatedCpf = PropertyFormatter.FormatCpf(userDao.Cpf),
                 IdProfile = userDao.Profile.Id.Value,
                 ProfileName = userDao.Profile.Name                
             };

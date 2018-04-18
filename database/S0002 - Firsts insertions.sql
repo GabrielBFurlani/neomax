@@ -24,9 +24,9 @@ GO
 
 	--First "admin" User:
 		--user: plataformaz2@plataformaz2.com
-		--pass: a123
+		--pass: abc123
 	INSERT INTO [dbo].[User] ([Username], [Password], [Name], [Nickname], [Cpf], [IdProfile], [Active])
-		VALUES ('plataformaz2@plataformaz2.com', '76af7efae0d034d1e3335ed1b90f24b6cadf2bf1', 'Administrador Geral (perfil admin)', 'Geral (admin)', 00000000000, 2, 1)
+		VALUES ('plataformaz2@plataformaz2.com', '6367c48dd193d56ea7b0baad25b19455e529f5ee', 'Administrador Geral (perfil admin)', 'Geral (admin)', '00000000000', 2, 1)
 	GO
 
 

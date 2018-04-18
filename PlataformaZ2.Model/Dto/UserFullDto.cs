@@ -34,6 +34,9 @@ namespace PlataformaZ2.Model.Dto
         /// <summary> Gets or sets the user's CPF </summary>
         public string Cpf { get; set; }
 
+        /// <summary> Gets or sets the user's CPF (formated) </summary>
+        public string FormatedCpf { get; set; }
+
         /// <summary> Gets or sets the user's photo </summary>
         public ImageBase64Dto Photo { get; set; }
 

@@ -5,7 +5,7 @@
         </div>
     </div>
     <hr />
-    <form role="form" novalidate angular-validator angular-validator-submit="save()" name="editForm">        
+    <form role="form" novalidate angular-validator angular-validator-submit="save()" name="editForm">
         <div class="row line-space-10">
             <div class="col-md-12">
                 <h5><strong>E-mail (login): </strong>{{user.username}}</h5>
@@ -13,9 +13,9 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <h5><strong>CPF: </strong>{{user.cpf}}</h5>
+                <h5><strong>CPF: </strong>{{user.formatedCpf}}</h5>
             </div>
-        </div>        
+        </div>
         <div class="row line-space-10">
             <div class="col-md-8">
                 <div class="form-group">
@@ -31,27 +31,39 @@
                            validate-on="submit" required required-message="'Obrigatório'" />
                 </div>
             </div>
-        </div>    
+        </div>
         <!--Photo area-->
         <div class="row line-space-20">
+            <!--Left side-->
             <div class="col-md-6">
-                <div class="form-group">
-                    <label class="control-label">Foto do Perfil</label>
-                    <input type="file" id="fileInput" name="fileInput" />
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label">Foto do Perfil</label>
+                            <input type="file" id="fileInput" name="fileInput" />
+                        </div>
+                    </div>
                 </div>
-                <div class="crop-area">
-                    <img-crop image="originalImage"
-                              result-image="croppedlImage"
-                              result-image-size="300"
-                              area-type="circle"
-                              area-init-size="300"
-                              area-min-size="10">
-                    </img-crop>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="crop-area">
+                            <img-crop image="originalImage"
+                                      result-image="croppedImage"
+                                      result-image-size="300"
+                                      area-type="circle"
+                                      area-init-size="300"
+                                      area-min-size="10">
+                            </img-crop>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <!--Right side-->
             <div class="col-md-6 text-center">
                 <div class="line-space-30">
                     <label class="control-label">Visualização Final da Foto (300x300)</label>
+                </div>
+                <div class="line-space-10">
                     <div><img ng-src="data:{{user.photo.mimeType}};base64,{{user.photo.imageData}}" alt="Foto" class="img-circle user-final-photo" ng-if="hasPhoto" /></div>
                     <img src="assets/img/no_photo.png" alt="Foto" class="img-circle user-final-photo" ng-if="!hasPhoto" />
                 </div>
@@ -62,6 +74,7 @@
                 </div>
             </div>
         </div>
+        <!--Form Buttons-->
         <div class="row line-space-20">
             <div class="col-md-12 text-center">
                 <button type="button" class="btn btn-default" ng-click="back()">Cancelar</button>

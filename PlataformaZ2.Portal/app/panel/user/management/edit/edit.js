@@ -3,15 +3,13 @@
     angular.module("app").controller('userManagementEditController', ['$scope', '$state', '$http', 'CONFIG', '$stateParams', '$uibModal', function ($scope, $state, $http, CONFIG, $stateParams, $uibModal) {
         var _apiUrl = CONFIG.apiRootUrl;
         var id = $stateParams.idUser;
-
-        $scope.phoneTypes = CONFIG.phoneType;
-
+        
         $scope.user = {};
         $scope.hasPhoto = false;
 
         //"Image input and cropping" functions and variables
         $scope.originalImage = null;
-        $scope.croppedlImage = null;
+        $scope.croppedImage = null;
 
         var handleFileSelect = function (evt) {
             var file = evt.currentTarget.files[0];
@@ -29,7 +27,7 @@
         //Load Page
         function loadPage() {
 
-            $http.get(_apiUrl + '/user/profile/all')
+            $http.get(_apiUrl + '/profile/all')
                 .then(function successCallback(response) {
                     var httpResultModel = response.data;
 
@@ -38,10 +36,10 @@
                     }
                 });
 
-
-            //get the user data
+            //Check if its update operation
             if (id != 0) {
 
+                //get data
                 $http.get(_apiUrl + '/user/management/' + id)
                     .then(function successCallback(response) {
                         var httpResultModel = response.data;
@@ -61,17 +59,17 @@
             }            
         }
 
-        //watch the variable "$scope.croppedlImage" to update the "$scope.user.photo"
-        $scope.$watch('croppedlImage', function () {
-            if ($scope.croppedlImage) {
+        //watch the variable "$scope.croppedImage" to update the "$scope.user.photo"
+        $scope.$watch('croppedImage', function () {
+            if ($scope.croppedImage) {
 
-                var indexMimeTypeStart = ($scope.croppedlImage).indexOf("data:") + 5;
-                var indexMimeTypeEnd = ($scope.croppedlImage).indexOf(";base64");
-                var indexImageData = ($scope.croppedlImage).indexOf("base64,") + 7;
+                var indexMimeTypeStart = ($scope.croppedImage).indexOf("data:") + 5;
+                var indexMimeTypeEnd = ($scope.croppedImage).indexOf(";base64");
+                var indexImageData = ($scope.croppedImage).indexOf("base64,") + 7;
 
                 $scope.user.photo = {
-                    mimeType: ($scope.croppedlImage).substring(indexMimeTypeStart, indexMimeTypeEnd),
-                    imageData: ($scope.croppedlImage).substring(indexImageData)
+                    mimeType: ($scope.croppedImage).substring(indexMimeTypeStart, indexMimeTypeEnd),
+                    imageData: ($scope.croppedImage).substring(indexImageData)
                 }
 
                 $scope.hasPhoto = true;
@@ -84,23 +82,17 @@
             $scope.hasPhoto = false;
         };
         
-
         //Button: Save
         $scope.save = function () {
             
-            //save the user data (if there are no errors)
-            if ($scope.user.phones != null && $scope.user.phones.length > 0) {
+            $http.post(_apiUrl + '/user/management/save', $scope.user)
+                .then(function successCallback(response) {
+                    var httpResultModel = response.data;
 
-                $http.post(_apiUrl + '/user/management/save', $scope.user)
-                    .then(function successCallback(response) {
-                        var httpResultModel = response.data;
-
-                        if (httpResultModel.operationSuccess) {
-
-                            $state.go("panel.user.management.list");
-                        }
-                    })
-            }
+                    if (httpResultModel.operationSuccess) {
+                        $state.go("panel.user.management.list");
+                    }
+                })
         }
 
         //Button: Back

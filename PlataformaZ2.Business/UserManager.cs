@@ -29,7 +29,7 @@ namespace PlataformaZ2.Business
         /// <summary> Static logger variable </summary>
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        #region Baisc operations (user creation, login and password operations)
+        #region Basic Operations (user creation, login and password operations)
 
         /// <summary>
         /// Authenticate user by AccessToken (verify token and permissions)
@@ -152,6 +152,15 @@ namespace PlataformaZ2.Business
             {
                 // return the same operation result of validation
                 return operation;
+            }
+
+            //// Validate password's rules           
+            OperationResult passwordOperation = ValidatePassword(userSignUpDto.Password);
+
+            if (!passwordOperation.Success)
+            {
+                // return the same operation result of validation                
+                return passwordOperation;
             }
 
             //// Create new user
@@ -994,7 +1003,13 @@ namespace PlataformaZ2.Business
             {
                 return new OperationResult(false, "Já existe usuário cadastrado com esse E-mail");
             }
-            
+
+            // check if the CPF is being used
+            if (userRepository.CheckCpf(id, cpf))
+            {
+                return new OperationResult(false, "Já existe usuário cadastrado com esse CPF");
+            }
+
             //everything is OK
             return new OperationResult(true);
         }

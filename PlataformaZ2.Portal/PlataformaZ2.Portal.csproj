@@ -75,6 +75,8 @@
     <Content Include="app\externalPasswordChange\externalPasswordChange.js" />
     <Content Include="app\login\login.html" />
     <Content Include="app\login\login.js" />
+    <Content Include="app\login\modals\sign-up.html" />
+    <Content Include="app\login\modals\sign-up.js" />
     <Content Include="app\login\modals\forgot-password.html" />
     <Content Include="app\login\modals\forgot-password.js" />
     <Content Include="app\panel\home\home.html" />

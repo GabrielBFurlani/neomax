@@ -62,8 +62,52 @@ namespace PlataformaZ2.WebApi.Controllers
                 log.Fatal("Login: " + e.ToString() + " // InnerException: " + e.InnerException?.ToString());
                 return this.BadRequest("Não foi possível efetuar a operação");
             }
-        }       
-       
+        }
+
+        /// <summary>
+        /// Sign-up a new user with password
+        /// </summary>
+        /// <param name="userSignUpDto">User's data</param>
+        /// <returns>Operation result</returns>
+        [Route("signUp")]
+        [HttpPost]
+        public IHttpActionResult SignUpUser(UserSignUpDto userSignUpDto)
+        {
+            try
+            {
+                OperationResult operation = UserManager.SignUpUser(userSignUpDto);
+
+                if (operation.Success)
+                {
+                    if (string.IsNullOrEmpty(operation.Message))
+                    {
+                        return this.Ok(new HttpResultModel(true, "Usuário cadastrado com sucesso"));
+                    }
+                    else
+                    {
+                        return this.Ok(new HttpResultModel(true, operation.Message));
+                    }
+                }
+                else
+                {
+                    return this.Ok(new HttpResultModel(false, operation.Message));
+                }
+            }
+            catch (PermissionException)
+            {
+                return this.Unauthorized();
+            }
+            catch (BusinessException e)
+            {
+                return this.Content(System.Net.HttpStatusCode.PreconditionFailed, new HttpResultModel(false, e.Message));
+            }
+            catch (Exception e)
+            {
+                log.Fatal("SignUpUser: " + e.ToString() + " // InnerException: " + e.InnerException?.ToString());
+                return this.BadRequest("Não foi possível efetuar a operação");
+            }
+        }
+
         /// <summary>
         /// Sends an e-mail to redefine the password
         /// </summary>

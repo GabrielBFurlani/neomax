@@ -138,15 +138,15 @@ namespace PlataformaZ2.Business
         /// <summary>
         /// Sign-up a new user with password
         /// </summary>
-        /// <param name="userDto">User's data</param>
+        /// <param name="userSignUpDto">User's data</param>
         /// <returns>Operation result</returns>
-        public static OperationResult SignUpUser(UserSignUpDto userDto)
+        public static OperationResult SignUpUser(UserSignUpDto userSignUpDto)
         {
             UserRepository userRepository = new UserRepository();
             FileRepository fileRepository = new FileRepository();
 
             //// Validate user's data and whether there is another user with the same parameters         
-            OperationResult operation = ValidateUser(null, userDto.Username, userDto.Name, userDto.Nickname, userDto.Cpf);
+            OperationResult operation = ValidateUser(null, userSignUpDto.Username, userSignUpDto.Name, userSignUpDto.Nickname, userSignUpDto.Cpf);
 
             if (!operation.Success)
             {
@@ -157,17 +157,17 @@ namespace PlataformaZ2.Business
             //// Create new user
             UserDao newUser = new UserDao()
             {
-                Username = userDto.Username,
-                Password = Encrypt(userDto.Password),
-                Name = userDto.Name,
-                Nickname = userDto.Nickname,
-                Cpf = userDto.Cpf,                
+                Username = userSignUpDto.Username,
+                Password = Encrypt(userSignUpDto.Password),
+                Name = userSignUpDto.Name,
+                Nickname = userSignUpDto.Nickname,
+                Cpf = userSignUpDto.Cpf,                
                 Active = true
             };            
 
-            if (userDto.Photo != null)
+            if (userSignUpDto.Photo != null)
             {
-                var result = FileManager.SaveBase64Image(userDto.Photo);
+                var result = FileManager.SaveBase64Image(userSignUpDto.Photo);
 
                 if (result.Success)
                 {

@@ -7,8 +7,8 @@
     <ProjectGuid>{5A020748-ED1B-4983-83DB-0D3F0639D257}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Exxpress.Model</RootNamespace>
-    <AssemblyName>Exxpress.Model</AssemblyName>
+    <RootNamespace>PlataformaZ2.Model</RootNamespace>
+    <AssemblyName>PlataformaZ2.Model</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>

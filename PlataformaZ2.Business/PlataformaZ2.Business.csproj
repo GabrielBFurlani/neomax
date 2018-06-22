@@ -7,8 +7,8 @@
     <ProjectGuid>{CB8BC79D-B33F-4571-A470-A4D1015E1F75}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Exxpress.Business</RootNamespace>
-    <AssemblyName>Exxpress.Business</AssemblyName>
+    <RootNamespace>PlataformaZ2.Business</RootNamespace>
+    <AssemblyName>PlataformaZ2.Business</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>

@@ -28,7 +28,7 @@ namespace PlataformaZ2.WebApi.Controllers
         /// <summary>
         /// Get all profiles
         /// </summary>
-        /// <returns>Operation result with the list of profiles</returns>
+        /// <returns>Http result with the list of profiles</returns>
         [Route("all")]
         [HttpGet]
         [SimpleAuthenticationAttribute(NeededPermissions = new Permissions[] { Permissions.ReadProfiles })]
@@ -36,7 +36,7 @@ namespace PlataformaZ2.WebApi.Controllers
         {
             try
             {
-                return this.Ok(new HttpResultModel(true, string.Empty, ProfileManager.GetAllProfiles()));
+                return this.Ok(new HttpResultModel(string.Empty, ProfileManager.GetAllProfiles()));
             }
             catch (PermissionException)
             {
@@ -44,7 +44,7 @@ namespace PlataformaZ2.WebApi.Controllers
             }
             catch (BusinessException e)
             {
-                return this.Content(System.Net.HttpStatusCode.PreconditionFailed, new HttpResultModel(false, e.Message));
+                return this.BadRequest(e.Message);
             }
             catch (Exception e)
             {

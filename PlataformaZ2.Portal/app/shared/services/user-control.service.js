@@ -18,19 +18,16 @@
             
             $http.post(_apiUrl + '/user/login', credentials)
                 .then(function successCallback(response) {
-                    var httpResultModel = response.data;
 
-                    if (httpResultModel.operationSuccess) {
-                        var session = httpResultModel.data;
+                    var session = response.data.resultData;
 
-                        $cookies.put('username', session.username, { path: '/' });
-                        $cookies.put('accessToken', session.accessToken, { path: '/' });
+                    $cookies.put('username', session.username, { path: '/' });
+                    $cookies.put('accessToken', session.accessToken, { path: '/' });
 
-                        service.userSession = httpResultModel.data;
-                        service.storage.userSession = httpResultModel.data;
+                    service.userSession = session;
+                    service.storage.userSession = session;
 
-                        $state.go('panel.home');
-                    }                    
+                    $state.go('panel.home'); 
                 });            
         }
 
@@ -40,14 +37,13 @@
             if (username) {
                 $http.get(_apiUrl + '/user/userSession/' + username + '/')
                     .then(function successCallback(response) {
-                        var httpResultModel = response.data;
 
-                        if (httpResultModel.operationSuccess) {
-                            service.userSession = httpResultModel.data;
-                            service.storage.userSession = httpResultModel.data;
+                        var session = response.data.resultData;
 
-                            $state.go('panel.home');
-                        }
+                        service.userSession = session;
+                        service.storage.userSession = session;
+
+                        $state.go('panel.home');
                     });
             }            
         }

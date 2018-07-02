@@ -31,23 +31,14 @@ namespace PlataformaZ2.WebApi.Controllers
         /// Checks if username and password are valid for login
         /// </summary>
         /// <param name="credentials">User's credentials</param>
-        /// <returns>Operation result with the User Session object</returns>
+        /// <returns>Http Result with User Session object</returns>
         [Route("login")]
         [HttpPost]
         public IHttpActionResult Login(CredentialsDto credentials)
         {
             try
             {
-                OperationResult operation = UserManager.Login(credentials);
-
-                if (operation.Success)
-                {
-                    return this.Ok(new HttpResultModel(true, string.Empty, operation.Data));
-                }
-                else
-                {
-                    return this.Ok(new HttpResultModel(false, operation.Message));
-                }
+                return this.Ok(new HttpResultModel(string.Empty, UserManager.Login(credentials)));
             }
             catch (PermissionException)
             {
@@ -55,7 +46,7 @@ namespace PlataformaZ2.WebApi.Controllers
             }
             catch (BusinessException e)
             {
-                return this.Content(System.Net.HttpStatusCode.PreconditionFailed, new HttpResultModel(false, e.Message));
+                return this.BadRequest(e.Message);
             }
             catch (Exception e)
             {
@@ -68,30 +59,16 @@ namespace PlataformaZ2.WebApi.Controllers
         /// Sign-up a new user with password
         /// </summary>
         /// <param name="userSignUpDto">User's data</param>
-        /// <returns>Operation result</returns>
+        /// <returns>Http Result with simple message</returns>
         [Route("signUp")]
         [HttpPost]
         public IHttpActionResult SignUpUser(UserSignUpDto userSignUpDto)
         {
             try
             {
-                OperationResult operation = UserManager.SignUpUser(userSignUpDto);
+                string successMessage = UserManager.SignUpUser(userSignUpDto);
 
-                if (operation.Success)
-                {
-                    if (string.IsNullOrEmpty(operation.Message))
-                    {
-                        return this.Ok(new HttpResultModel(true, "Usuário cadastrado com sucesso"));
-                    }
-                    else
-                    {
-                        return this.Ok(new HttpResultModel(true, operation.Message));
-                    }
-                }
-                else
-                {
-                    return this.Ok(new HttpResultModel(false, operation.Message));
-                }
+                return this.Ok(new HttpResultModel(successMessage));
             }
             catch (PermissionException)
             {
@@ -99,7 +76,7 @@ namespace PlataformaZ2.WebApi.Controllers
             }
             catch (BusinessException e)
             {
-                return this.Content(System.Net.HttpStatusCode.PreconditionFailed, new HttpResultModel(false, e.Message));
+                return this.BadRequest(e.Message);
             }
             catch (Exception e)
             {
@@ -112,27 +89,20 @@ namespace PlataformaZ2.WebApi.Controllers
         /// Sends an e-mail to redefine the password
         /// </summary>
         /// <param name="email">User's email</param>
-        /// <returns>Operation result</returns>
+        /// <returns>Http Result with simple message</returns>
         [Route("forgotPassword/{email}")]
         [HttpPost]
         public IHttpActionResult ForgotPassword(string email)
         {
             try
             {
-                OperationResult operation = UserManager.ForgotPassword(email);
+                string successMessage = UserManager.ForgotPassword(email);
 
-                if (operation.Success)
-                {
-                    return this.Ok(new HttpResultModel(true, operation.Message));
-                }
-                else
-                {
-                    return this.Ok(new HttpResultModel(false, operation.Message));
-                }
+                return this.Ok(new HttpResultModel(successMessage));
             }
             catch (BusinessException e)
             {
-                return this.Content(System.Net.HttpStatusCode.PreconditionFailed, new HttpResultModel(false, e.Message));
+                return this.BadRequest(e.Message);
             }
             catch (Exception e)
             {
@@ -145,28 +115,20 @@ namespace PlataformaZ2.WebApi.Controllers
         /// Checks if the link is valid for password change (the user exists and the token is not expired)
         /// </summary>
         /// <param name="changeInfo">Info for password change (password is left blank)</param>
-        /// <returns>Operation result</returns>
+        /// <returns>Http Result with User object</returns>
         [Route("passwordLinkValidation")]
         [HttpPost]
         public IHttpActionResult ValidatePasswordLink(ChangePasswordDto changeInfo)
         {
             try
             {
-                OperationResult operation = UserManager.ValidatePasswordLink(changeInfo);
+                UserFullDto userParcialData = UserManager.ValidatePasswordLink(changeInfo);
 
-                if (operation.Success)
-                {
-                    // the link is valid: return success and user's parcial data
-                    return this.Ok(new HttpResultModel(true, operation.Message, operation.Data));
-                }
-                else
-                {
-                    return this.Ok(new HttpResultModel(false, operation.Message));
-                }
+                return this.Ok(new HttpResultModel(string.Empty, userParcialData));
             }
             catch (BusinessException e)
             {
-                return this.Content(System.Net.HttpStatusCode.PreconditionFailed, new HttpResultModel(false, e.Message));
+                return this.BadRequest(e.Message);
             }
             catch (Exception e)
             {
@@ -179,34 +141,27 @@ namespace PlataformaZ2.WebApi.Controllers
         /// Defines/Redefines the password for a non-logged user (using token)
         /// </summary>
         /// <param name="changeInfo">Info for password change</param>
-        /// <returns>Operation result</returns>
+        /// <returns>Http Result with simple message</returns>
         [Route("externalPasswordChange")]
         [HttpPost]
         public IHttpActionResult ChangePasswordUsingToken(ChangePasswordDto changeInfo)
         {
             try
             {
-                OperationResult operation = UserManager.ChangePasswordUsingToken(changeInfo);
+                UserManager.ChangePasswordUsingToken(changeInfo);
 
-                if (operation.Success)
-                {
-                    return this.Ok(new HttpResultModel(true, "Senha alterada com sucesso"));
-                }
-                else
-                {
-                    return this.Ok(new HttpResultModel(false, operation.Message));
-                }
+                return this.Ok(new HttpResultModel("Senha alterada com sucesso"));
             }
             catch (BusinessException e)
             {
-                return this.Content(System.Net.HttpStatusCode.PreconditionFailed, new HttpResultModel(false, e.Message));
+                return this.BadRequest(e.Message);
             }
             catch (Exception e)
             {
                 log.Fatal("ChangePasswordUsingToken: " + e.ToString() + " // InnerException: " + e.InnerException?.ToString());
                 return this.BadRequest("Não foi possível alterar a senha");
             }
-        }      
+        }
 
         #endregion
 
@@ -216,26 +171,19 @@ namespace PlataformaZ2.WebApi.Controllers
         /// Get an user session by username
         /// </summary>
         /// <param name="username">User's username</param>
-        /// <returns>Operation result with the User Session object</returns>
+        /// <returns>Http Result with the User Session object</returns>
         [Route("userSession/{username}")]
         [HttpGet]
         [SimpleAuthenticationAttribute(NeededPermissions = new Permissions[] { Permissions.LoadMyUserSession })]
         public IHttpActionResult GetUserSessionByUsername(string username)
         {
             var loggedUser = new UserRepository().GetByAcessToken(ActionContext.Request.Headers.Authorization.Parameter);
-            
+
             try
             {
                 UserSessionDto session = UserManager.GetUserSessionByUsername(loggedUser, username);
 
-                if (session != null)
-                {
-                    return this.Ok(new HttpResultModel(true, string.Empty, session));
-                }
-                else
-                {
-                    return this.Ok(new HttpResultModel(false, "Não foi possível carregar a sessão. Necessário efetuar login novamente."));
-                }
+                return this.Ok(new HttpResultModel(string.Empty, session));
             }
             catch (PermissionException)
             {
@@ -243,20 +191,20 @@ namespace PlataformaZ2.WebApi.Controllers
             }
             catch (BusinessException e)
             {
-                return this.Content(System.Net.HttpStatusCode.PreconditionFailed, new HttpResultModel(false, e.Message));
-            }            
+                return this.BadRequest(e.Message);
+            }
             catch (Exception e)
             {
                 log.Fatal("GetUserSessionByUsername: " + e.ToString() + " // InnerException: " + e.InnerException?.ToString());
                 return this.BadRequest("Não foi possível efetuar a operação");
-            }   
+            }
         }
 
         /// <summary>
         /// Redefines the password of a logged user (does not use token)
         /// </summary>
         /// <param name="changeInfo">Info for password change (token is left blank)</param>
-        /// <returns>Operation result</returns>
+        /// <returns>Http Result with simple message</returns>
         [Route("userArea/internalPasswordChange")]
         [HttpPost]
         [SimpleAuthenticationAttribute(NeededPermissions = new Permissions[] { Permissions.ChangeMyPassword })]
@@ -266,16 +214,9 @@ namespace PlataformaZ2.WebApi.Controllers
 
             try
             {
-                OperationResult operation = UserManager.ChangePasswordForLoggedUser(loggedUser, changeInfo);
+                UserManager.ChangePasswordForLoggedUser(loggedUser, changeInfo);
 
-                if (operation.Success)
-                {
-                    return this.Ok(new HttpResultModel(true, "Senha alterada com sucesso"));
-                }
-                else
-                {
-                    return this.Ok(new HttpResultModel(false, operation.Message));
-                }
+                return this.Ok(new HttpResultModel("Senha alterada com sucesso"));
             }
             catch (PermissionException)
             {
@@ -283,7 +224,7 @@ namespace PlataformaZ2.WebApi.Controllers
             }
             catch (BusinessException e)
             {
-                return this.Content(System.Net.HttpStatusCode.PreconditionFailed, new HttpResultModel(false, e.Message));
+                return this.BadRequest(e.Message);
             }
             catch (Exception e)
             {
@@ -296,7 +237,7 @@ namespace PlataformaZ2.WebApi.Controllers
         /// Gets an user data by its identifier (requested by the correspondent user)
         /// </summary>
         /// <param name="id">User identifier</param>
-        /// <returns>Operation result with the User object</returns>
+        /// <returns>Http Result with the User object</returns>
         [Route("userArea/{id}")]
         [HttpGet]
         [SimpleAuthenticationAttribute(NeededPermissions = new Permissions[] { Permissions.EditMyUser })]
@@ -306,16 +247,7 @@ namespace PlataformaZ2.WebApi.Controllers
 
             try
             {
-                UserFullDto user = UserManager.GetUserById(loggedUser, id);
-
-                if (user != null)
-                {
-                    return this.Ok(new HttpResultModel(true, string.Empty, user));
-                }
-                else
-                {
-                    return this.Ok(new HttpResultModel(false, "O usuário não existe"));
-                }
+                return this.Ok(new HttpResultModel(string.Empty, UserManager.GetUserById(loggedUser, id)));
             }
             catch (PermissionException)
             {
@@ -323,7 +255,7 @@ namespace PlataformaZ2.WebApi.Controllers
             }
             catch (BusinessException e)
             {
-                return this.Content(System.Net.HttpStatusCode.PreconditionFailed, new HttpResultModel(false, e.Message));
+                return this.BadRequest(e.Message);
             }
             catch (Exception e)
             {
@@ -336,7 +268,7 @@ namespace PlataformaZ2.WebApi.Controllers
         /// Updates user's data (done by the user)
         /// </summary>
         /// <param name="user">User data</param>
-        /// <returns>Operation result</returns>
+        /// <returns>Http Result with simple message</returns>
         [Route("userArea/update")]
         [HttpPost]
         [SimpleAuthenticationAttribute(NeededPermissions = new Permissions[] { Permissions.EditMyUser })]
@@ -346,16 +278,9 @@ namespace PlataformaZ2.WebApi.Controllers
 
             try
             {
-                OperationResult operation = UserManager.UpdateUserByUser(loggedUser, user);
+                UserManager.UpdateUserByUser(loggedUser, user);
 
-                if (operation.Success)
-                {
-                    return this.Ok(new HttpResultModel(true, "Dados alterados com sucesso"));
-                }
-                else
-                {
-                    return this.Ok(new HttpResultModel(false, operation.Message));
-                }
+                return this.Ok(new HttpResultModel("Dados alterados com sucesso"));
             }
             catch (PermissionException)
             {
@@ -363,14 +288,14 @@ namespace PlataformaZ2.WebApi.Controllers
             }
             catch (BusinessException e)
             {
-                return this.Content(System.Net.HttpStatusCode.PreconditionFailed, new HttpResultModel(false, e.Message));
+                return this.BadRequest(e.Message);
             }
             catch (Exception e)
             {
                 log.Fatal("UpdateUserByUser: " + e.ToString() + " // InnerException: " + e.InnerException?.ToString());
                 return this.BadRequest("Não foi possível efetuar a operação");
             }
-        }       
+        }
 
         #endregion
 
@@ -380,7 +305,7 @@ namespace PlataformaZ2.WebApi.Controllers
         /// Searches users refined by filter and pagination
         /// </summary>
         /// <param name="filter">Filter parameters to refine the search</param>
-        /// <returns>Operation result with the list of users</returns>
+        /// <returns>Http Result with the list of users</returns>
         [Route("management/search")]
         [HttpPost]
         [SimpleAuthenticationAttribute(NeededPermissions = new Permissions[] { Permissions.ReadUsers })]
@@ -388,7 +313,7 @@ namespace PlataformaZ2.WebApi.Controllers
         {
             try
             {
-                return this.Ok(new HttpResultModel(true, string.Empty, UserManager.Search(filter)));
+                return this.Ok(new HttpResultModel(string.Empty, UserManager.Search(filter)));
             }
             catch (PermissionException)
             {
@@ -396,20 +321,20 @@ namespace PlataformaZ2.WebApi.Controllers
             }
             catch (BusinessException e)
             {
-                return this.Content(System.Net.HttpStatusCode.PreconditionFailed, new HttpResultModel(false, e.Message));
+                return this.BadRequest(e.Message);
             }
             catch (Exception e)
             {
                 log.Fatal("Search: " + e.ToString() + " // InnerException: " + e.InnerException?.ToString());
                 return this.BadRequest("Não foi possível efetuar a operação");
-            }            
+            }
         }
 
         /// <summary>
         /// Gets an user by its identifier
         /// </summary>
         /// <param name="id">User identifier</param>
-        /// <returns>Operation result with the User object</returns>
+        /// <returns>Http Result with the User object</returns>
         [Route("management/{id}")]
         [HttpGet]
         [SimpleAuthenticationAttribute(NeededPermissions = new Permissions[] { Permissions.ReadUsers })]
@@ -419,16 +344,7 @@ namespace PlataformaZ2.WebApi.Controllers
 
             try
             {
-                UserFullDto user = UserManager.GetUserById(loggedUser, id);
-
-                if (user != null)
-                {
-                    return this.Ok(new HttpResultModel(true, string.Empty, user));
-                }
-                else
-                {
-                    return this.Ok(new HttpResultModel(false, "O usuário não existe"));
-                }                
+                return this.Ok(new HttpResultModel(string.Empty, UserManager.GetUserById(loggedUser, id)));
             }
             catch (PermissionException)
             {
@@ -436,7 +352,7 @@ namespace PlataformaZ2.WebApi.Controllers
             }
             catch (BusinessException e)
             {
-                return this.Content(System.Net.HttpStatusCode.PreconditionFailed, new HttpResultModel(false, e.Message));
+                return this.BadRequest(e.Message);
             }
             catch (Exception e)
             {
@@ -449,7 +365,7 @@ namespace PlataformaZ2.WebApi.Controllers
         /// Saves an user (create or update)
         /// </summary>
         /// <param name="user">User data</param>
-        /// <returns>Operation result</returns>
+        /// <returns>Http Result with simple message</returns>
         [Route("management/save")]
         [HttpPost]
         [SimpleAuthenticationAttribute(NeededPermissions = new Permissions[] { Permissions.EditUser })]
@@ -457,23 +373,9 @@ namespace PlataformaZ2.WebApi.Controllers
         {
             try
             {
-                OperationResult operation = UserManager.SaveUser(user);
+                string successMessage = UserManager.SaveUser(user);
 
-                if (operation.Success)
-                {
-                    if (string.IsNullOrEmpty(operation.Message))
-                    {
-                        return this.Ok(new HttpResultModel(true, "Usuário salvo com sucesso"));
-                    }
-                    else
-                    {
-                        return this.Ok(new HttpResultModel(true, operation.Message));
-                    }                    
-                }
-                else
-                {
-                    return this.Ok(new HttpResultModel(false, operation.Message));
-                }
+                return this.Ok(new HttpResultModel(successMessage));
             }
             catch (PermissionException)
             {
@@ -481,7 +383,7 @@ namespace PlataformaZ2.WebApi.Controllers
             }
             catch (BusinessException e)
             {
-                return this.Content(System.Net.HttpStatusCode.PreconditionFailed, new HttpResultModel(false, e.Message));
+                return this.BadRequest(e.Message);
             }
             catch (Exception e)
             {
@@ -494,7 +396,7 @@ namespace PlataformaZ2.WebApi.Controllers
         /// Deletes an user (set as inactive)
         /// </summary>
         /// <param name="idUser">User identifier</param>
-        /// <returns>Operation result</returns>
+        /// <returns>Http Result with simple message</returns>
         [Route("management/{idUser}")]
         [HttpDelete]
         [SimpleAuthenticationAttribute(NeededPermissions = new Permissions[] { Permissions.EditUser })]
@@ -502,16 +404,9 @@ namespace PlataformaZ2.WebApi.Controllers
         {
             try
             {
-                OperationResult operation = UserManager.DeleteUser(idUser);
+                UserManager.DeleteUser(idUser);
 
-                if (operation.Success)
-                {
-                    return this.Ok(new HttpResultModel(true, "Usuário excluído com sucesso"));
-                }
-                else
-                {
-                    return this.Ok(new HttpResultModel(false, operation.Message));
-                }                    
+                return this.Ok(new HttpResultModel("Usuário excluído com sucesso"));
             }
             catch (PermissionException)
             {
@@ -519,7 +414,7 @@ namespace PlataformaZ2.WebApi.Controllers
             }
             catch (BusinessException e)
             {
-                return this.Content(System.Net.HttpStatusCode.PreconditionFailed, new HttpResultModel(false, e.Message));
+                return this.BadRequest(e.Message);
             }
             catch (Exception e)
             {

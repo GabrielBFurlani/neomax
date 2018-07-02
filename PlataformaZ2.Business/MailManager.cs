@@ -7,15 +7,16 @@
 namespace PlataformaZ2.Business
 {
     using System;
+    using System.IO;
+    using System.Net.Mail;
     using System.Collections.Generic;
     using System.Linq;
     using PlataformaZ2.Data.DataAccess;
     using PlataformaZ2.Data.Repository;
-    using PlataformaZ2.Model.Dto;
-    using PlataformaZ2.Model.Util;
-    using System.Net.Mail;
     using PlataformaZ2.Data.Util;
-    using System.IO;
+    using PlataformaZ2.Model.Dto;
+    using PlataformaZ2.Model.Exception;
+    using PlataformaZ2.Model.Util;
 
     /// <summary>
     /// Manager for e-mails sent by the application
@@ -30,8 +31,7 @@ namespace PlataformaZ2.Business
         /// </summary>
         /// <param name="destinationEmail">User's destination e-mail</param>
         /// <param name="userName">User's name</param>
-        /// <returns>Operation result</returns>
-        public static OperationResult SendWelcomeEmail(string destinationEmail, string userName)
+        public static void SendWelcomeEmail(string destinationEmail, string userName)
         {
             try
             {
@@ -60,13 +60,11 @@ namespace PlataformaZ2.Business
 
                 ////Send the email
                 smtpClient.Send(mail);
-
-                return new OperationResult(true);
             }
             catch (Exception ex)
             {
                 log.Fatal("SendWelcomeEmail: " + ex.ToString() + " // InnerException: " + ex.InnerException?.ToString());
-                return new OperationResult(false);
+                throw new BusinessException("Não foi possível enviar o e-mail de boas-vindas");
             }
         }
 
@@ -77,8 +75,7 @@ namespace PlataformaZ2.Business
         /// <param name="userName">User's name</param>
         /// <param name="idUser">User identifier</param>
         /// <param name="changePasswordToken">Token used to identify requisition</param>
-        /// <returns>Operation result</returns>
-        public static OperationResult SendPasswordCreationEmail(string destinationEmail, string userName, int idUser, string changePasswordToken)
+        public static void SendPasswordCreationEmail(string destinationEmail, string userName, int idUser, string changePasswordToken)
         {
             try
             {
@@ -103,13 +100,11 @@ namespace PlataformaZ2.Business
                 smtpClient.Credentials = new System.Net.NetworkCredential(ApplicationConfiguration.SmtpUsername, ApplicationConfiguration.SmtpPassword);
 
                 smtpClient.Send(mail);
-
-                return new OperationResult(true);
             }
             catch (Exception ex)
             {
                 log.Fatal("SendPasswordCreationEmail: " + ex.ToString() + " // InnerException: " + ex.InnerException?.ToString());
-                return new OperationResult(false);
+                throw new BusinessException("Não foi possível enviar o e-mail de criação de senha");
             }
         }
 
@@ -120,8 +115,7 @@ namespace PlataformaZ2.Business
         /// <param name="userName">User's name</param>
         /// <param name="idUser">User identifier</param>
         /// <param name="changePasswordToken">Token for Password Change</param>
-        /// <returns>Operation result</returns>
-        public static OperationResult SendForgotPasswordEmail(string destinationEmail, string userName, int idUser, string changePasswordToken)
+        public static void SendForgotPasswordEmail(string destinationEmail, string userName, int idUser, string changePasswordToken)
         {
             try
             {
@@ -149,13 +143,11 @@ namespace PlataformaZ2.Business
 
                 ////Send the email
                 smtpClient.Send(mail);
-
-                return new OperationResult(true);
             }
             catch (Exception ex)
             {
                 log.Fatal("SendForgotPasswordEmail: " + ex.ToString() + " // InnerException: " + ex.InnerException?.ToString());
-                return new OperationResult(false);
+                throw new BusinessException("Erro ao enviar o e-mail de Esqueci a Senha");
             }
         }
     }

@@ -30,18 +30,15 @@
             //get user data
             $http.get(_apiUrl + '/user/userArea/' + id)
                 .then(function successCallback(response) {
-                    var httpResultModel = response.data;
 
-                    if (httpResultModel.operationSuccess) {
-                        $scope.user = httpResultModel.data;
+                    $scope.user = response.data.resultData;
 
-                        //checks if the user has photo
-                        if ($scope.user.photo) {
-                            $scope.hasPhoto = true;
-                        }
-                        else {
-                            $scope.hasPhoto = false;
-                        }
+                    //checks if the user has photo
+                    if ($scope.user.photo) {
+                        $scope.hasPhoto = true;
+                    }
+                    else {
+                        $scope.hasPhoto = false;
                     }
                 });            
         }
@@ -74,13 +71,9 @@
             
             $http.post(_apiUrl + '/user/userArea/update', $scope.user)
                 .then(function successCallback(response) {
-                    var httpResultModel = response.data;
 
-                    if (httpResultModel.operationSuccess) {
-
-                        //get the updated user session
-                        $state.go("login");
-                    }
+                    //get the updated user session
+                    $state.go("login");
                 })
         }
 

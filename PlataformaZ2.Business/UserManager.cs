@@ -69,33 +69,32 @@ namespace PlataformaZ2.Business
         /// </summary>
         /// <param name="credentials">User's credentials (username and password)</param>
         /// <returns>UserSession object</returns>
-        public static OperationResult Login(CredentialsDto credentials)
+        public static UserSessionDto Login(CredentialsDto credentials)
         {
             UserRepository userRepository = new UserRepository();
             string encryptedPassword = Encrypt(credentials.Password);
 
             if (credentials == null)
             {
-                return new OperationResult(false, "Sem dados de login");
+                throw new BusinessException("Sem dados de login");
             }
             else if(string.IsNullOrWhiteSpace(credentials.Username))
             {
-                return new OperationResult(false, "Sem dados de usuário");
+                throw new BusinessException("Sem dados de usuário");
             }
             else if (string.IsNullOrWhiteSpace(credentials.Password))
             {
-                return new OperationResult(false, "Sem dados de senha");
+                throw new BusinessException("Sem dados de senha");
             }
 
             var userDao = userRepository.MatchCredentials(credentials.Username, encryptedPassword);
 
-            if (userDao == null)
+            if (userDao == null || !userDao.Active)
             {
-                return new OperationResult(false, "Usuário ou senha inválidos");
+                throw new BusinessException("Usuário ou senha inválidos");
             }
 
             ////Generate AccessToken (if user does not have one or if it is expired)
-
             if (userDao.AccessToken == null
                 || (userDao.AccessTokenCreationDate.HasValue
                     && DateTime.Now >= userDao.AccessTokenCreationDate.Value.AddHours(ApplicationConfiguration.AccessTokenExpirationPeriod))
@@ -116,7 +115,6 @@ namespace PlataformaZ2.Business
             }
 
             ////Return user's session
-
             UserSessionDto session = new UserSessionDto()
             {
                 IdUser = userDao.Id.Value,
@@ -132,37 +130,25 @@ namespace PlataformaZ2.Business
                 session.Photo = FileManager.ReadAsBase64Image(userDao.Photo.RealName);
             }            
 
-            return new OperationResult(true, string.Empty, session);
+            return session;
         }
 
         /// <summary>
         /// Sign-up a new user with password
         /// </summary>
         /// <param name="userSignUpDto">User's data</param>
-        /// <returns>Operation result</returns>
-        public static OperationResult SignUpUser(UserSignUpDto userSignUpDto)
+        /// <returns>Success Message</returns>
+        public static string SignUpUser(UserSignUpDto userSignUpDto)
         {
             UserRepository userRepository = new UserRepository();
             FileRepository fileRepository = new FileRepository();
 
             //// Validate user's data and whether there is another user with the same parameters         
-            OperationResult operation = ValidateUser(null, userSignUpDto.Username, userSignUpDto.Name, userSignUpDto.Nickname, userSignUpDto.Cpf);
-
-            if (!operation.Success)
-            {
-                // return the same operation result of validation
-                return operation;
-            }
-
+            ValidateUser(null, userSignUpDto.Username, userSignUpDto.Name, userSignUpDto.Nickname, userSignUpDto.Cpf);
+            
             //// Validate password's rules           
-            OperationResult passwordOperation = ValidatePassword(userSignUpDto.Password);
-
-            if (!passwordOperation.Success)
-            {
-                // return the same operation result of validation                
-                return passwordOperation;
-            }
-
+            ValidatePassword(userSignUpDto.Password);
+            
             //// Create new user
             UserDao newUser = new UserDao()
             {
@@ -176,11 +162,9 @@ namespace PlataformaZ2.Business
 
             if (userSignUpDto.Photo != null)
             {
-                var result = FileManager.SaveBase64Image(userSignUpDto.Photo);
-
-                if (result.Success)
+                try
                 {
-                    var uniqueName = result.Data.ToString();
+                    var uniqueName = FileManager.SaveBase64Image(userSignUpDto.Photo);
 
                     FileDao fileDao = new FileDao()
                     {
@@ -191,11 +175,11 @@ namespace PlataformaZ2.Business
                     fileRepository.Create(fileDao);
                     newUser.Photo = fileRepository.GetById(fileDao.Id.Value);
                 }
-                else
+                catch (Exception)
                 {
-                    // cancel operation and return the result
+                    // cancel operation
                     userRepository.RollbackTransaction();
-                    return result;
+                    throw new BusinessException("Não foi possível salvar a imagem do usuário");
                 }
             }
 
@@ -206,24 +190,24 @@ namespace PlataformaZ2.Business
             userRepository.Create(newUser);
 
             //// Send welcome e-mail 
-            operation = MailManager.SendWelcomeEmail(newUser.Username, newUser.Nickname);
+            try
+            {
+                MailManager.SendWelcomeEmail(newUser.Username, newUser.Nickname);
 
-            if (operation.Success)
-            {
-                return new OperationResult(true);
+                return "Usuário cadastrado com sucesso";
             }
-            else
+            catch (Exception)
             {
-                return new OperationResult(true, "Usuário cadastrado com sucesso, mas não foi possível enviar o e-mail");
-            }            
+                return "Usuário cadastrado com sucesso, mas não foi possível enviar o e-mail de boas-vindas";
+            }
         }
 
         /// <summary>
         /// Generates token and sends an e-mail to redefine the password
         /// </summary>
         /// <param name="email">User's email</param>
-        /// <returns>Operation result</returns>
-        public static OperationResult ForgotPassword(string email)
+        /// <returns>Success Message</returns>
+        public static string ForgotPassword(string email)
         {
             UserRepository userRepository = new UserRepository();
             PasswordDefinitionRepository passwordDefinitionRepository = new PasswordDefinitionRepository();
@@ -231,9 +215,9 @@ namespace PlataformaZ2.Business
             ////Check user
             var userDao = userRepository.GetByUsername(email);
 
-            if (userDao == null)
+            if (userDao == null || !userDao.Active)
             {
-                return new OperationResult(false, "Não existe usuário cadastrado com esse e-mail");                
+                throw new BusinessException("Não existe usuário cadastrado com esse e-mail");
             }
 
             ////Check if exists a valid token and expires it                        
@@ -264,28 +248,20 @@ namespace PlataformaZ2.Business
 
             passwordDefinitionRepository.Create(passwordDefinitionDao);
 
-            ////Send e-mail 
-            var operation = MailManager.SendForgotPasswordEmail(userDao.Username, userDao.Nickname, userDao.Id.Value, changePasswordToken);
+            ////Send e-mail
+            MailManager.SendForgotPasswordEmail(userDao.Username, userDao.Nickname, userDao.Id.Value, changePasswordToken);
 
-            if (operation.Success)
-            {
-                int middleIndex = userDao.Username.IndexOf("@");
-                string maskedEmail = userDao.Username.Substring(0, 3) + "****" + userDao.Username.Substring(middleIndex, 4) + "***";
+            int middleIndex = userDao.Username.IndexOf("@");
+            string maskedEmail = userDao.Username.Substring(0, 3) + "****" + userDao.Username.Substring(middleIndex, 4) + "***";
 
-                return new OperationResult(true, "E-mail enviado para " + maskedEmail);
-            }
-            else
-            {
-                return new OperationResult(false, "Não foi possível enviar o e-mail");
-            }
+            return string.Format("E-mail enviado para {0}", maskedEmail);
         }
 
         /// <summary>
         /// Generates token and sends an e-mail of first password creation
         /// </summary>
         /// <param name="idUser">User identifier</param>
-        /// <returns>Operation result</returns>
-        public static OperationResult PasswordFirstCreation(int idUser)
+        public static void PasswordFirstCreation(int idUser)
         {
             UserRepository userRepository = new UserRepository();
             PasswordDefinitionRepository passwordDefinitionRepository = new PasswordDefinitionRepository();
@@ -321,23 +297,15 @@ namespace PlataformaZ2.Business
             passwordDefinitionRepository.Create(passwordDefinitionDao);
 
             ////Send e-mail
-            var operation = MailManager.SendPasswordCreationEmail(userDao.Username, userDao.Nickname, idUser, changePasswordToken);
-            if (operation.Success)
-            {
-                return new OperationResult(true);
-            }
-            else
-            {
-                return new OperationResult(false, "Não foi possível enviar o e-mail");
-            }
+            MailManager.SendPasswordCreationEmail(userDao.Username, userDao.Nickname, idUser, changePasswordToken);
         }
 
         /// <summary>
         /// Checks if the link is valid for password change (the user exists and the token is not expired)
         /// </summary>
         /// <param name="changeInfo">Info for password change (password is left blank)</param>
-        /// <returns>Operation result</returns>
-        public static OperationResult ValidatePasswordLink(ChangePasswordDto changeInfo)
+        /// <returns>User object</returns>
+        public static UserFullDto ValidatePasswordLink(ChangePasswordDto changeInfo)
         {
             UserRepository userRepository = new UserRepository();
             PasswordDefinitionRepository passwordDefinitionRespository = new PasswordDefinitionRepository();
@@ -346,7 +314,7 @@ namespace PlataformaZ2.Business
 
             if (userDao == null || !userDao.Active)
             {
-                return new OperationResult(false, "O usuário não existe");
+                throw new BusinessException("O usuário não existe");
             }
 
             ////Check if the token is valid for password change            
@@ -354,7 +322,7 @@ namespace PlataformaZ2.Business
 
             if (passwordDefinitionDao == null || passwordDefinitionDao.Token != changeInfo.ChangePasswordToken)
             {
-                return new OperationResult(false, "Link expirado para troca de senha. Solicite novamente.");                
+                throw new BusinessException("Link expirado para troca de senha. Solicite novamente.");                
             }
 
             ////The link is valid (the user exists and the token is not expired)
@@ -370,42 +338,29 @@ namespace PlataformaZ2.Business
                 ProfileName = userDao.Profile.Name
             };
 
-            return new OperationResult(true, string.Empty, userParcialData);
+            return userParcialData;
         }
 
         /// <summary>
         /// Defines/Redefines the password for a non-logged user (using password's token)
         /// </summary>
         /// <param name="changeInfo">Info for password change</param>
-        /// <returns>Operation result</returns>
-        public static OperationResult ChangePasswordUsingToken(ChangePasswordDto changeInfo)
+        public static void ChangePasswordUsingToken(ChangePasswordDto changeInfo)
         {
             UserRepository userRepository = new UserRepository();
             PasswordDefinitionRepository passwordDefinitionRespository = new PasswordDefinitionRepository();
 
             if (changeInfo == null)
             {
-                return new OperationResult(false, "Sem dados de senha");
+                throw new BusinessException("Sem dados de senha");
             }
 
             //// validate link
-            OperationResult linkOperation = ValidatePasswordLink(changeInfo);
-
-            if (!linkOperation.Success)
-            {
-                ////Return the same operation result of validation 
-                return linkOperation;
-            }
+            ValidatePasswordLink(changeInfo);
 
             //// validate password's rules           
-            OperationResult passwordOperation = ValidatePassword(changeInfo.NewPassword);
-
-            if (!passwordOperation.Success)
-            {
-                // return the same operation result of validation                
-                return passwordOperation;
-            }
-
+            ValidatePassword(changeInfo.NewPassword);
+            
             ////The link and password are valid: Encrypt the password, update the user and expire the token           
             var UserDao = userRepository.GetById(changeInfo.IdUser);
             UserDao.Password = Encrypt(changeInfo.NewPassword);
@@ -414,8 +369,6 @@ namespace PlataformaZ2.Business
             var passwordDefinitionDao = passwordDefinitionRespository.SearchForValidToken(UserDao.Id.Value);
             passwordDefinitionDao.ExpirationDate = DateTime.Now;
             passwordDefinitionRespository.Update(passwordDefinitionDao);
-
-            return new OperationResult(true);
         }
 
         #endregion
@@ -425,14 +378,13 @@ namespace PlataformaZ2.Business
         /// </summary>
         /// <param name="loggedUser">Logged User</param>
         /// <param name="changeInfo">Info for password change (token is left blank)</param>
-        /// <returns>Operation result</returns>
-        public static OperationResult ChangePasswordForLoggedUser(UserDao loggedUser, ChangePasswordDto changeInfo)
+        public static void ChangePasswordForLoggedUser(UserDao loggedUser, ChangePasswordDto changeInfo)
         {
             UserRepository userRepository = new UserRepository();
 
             if (changeInfo == null)
             {
-                return new OperationResult(false, "Sem dados de senha");
+                throw new BusinessException("Sem dados de senha");
             }
 
             //// checks logged user permission
@@ -443,25 +395,18 @@ namespace PlataformaZ2.Business
             }
 
             //// validate password's rules           
-            OperationResult operation = ValidatePassword(changeInfo.NewPassword);
-
-            if (!operation.Success)
-            {
-                // return the same operation result of validation                
-                return operation;
-            }
-
+            ValidatePassword(changeInfo.NewPassword);
+            
             //// changes user's password
             UserDao userDao = userRepository.GetById(changeInfo.IdUser);
 
             if (userDao == null || !userDao.Active)
             {
-                return new OperationResult(false, "O usuário não existe");                
+                throw new BusinessException("O usuário não existe");                
             }
             
             userDao.Password = Encrypt(changeInfo.NewPassword);  // Encrypt the password
             userRepository.Update(userDao);
-            return new OperationResult(true);
         }
 
         /// <summary>
@@ -486,7 +431,7 @@ namespace PlataformaZ2.Business
 
             if (userDao == null || !userDao.Active)
             {
-                return null;
+                throw new BusinessException("O usuário não existe");
             }
 
             UserSessionDto session = new UserSessionDto()
@@ -562,7 +507,7 @@ namespace PlataformaZ2.Business
            
             if (userDao == null || !userDao.Active)
             {
-                return null;
+                throw new BusinessException("O usuário não existe");
             }
 
             //// checks logged user permission
@@ -601,31 +546,25 @@ namespace PlataformaZ2.Business
         /// Saves an user (create or update)
         /// </summary>
         /// <param name="userDto">User data</param>
-        /// <returns>Operation result</returns>
-        public static OperationResult SaveUser(UserFullDto userDto)
+        /// <returns>Success Message</returns>
+        public static string SaveUser(UserFullDto userDto)
         {
             UserRepository userRepository = new UserRepository();
             FileRepository fileRepository = new FileRepository();
 
             // validate user's data and whether there is another user with the same parameters            
-            OperationResult operation = ValidateUser(userDto.Id, userDto.Username, userDto.Name, userDto.Nickname, userDto.Cpf);
-
-            if (!operation.Success)
-            {
-                // return the same operation result of validation                
-                return operation;
-            }
-
-            //// Checks if it is "new user creation" or "user update" operation
+            ValidateUser(userDto.Id, userDto.Username, userDto.Name, userDto.Nickname, userDto.Cpf);
+            
+            //// Checks if it is creation or update operation
             if (userDto.Id.HasValue)
             {
-                //// "user update" operation
+                //// update operation
 
                 UserDao userDao = userRepository.GetById(userDto.Id.Value);
 
                 if (userDao == null || !userDao.Active)
                 {
-                    return new OperationResult(false, "O usuário não existe");
+                    throw new BusinessException("O usuário não existe");
                 }
 
                 // update data (including profile and CPF)
@@ -644,32 +583,28 @@ namespace PlataformaZ2.Business
                     if (userDao.Photo != null)
                     {
                         // the DAO has value, then update files and database reference
-
-                        FileManager.DeleteFile(userDao.Photo.RealName);
-                        var result = FileManager.SaveBase64Image(userDto.Photo);
-
-                        if (result.Success)
+                        try
                         {
-                            var uniqueName = result.Data.ToString();
+                            FileManager.DeleteFile(userDao.Photo.RealName);
+
+                            var uniqueName = FileManager.SaveBase64Image(userDto.Photo);
 
                             userDao.Photo.Name = userDao.Nickname + Path.GetExtension(uniqueName);
                             userDao.Photo.RealName = uniqueName;
                         }
-                        else
+                        catch (Exception)
                         {
-                            // cancel operation and return the result
+                            // cancel operation
                             userRepository.RollbackTransaction();
-                            return result;
+                            throw new BusinessException("Não foi possível atualizar a foto do usuário");
                         }
                     }
                     else
                     {
                         // the DAO doesn't have value, then create the file and link it to the database
-                        var result = FileManager.SaveBase64Image(userDto.Photo);
-
-                        if (result.Success)
+                        try
                         {
-                            var uniqueName = result.Data.ToString();
+                            var uniqueName = FileManager.SaveBase64Image(userDto.Photo);
 
                             FileDao fileDao = new FileDao()
                             {
@@ -680,11 +615,11 @@ namespace PlataformaZ2.Business
                             fileRepository.Create(fileDao);
                             userDao.Photo = fileRepository.GetById(fileDao.Id.Value);
                         }
-                        else
+                        catch (Exception)
                         {
-                            // cancel operation and return the result
+                            // cancel operation
                             userRepository.RollbackTransaction();
-                            return result;
+                            throw new BusinessException("Não foi possível salvar a foto do usuário");
                         }
                     }
                 }
@@ -695,22 +630,30 @@ namespace PlataformaZ2.Business
                     if (userDao.Photo != null)
                     {
                         // the DAO has value, then delete file and database reference
+                        try
+                        {
+                            FileManager.DeleteFile(userDao.Photo.RealName);
 
-                        FileManager.DeleteFile(userDao.Photo.RealName);
-
-                        fileRepository.Delete(userDao.Photo);
-                        userDao.Photo = null;
+                            fileRepository.Delete(userDao.Photo);
+                            userDao.Photo = null;
+                        }
+                        catch (Exception)
+                        {
+                            // cancel operation
+                            userRepository.RollbackTransaction();
+                            throw new BusinessException("Não foi possível excluir a foto do usuário");
+                        }
                     }
                 }
 
                 // save the user
                 userRepository.Update(userDao);
 
-                return new OperationResult(true);
+                return "Usuário atualizado com sucesso";
             }
             else
             {
-                //// "new user creation" operation
+                //// creation operation
 
                 UserDao newUser = new UserDao()
                 {
@@ -729,11 +672,9 @@ namespace PlataformaZ2.Business
                 // save the photo
                 if (userDto.Photo != null)
                 {
-                    var result = FileManager.SaveBase64Image(userDto.Photo);
-
-                    if (result.Success)
+                    try
                     {
-                        var uniqueName = result.Data.ToString();
+                        var uniqueName = FileManager.SaveBase64Image(userDto.Photo);
 
                         FileDao fileDao = new FileDao()
                         {
@@ -744,30 +685,37 @@ namespace PlataformaZ2.Business
                         fileRepository.Create(fileDao);
                         newUser.Photo = fileRepository.GetById(fileDao.Id.Value);
                     }
-                    else
+                    catch (Exception)
                     {
-                        // cancel operation and return the result
+                        // cancel operation
                         userRepository.RollbackTransaction();
-                        return result;
+                        throw new BusinessException("Não foi possível salvar a foto do usuário");
                     }
                 }
                 
                 // save the user
                 userRepository.Create(newUser);
 
-                // Send "welcome" e-mail (wihtout checking result operation) 
-                MailManager.SendWelcomeEmail(newUser.Username, newUser.Nickname);
+                // Send "welcome" e-mail
+                try
+                {
+                    MailManager.SendWelcomeEmail(newUser.Username, newUser.Nickname);
+                }
+                catch (Exception)
+                {
+                    // allow continue even if welcome e-mail does not work
+                }
 
                 // Send "First Password Creation" e-mail
-                operation = PasswordFirstCreation(newUser.Id.Value);
+                try
+                {
+                    PasswordFirstCreation(newUser.Id.Value);
 
-                if (operation.Success)
-                {
-                    return new OperationResult(true);
+                    return "Usuário cadastrado com sucesso. Um e-mail para criação de senha foi enviado.";
                 }
-                else
+                catch (Exception)
                 {
-                    return new OperationResult(true, "Usuário cadastrado com sucesso, mas não foi possível enviar o e-mail de criação de senha");
+                    return "Usuário cadastrado com sucesso, mas não foi possível enviar o e-mail de criação de senha";
                 }
             }
         }
@@ -776,16 +724,15 @@ namespace PlataformaZ2.Business
         /// Deletes an user (set as inactive)
         /// </summary>
         /// <param name="idUser">User identifier</param>
-        /// <returns>Operation result</returns>
-        public static OperationResult DeleteUser(int idUser)
+        public static void DeleteUser(int idUser)
         {
             UserRepository userRepository = new UserRepository();
 
             UserDao userDao = userRepository.GetById(idUser);
             
-            if (userDao == null)
+            if (userDao == null || !userDao.Active)
             {
-                return new OperationResult(false, "O usuário não existe");
+                throw new BusinessException("O usuário não existe");
             }
 
             ////set user as inactive (do not delete from database)
@@ -793,8 +740,6 @@ namespace PlataformaZ2.Business
 
             ////save the user with the inactive status
             userRepository.Update(userDao);
-
-            return new OperationResult(true);
         }
 
         /// <summary>
@@ -802,19 +747,18 @@ namespace PlataformaZ2.Business
         /// </summary>
         /// <param name="loggedUser">Logged User</param>
         /// <param name="userDto">User data</param>
-        /// <returns>Operation result</returns>
-        public static OperationResult UpdateUserByUser(UserDao loggedUser, UserFullDto userDto)
+        public static void UpdateUserByUser(UserDao loggedUser, UserFullDto userDto)
         {
             UserRepository userRepository = new UserRepository();
             FileRepository fileRepository = new FileRepository();
 
             if (userDto == null)
             {
-                return new OperationResult(false, "Sem dados do usuário");
+                throw new BusinessException("Sem dados do usuário");
             }
             else if (!userDto.Id.HasValue)
             {
-                return new OperationResult(false, "Nenhum usuário selecionado");
+                throw new BusinessException("Nenhum usuário selecionado");
             }
 
             //// checks logged user permission
@@ -825,20 +769,14 @@ namespace PlataformaZ2.Business
             }
 
             // validate user's data and whether there is another user with the same parameters            
-            OperationResult operation = ValidateUser(userDto.Id, userDto.Username, userDto.Name, userDto.Nickname, userDto.Cpf);
-
-            if (!operation.Success)
-            {
-                // return the same operation result of validation                
-                return operation;
-            }
+            ValidateUser(userDto.Id, userDto.Username, userDto.Name, userDto.Nickname, userDto.Cpf);
 
             //// gets user's data
             UserDao userDao = userRepository.GetById(userDto.Id.Value);
 
             if (userDao == null || !userDao.Active)
             {
-                return new OperationResult(false, "O usuário não existe");
+                throw new BusinessException("O usuário não existe");
             }
 
             // update data (except username, profile, CPF)
@@ -853,32 +791,28 @@ namespace PlataformaZ2.Business
                 if (userDao.Photo != null)
                 {
                     // the DAO has value, then update files and database reference
-
-                    FileManager.DeleteFile(userDao.Photo.RealName);
-                    var result = FileManager.SaveBase64Image(userDto.Photo);
-
-                    if (result.Success)
+                    try
                     {
-                        var uniqueName = result.Data.ToString();
+                        FileManager.DeleteFile(userDao.Photo.RealName);
+
+                        var uniqueName = FileManager.SaveBase64Image(userDto.Photo);
 
                         userDao.Photo.Name = userDao.Nickname + Path.GetExtension(uniqueName);
-                        userDao.Photo.RealName = uniqueName;                        
+                        userDao.Photo.RealName = uniqueName;
                     }
-                    else
+                    catch (Exception)
                     {
-                        // cancel operation and return the result
+                        // cancel operation
                         userRepository.RollbackTransaction();
-                        return result;
+                        throw new BusinessException("Não foi possível atualizar a foto do usuário");
                     }
                 }
                 else
                 {
                     // the DAO doesn't have value, then create the file and link it to the database
-                    var result = FileManager.SaveBase64Image(userDto.Photo);
-
-                    if (result.Success)
+                    try
                     {
-                        var uniqueName = result.Data.ToString();
+                        var uniqueName = FileManager.SaveBase64Image(userDto.Photo);
 
                         FileDao fileDao = new FileDao()
                         {
@@ -889,12 +823,12 @@ namespace PlataformaZ2.Business
                         fileRepository.Create(fileDao);
                         userDao.Photo = fileRepository.GetById(fileDao.Id.Value);
                     }
-                    else
+                    catch (Exception)
                     {
-                        // cancel operation and return the result
+                        // cancel operation
                         userRepository.RollbackTransaction();
-                        return result;
-                    }                    
+                        throw new BusinessException("Não foi possível salvar a foto do usuário");
+                    }
                 }
             }
             else
@@ -904,18 +838,24 @@ namespace PlataformaZ2.Business
                 if (userDao.Photo != null)
                 {
                     // the DAO has value, then delete file and database reference
+                    try
+                    {
+                        FileManager.DeleteFile(userDao.Photo.RealName);
 
-                    FileManager.DeleteFile(userDao.Photo.RealName);
-
-                    fileRepository.Delete(userDao.Photo);
-                    userDao.Photo = null;
+                        fileRepository.Delete(userDao.Photo);
+                        userDao.Photo = null;
+                    }
+                    catch (Exception)
+                    {
+                        // cancel operation
+                        userRepository.RollbackTransaction();
+                        throw new BusinessException("Não foi possível excluir a foto do usuário");
+                    }
                 }
             }
 
             // save the user
             userRepository.Update(userDao);
-
-            return new OperationResult(true);
         }        
        
         #region Private methods
@@ -963,83 +903,75 @@ namespace PlataformaZ2.Business
         /// <param name="name">User's name</param>
         /// <param name="nickname">User's nickname</param>
         /// <param name="cpf">User's CPF</param>
-        /// <returns>Operation result</returns>
-        private static OperationResult ValidateUser(int? id, string username, string name, string nickname, string cpf)
+        private static void ValidateUser(int? id, string username, string name, string nickname, string cpf)
         {
             UserRepository userRepository = new UserRepository();
 
             // check whether the required data if fullfilled
             if (string.IsNullOrEmpty(username))
             {
-                return new OperationResult(false, "O campo E-mail é obrigatório");
+                throw new BusinessException("O campo E-mail é obrigatório");
             }
             if (string.IsNullOrEmpty(name))
             {
-                return new OperationResult(false, "O campo Nome é obrigatório");
+                throw new BusinessException("O campo Nome é obrigatório");
             }
             if (string.IsNullOrEmpty(nickname))
             {
-                return new OperationResult(false, "O campo 'Como você quer ser chamado' é obrigatório");
+                throw new BusinessException("O campo 'Como você quer ser chamado' é obrigatório");
             }
             if (string.IsNullOrEmpty(cpf))
             {
-                return new OperationResult(false, "O campo CPF é obrigatório");
+                throw new BusinessException("O campo CPF é obrigatório");
             }
 
             // check e-mail format            
             if (!PropertyValidator.ValidateEmail(username))
             {
-                return new OperationResult(false, "Formato inválido de E-mail");
+                throw new BusinessException("Formato inválido de E-mail");
             }
 
             // check CPF format            
             if (!PropertyValidator.ValidateCpf(cpf))
             {
-                return new OperationResult(false, "CPF inválido");
+                throw new BusinessException("CPF inválido");
             }
 
             // check if the username is being used
             if (userRepository.CheckUsername(id, username))
             {
-                return new OperationResult(false, "Já existe usuário cadastrado com esse E-mail");
+                throw new BusinessException("Já existe usuário cadastrado com esse E-mail");
             }
 
             // check if the CPF is being used
             if (userRepository.CheckCpf(id, cpf))
             {
-                return new OperationResult(false, "Já existe usuário cadastrado com esse CPF");
+                throw new BusinessException("Já existe usuário cadastrado com esse CPF");
             }
-
-            //everything is OK
-            return new OperationResult(true);
         }
 
         /// <summary>
         /// Check if password is valid according to password's rules
         /// </summary>
         /// <param name="password">User's password</param>
-        /// <returns>Operation result</returns>
-        private static OperationResult ValidatePassword(string password)
+        private static void ValidatePassword(string password)
         {
             if (string.IsNullOrEmpty(password))
             {
-                return new OperationResult(false, "O campo Senha é obrigatório");
+                throw new BusinessException("O campo Senha é obrigatório");
             }
 
             // check password length
             if (password.Length < 4)
             {
-                return new OperationResult(false, "A senha deve ter no mínimo 4 dígitos");
+                throw new BusinessException("A senha deve ter no mínimo 4 dígitos");
             }
                      
             // check password digits
             if (!PropertyValidator.ValidateAtLeastLetterNumberText(password))
             {
-                return new OperationResult(false, "A senha deve conter pelo menos uma letra e um número");
+                throw new BusinessException("A senha deve conter pelo menos uma letra e um número");
             }
-
-            //everything is OK
-            return new OperationResult(true);
         }
 
         #endregion

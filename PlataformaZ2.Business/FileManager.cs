@@ -40,7 +40,7 @@ namespace PlataformaZ2.Business
         {            
             if(fileCollection != null && fileCollection.Count > 0)
             {
-                //// Convert the HttpFileCollection to HttpPostedFile (to became enumerable)
+                //// Convert the HttpFileCollection to a list of HttpPostedFile (to became enumerable)
                 List<HttpPostedFile> httpPostedFiles = Enumerable.Range(0, fileCollection.Count).Select(i => fileCollection[i]).ToList();
 
                 //// Convert each HttpPostedFile to HttpFileDto
@@ -57,7 +57,7 @@ namespace PlataformaZ2.Business
 
                     var httpFile = new HttpFileDto()
                     {
-                        Content = fileMemoryStream.ToArray(),   // convert ot byte array
+                        Content = fileMemoryStream.ToArray(),   // convert to byte array
                         FileName = httpPostedFile.FileName,
                         MimeType = httpPostedFile.ContentType
                     };
@@ -80,8 +80,8 @@ namespace PlataformaZ2.Business
         /// Saves a Http File
         /// </summary>
         /// <param name="httpFile">Http File</param>
-        /// <returns>Operation result</returns>
-        public static OperationResult SaveHttpFile(HttpFileDto httpFile)
+        /// <returns>File's real name (name at file system)</returns>
+        public static string SaveHttpFile(HttpFileDto httpFile)
         {
             try
             {
@@ -92,11 +92,11 @@ namespace PlataformaZ2.Business
                 string filePath = System.Web.Hosting.HostingEnvironment.MapPath(ApplicationConfiguration.FileDirectoryPath) + "\\" + uniqueFileName;
                 File.WriteAllBytes(filePath, httpFile.Content);
                 
-                return new OperationResult(true, string.Empty, uniqueFileName);
+                return uniqueFileName;
             }
             catch (Exception)
             {
-                return new OperationResult(false, "Não foi possível salvar o arquivo");
+                throw new BusinessException("Não foi possível salvar o arquivo " + httpFile.FileName);
             }
         }
 
@@ -127,16 +127,15 @@ namespace PlataformaZ2.Business
             }
             catch (Exception)
             {
-                throw new BusinessException("Não foi possível recuperar o arquivo");
+                throw new BusinessException("Não foi possível recuperar o arquivo " + fileName);
             }
         }
-        
+
         /// <summary>
         /// Deletes a file by name
         /// </summary>
         /// <param name="fileRealName">File's real name (at file system)</param>
-        /// <returns>Operation result</returns>
-        public static OperationResult DeleteFile(string fileRealName)
+        public static void DeleteFile(string fileRealName)
         {
             try
             {
@@ -147,17 +146,15 @@ namespace PlataformaZ2.Business
                 if (File.Exists(filePath))
                 {
                     File.Delete(filePath);
-
-                    return new OperationResult(true);
                 }
                 else
                 {
-                    return new OperationResult(false, "Não foi possível excluir o arquivo");
+                    throw new BusinessException("O arquivo não existe");
                 }
             }
             catch (Exception)
             {
-                return new OperationResult(false, "Não foi possível excluir o arquivo");
+                throw new BusinessException("Não foi possível excluir o arquivo");
             }
         }
 
@@ -169,8 +166,8 @@ namespace PlataformaZ2.Business
         /// Save a base64 image as a file
         /// </summary>
         /// <param name="base64Image">Base64 Image string</param>
-        /// <returns>Operation result with file's real name (name at file system)</returns>
-        public static OperationResult SaveBase64Image(ImageBase64Dto imageBase64Dto)
+        /// <returns>File's real name (name at file system)</returns>
+        public static string SaveBase64Image(ImageBase64Dto imageBase64Dto)
         {
             try
             {
@@ -188,11 +185,11 @@ namespace PlataformaZ2.Business
                 ////Writes to file
                 File.WriteAllBytes(filePath, imageByteArray);
 
-                return new OperationResult(true, string.Empty, uniqueFileName);
+                return uniqueFileName;
             }
             catch (Exception)
             {
-                return new OperationResult(false, "Não foi possível salvar a imagem");
+                throw new BusinessException("Não foi possível salvar a imagem");
             }
         }
 

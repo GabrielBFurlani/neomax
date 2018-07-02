@@ -24,13 +24,9 @@
 
             $http.post(_apiUrl + '/user/signUp/', $scope.signUpUser)
                 .then(function successCallback(response) {
-                    var httpResultModel = response.data;
 
-                    if (httpResultModel.operationSuccess) {
-
-                        //Closes the modal and return the login's credentials to auto log-in
-                        $uibModalInstance.close($scope.signUpUser);
-                    }
+                    //Closes the modal and return the login's credentials to auto log-in
+                    $uibModalInstance.close($scope.signUpUser);
                 })
         }
 

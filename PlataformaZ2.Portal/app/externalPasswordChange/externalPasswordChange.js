@@ -17,18 +17,9 @@
             //check if the link is valid (the user exists and the token is not expired)
             $http.post(_apiUrl + '/user/passwordLinkValidation', $scope.changeInfo)
                 .then(function successCallback(response) {
-                    var httpResultModel = response.data;
 
-                    if (httpResultModel.operationSuccess) {
-
-                        // "Change Password" token is valid and user's data was returned
-                        $scope.user = httpResultModel.data;
-                    }
-                    else {
-
-                        //Redirects to login page
-                        $state.go('login');
-                    }
+                    // "Change Password" token is valid and user's data was returned
+                    $scope.user = response.data.resultData; 
 
                 }, function errorCallback(response) {
 
@@ -41,13 +32,9 @@
         $scope.ok = function () {
             $http.post(_apiUrl + '/user/externalPasswordChange', $scope.changeInfo)
                 .then(function successCallback(response) {
-                    var httpResultModel = response.data;
 
-                    if (httpResultModel.operationSuccess) {  
-
-                        //Redirects to login page
-                        $state.go('login');                        
-                    }
+                    //Redirects to login page
+                    $state.go('login');  
                 })
         };
 

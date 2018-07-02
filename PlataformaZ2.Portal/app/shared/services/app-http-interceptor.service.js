@@ -64,21 +64,11 @@
                     //Ok                    
                     case 200:
                         {                    
-                            if (response.data.operationSuccess) {
-                                if (response.data.resultMessage) {
-                                    ngToast.create({
-                                        content: response.data.resultMessage,
-                                        className: 'success'
-                                    });
-                                }                                                         
-                            }
-                            else {                                
-                                if (response.data.resultMessage) {
-                                    ngToast.create({
-                                        content: response.data.resultMessage,
-                                        className: 'danger'
-                                    });
-                                }
+                            if (response.data.resultMessage) {
+                                ngToast.create({
+                                    content: response.data.resultMessage,
+                                    className: 'success'
+                                });
                             }
                         }
                 }
@@ -126,18 +116,7 @@
                             });
                             break;
                         }
-
-                    //Precondition Failed
-                    case 412:
-                        {
-                            if (rejection.data.resultMessage) {
-                                ngToast.create({
-                                    content: rejection.data.resultMessage,
-                                    className: 'danger'
-                                });
-                            }
-                            break;
-                        }
+                        
                     default:
                         {
                             ngToast.create({

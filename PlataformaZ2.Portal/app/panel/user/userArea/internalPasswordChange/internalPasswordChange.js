@@ -16,11 +16,7 @@
 
             $http.post(_apiUrl + '/user/userArea/internalPasswordChange', $scope.changeInfo)
                 .then(function successCallback(response) {
-                    var httpResultModel = response.data;
-
-                    if (httpResultModel.operationSuccess) {                        
-                        $state.go('panel.home');                      
-                    }
+                    $state.go('panel.home');
                 })
         };
 

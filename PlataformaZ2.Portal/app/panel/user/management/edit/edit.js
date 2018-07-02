@@ -29,11 +29,7 @@
 
             $http.get(_apiUrl + '/profile/all')
                 .then(function successCallback(response) {
-                    var httpResultModel = response.data;
-
-                    if (httpResultModel.operationSuccess) {
-                        $scope.profiles = httpResultModel.data;
-                    }
+                    $scope.profiles = response.data.resultData;
                 });
 
             //Check if its update operation
@@ -42,18 +38,15 @@
                 //get data
                 $http.get(_apiUrl + '/user/management/' + id)
                     .then(function successCallback(response) {
-                        var httpResultModel = response.data;
 
-                        if (httpResultModel.operationSuccess) {
-                            $scope.user = httpResultModel.data;
+                        $scope.user = response.data.resultData;
 
-                            //checks if the user has photo
-                            if ($scope.user.photo) {
-                                $scope.hasPhoto = true;
-                            }
-                            else {
-                                $scope.hasPhoto = false;
-                            }
+                        //checks if the user has photo
+                        if ($scope.user.photo) {
+                            $scope.hasPhoto = true;
+                        }
+                        else {
+                            $scope.hasPhoto = false;
                         }
                     });
             }            
@@ -87,11 +80,7 @@
             
             $http.post(_apiUrl + '/user/management/save', $scope.user)
                 .then(function successCallback(response) {
-                    var httpResultModel = response.data;
-
-                    if (httpResultModel.operationSuccess) {
-                        $state.go("panel.user.management.list");
-                    }
+                    $state.go("panel.user.management.list");
                 })
         }
 

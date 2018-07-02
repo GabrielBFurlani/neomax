@@ -18,17 +18,13 @@
             idProfile: null,
             pageNumber: 1
         };
-
+        
         //loadPage()
         function loadPage() {           
 
             $http.get(_apiUrl + '/profile/all')
                 .then(function successCallback(response) {
-                    var httpResultModel = response.data;
-
-                    if (httpResultModel.operationSuccess) {
-                        $scope.profiles = httpResultModel.data;
-                    }                    
+                    $scope.profiles = response.data.resultData;                   
                 });
 
             $scope.search();
@@ -49,15 +45,9 @@
 
             $http.post(_apiUrl + '/user/management/search', $scope.filter)
                 .then(function successCallback(response) {
-                    var httpResultModel = response.data;
 
-                    if (httpResultModel.operationSuccess) {
-                        $scope.paginationResponse = httpResultModel.data;
-                        $scope.users = $scope.paginationResponse.response;
-                    }
-                    else {
-                        $scope.users = null;
-                    }
+                    $scope.paginationResponse = response.data.resultData;;
+                    $scope.users = $scope.paginationResponse.response;
                 })
         }
 
@@ -77,11 +67,7 @@
 
                 $http.delete(_apiUrl + '/user/management/' + id)
                     .then(function successCallback(response) {
-                        var httpResultModel = response.data;
-
-                         if (httpResultModel.operationSuccess) {
-                             loadPage();
-                         }                         
+                        loadPage();                         
                      })
             });
         };

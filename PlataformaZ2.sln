@@ -1,17 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlataformaZ2.Portal", "PlataformaZ2.Portal\PlataformaZ2.Portal.csproj", "{1E197457-382B-4C74-B4A7-0AE4F2FA46E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neomax.Portal", "PlataformaZ2.Portal\Neomax.Portal.csproj", "{1E197457-382B-4C74-B4A7-0AE4F2FA46E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlataformaZ2.WebApi", "PlataformaZ2.WebApi\PlataformaZ2.WebApi.csproj", "{8352C42D-BB8C-46D2-BD4D-B71409FA2472}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neomax.WebApi", "PlataformaZ2.WebApi\Neomax.WebApi.csproj", "{8352C42D-BB8C-46D2-BD4D-B71409FA2472}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlataformaZ2.Business", "PlataformaZ2.Business\PlataformaZ2.Business.csproj", "{CB8BC79D-B33F-4571-A470-A4D1015E1F75}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neomax.Business", "PlataformaZ2.Business\Neomax.Business.csproj", "{CB8BC79D-B33F-4571-A470-A4D1015E1F75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlataformaZ2.Model", "PlataformaZ2.Model\PlataformaZ2.Model.csproj", "{5A020748-ED1B-4983-83DB-0D3F0639D257}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neomax.Model", "PlataformaZ2.Model\Neomax.Model.csproj", "{5A020748-ED1B-4983-83DB-0D3F0639D257}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlataformaZ2.Data", "PlataformaZ2.Data\PlataformaZ2.Data.csproj", "{890CAA38-4C70-494E-854C-C31C4DC2F12B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neomax.Data", "PlataformaZ2.Data\Neomax.Data.csproj", "{890CAA38-4C70-494E-854C-C31C4DC2F12B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

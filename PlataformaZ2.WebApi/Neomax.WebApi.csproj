@@ -279,17 +279,17 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PlataformaZ2.Business\PlataformaZ2.Business.csproj">
+    <ProjectReference Include="..\PlataformaZ2.Business\Neomax.Business.csproj">
       <Project>{cb8bc79d-b33f-4571-a470-a4d1015e1f75}</Project>
-      <Name>PlataformaZ2.Business</Name>
+      <Name>Neomax.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PlataformaZ2.Data\PlataformaZ2.Data.csproj">
+    <ProjectReference Include="..\PlataformaZ2.Data\Neomax.Data.csproj">
       <Project>{890caa38-4c70-494e-854c-c31c4dc2f12b}</Project>
-      <Name>PlataformaZ2.Data</Name>
+      <Name>Neomax.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PlataformaZ2.Model\PlataformaZ2.Model.csproj">
+    <ProjectReference Include="..\PlataformaZ2.Model\Neomax.Model.csproj">
       <Project>{5a020748-ed1b-4983-83db-0d3f0639d257}</Project>
-      <Name>PlataformaZ2.Model</Name>
+      <Name>Neomax.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CB8BC79D-B33F-4571-A470-A4D1015E1F75}</ProjectGuid>
+    <ProjectGuid>{890CAA38-4C70-494E-854C-C31C4DC2F12B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PlataformaZ2.Business</RootNamespace>
-    <AssemblyName>PlataformaZ2.Business</AssemblyName>
+    <RootNamespace>PlataformaZ2.Data</RootNamespace>
+    <AssemblyName>PlataformaZ2.Data</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -22,7 +22,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,53 +32,59 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DocumentFormat.OpenXml, Version=2.7.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
-      <HintPath>..\packages\DocumentFormat.OpenXml.2.7.2\lib\net40\DocumentFormat.OpenXml.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="FluentNHibernate, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentNHibernate.2.0.3.0\lib\net40\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="NHibernate, Version=4.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHibernate.4.1.1.4000\lib\net40\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.IO.Compression.FileSystem" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ProfileManager.cs" />
-    <Compile Include="Util\PropertyValidator.cs" />
-    <Compile Include="Util\PropertyFormatter.cs" />
-    <Compile Include="FileManager.cs" />
-    <Compile Include="MailManager.cs" />
+    <Compile Include="DataAccess\BaseDao.cs" />
+    <Compile Include="DataAccess\FileDao.cs" />
+    <Compile Include="DataAccess\PasswordDefinitionDao.cs" />
+    <Compile Include="DataAccess\PermissionDao.cs" />
+    <Compile Include="DataAccess\ProfileDao.cs" />
+    <Compile Include="DataAccess\UserDao.cs" />
+    <Compile Include="HibernateHelper.cs" />
+    <Compile Include="Mapping\FileMap.cs" />
+    <Compile Include="Mapping\PasswordDefinitionMap.cs" />
+    <Compile Include="Mapping\PermissionMap.cs" />
+    <Compile Include="Mapping\ProfileMap.cs" />
+    <Compile Include="Mapping\UserMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserManager.cs" />
+    <Compile Include="Repository\BaseRepository.cs" />
+    <Compile Include="Repository\PermissionRepository.cs" />
+    <Compile Include="Repository\FileRepository.cs" />
+    <Compile Include="Repository\PasswordDefinitionRepository.cs" />
+    <Compile Include="Repository\ProfileRepository.cs" />
+    <Compile Include="Repository\UserRepository.cs" />
+    <Compile Include="Util\ApplicationConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PlataformaZ2.Data\PlataformaZ2.Data.csproj">
-      <Project>{890caa38-4c70-494e-854c-c31c4dc2f12b}</Project>
-      <Name>PlataformaZ2.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PlataformaZ2.Model\PlataformaZ2.Model.csproj">
+    <ProjectReference Include="..\PlataformaZ2.Model\Neomax.Model.csproj">
       <Project>{5a020748-ed1b-4983-83db-0d3f0639d257}</Project>
-      <Name>PlataformaZ2.Model</Name>
+      <Name>Neomax.Model</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

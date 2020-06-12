@@ -17,7 +17,7 @@
         fileActionSettings: {
             removeIcon: '<i class="glyphicon glyphicon-trash text-danger"></i>',
             uploadIcon: '<i class="glyphicon glyphicon-upload text-info"></i>',
-            zoomIcon: '<i class="fa fa-search-plus"></i>',
+            zoomIcon: '<i class="glyphicon glyphicon-zoom-in"></i>',
             dragIcon: '<i class="glyphicon glyphicon-menu-hamburger"></i>',
             indicatorNew: '<i class="glyphicon glyphicon-hand-down text-warning"></i>',
             indicatorSuccess: '<i class="glyphicon glyphicon-ok-sign text-success"></i>',
@@ -33,7 +33,7 @@
             toggleheader: '<i class="glyphicon glyphicon-resize-vertical"></i>',
             fullscreen: '<i class="glyphicon glyphicon-fullscreen"></i>',
             borderless: '<i class="glyphicon glyphicon-resize-full"></i>',
-            close: '<i class="fa fa-times"></i>'
+            close: '<i class="glyphicon glyphicon-remove"></i>'
         },
         previewFileIcon: '<i class="glyphicon glyphicon-file"></i>',
         browseIcon: '<i class="glyphicon glyphicon-folder-open"></i>&nbsp;',

@@ -4,7 +4,7 @@
     angular.module("app", ['ui.router', 'ui.bootstrap', 'angularValidator', 'ui.mask', 'ui.utils.masks', 'ngAnimate', 'ngSanitize', 'ngToast', 'blockUI', 'ngImgCrop', 'ngStorage', 'ngCookies', 'ui.select']);
 
     angular.module('app').constant('CONFIG', {
-        apiRootUrl: 'http://localhost:63000/api',
+        apiRootUrl: 'http://localhost:59000/api',
         apiViaCepUrl: 'https://viacep.com.br/ws',
         weekdaysEnum: {            
             0: "Domingo",

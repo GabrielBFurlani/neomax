@@ -1,0 +1,11 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    /*background: linear-gradient (#315694, #5e9ac9) url(img/#) no-repeat center center fixed;*/
+    background-size: cover;
+    background-color: #315694;
+    background-attachment: fixed;
+    align-items: center;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    background-image: linear-gradient(to top, #9DC4DE, #DBE5F3 60%);
+}

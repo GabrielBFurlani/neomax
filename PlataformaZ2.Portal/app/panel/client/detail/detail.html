@@ -1,0 +1,37 @@
+﻿<div class="container">
+    <div class="row line-space-20">
+        <div class="col-md-12 text-center">
+            <h3 class="control-label">Detalhes do Cliente</h3>
+        </div>
+    </div>
+    <hr />
+    <form role="form" novalidate angular-validator angular-validator-submit="edit()" name="editForm">
+        <div class="row line-space-10">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">Nome:  {{client.name}}</label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">CPF : {{client.cpf}}</label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">CNPJ : {{client.cnpj}}</label>
+                </div>
+            </div>
+        </div>
+
+        <!--Form Buttons-->
+        <div class="row line-space-20">
+            <div class="col-md-12 text-center">
+                <button type="button" class="btn btn-default" ng-click="back()">Cancelar</button>
+                <button type="submit" class="btn btn-primary column-space">
+                    <span class="glyphicon glyphicon-floppy-disk"></span> Definir Status
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

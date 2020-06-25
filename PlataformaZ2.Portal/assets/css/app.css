@@ -17,6 +17,16 @@
     --LoginButtonTextColor: var(--PrimaryTextColor);
     --LoginButtonBackgroundColorHover: var(--PrimaryBackgroundColorHover);
     --LoginButtonTextColorHover: var(--PrimaryTextColorHover);
+    --NavBarCustom: var(--PrimaryBackgroundColor);
+    --NavBarCustomLabel: var(--PrimaryTextColor);
+    --NavBarCustomLinhaA: var(--PrimaryTextColor); /*verificar: não está fazendo diferença*/
+    --NavBarCustomActiveLabelA: var(--PrimaryTextColor); /*verificar: não está fazendo diferença*/
+    --NavBarCustomActiveA: transparent; /*verificar: não está fazendo diferença*/
+    --NavBarCustomNavBrand: var(--PrimaryTextColor); /*verificar: não está fazendo diferença*/
+    --NavBarCustomNavToggle: var(--PrimaryBackgroundColor); /*verificar: não está fazendo diferença*/
+    --NavBarCustomIconBar: var(--PrimaryBackgroundColor); /*verificar: não está fazendo diferença*/
+    --NavBarCustomDropdownMenu: var(--PrimaryBackgroundColor);
+    --NavBarCustomDropdownMenuLinhaA: var(--PrimaryTextColor); /*verificar: não está fazendo diferença*/
 }
 
 
@@ -220,3 +230,303 @@ table tbody tr td {
 .clickable-area {
     cursor: pointer;
 }
+
+
+/* PROGRESS BAR */
+
+#msform {
+    text-align: center;
+    position: relative;
+    margin-top: 20px
+}
+
+#progressbar {
+    margin-bottom: 30px;
+    overflow: hidden;
+    color: lightgrey
+}
+
+    #progressbar .active {
+        color: #32CD32
+    }
+
+    #progressbar li {
+        list-style-type: none;
+        font-size: 20px;
+        width: 25%;
+        float: left;
+        position: relative;
+        font-weight: 400
+    }
+
+    #progressbar #generalData:before {
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        content: "\f007";
+    }
+
+    #progressbar #infos:before {
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        content: "\f05a";
+    }
+
+    #progressbar #docs:before {
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        content: "\f2c2";
+    }
+
+    #progressbar #bankData:before {
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        content: "\f19c";
+    }
+
+    #progressbar li:before {
+        width: 50px;
+        height: 50px;
+        line-height: 45px;
+        display: block;
+        font-size: 20px;
+        color: #ffffff;
+        background: lightgray;
+        border-radius: 50%;
+        margin: 0 auto 10px auto;
+        padding: 2px
+    }
+
+    #progressbar li:after {
+        content: '';
+        width: 100%;
+        height: 2px;
+        background: lightgray;
+        position: absolute;
+        left: 0;
+        top: 25px;
+        z-index: -1
+    }
+
+    #progressbar li.active:before,
+    #progressbar li.active:after {
+        background: #32CD32
+    }
+
+.progress-bar {
+    background-color: #32CD32
+}
+
+.block-title > span {
+    position: relative;
+    display: inline-block;
+}
+
+    .block-title > span:before,
+    .block-title > span:after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 9999px;
+        height: 1px;
+        background: #396892; /*#80ca61*/
+    }
+
+    .block-title > span:before {
+        right: 100%;
+        margin-right: 15px;
+    }
+
+    .block-title > span:after {
+        left: 100%;
+        margin-left: 15px;
+    }
+
+/* Wrappers
+
+  `8.`888b                 ,8' 8 888888888o.            .8.          8 888888888o   8 888888888o   8 8888888888   8 888888888o.     d888888o.   
+   `8.`888b               ,8'  8 8888    `88.          .888.         8 8888    `88. 8 8888    `88. 8 8888         8 8888    `88.  .`8888:' `88. 
+    `8.`888b             ,8'   8 8888     `88         :88888.        8 8888     `88 8 8888     `88 8 8888         8 8888     `88  8.`8888.   Y8 
+     `8.`888b     .b    ,8'    8 8888     ,88        . `88888.       8 8888     ,88 8 8888     ,88 8 8888         8 8888     ,88  `8.`8888.     
+      `8.`888b    88b  ,8'     8 8888.   ,88'       .8. `88888.      8 8888.   ,88' 8 8888.   ,88' 8 888888888888 8 8888.   ,88'   `8.`8888.    
+       `8.`888b .`888b,8'      8 888888888P'       .8`8. `88888.     8 888888888P'  8 888888888P'  8 8888         8 888888888P'     `8.`8888.   
+        `8.`888b8.`8888'       8 8888`8b          .8' `8. `88888.    8 8888         8 8888         8 8888         8 8888`8b          `8.`8888.  
+         `8.`888`8.`88'        8 8888 `8b.       .8'   `8. `88888.   8 8888         8 8888         8 8888         8 8888 `8b.    8b   `8.`8888. 
+          `8.`8' `8,`'         8 8888   `8b.    .888888888. `88888.  8 8888         8 8888         8 8888         8 8888   `8b.  `8b.  ;8.`8888 
+           `8.`   `8'          8 8888     `88. .8'       `8. `88888. 8 8888         8 8888         8 888888888888 8 8888     `88. `Y8888P ,88P' 
+
+*/
+
+
+#wrapper {
+    width: 100%;
+}
+
+#page-wrapper {
+    padding: 0 15px;
+    border: none;
+    background-color: #fff;
+}
+
+#container {
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 70px;
+}
+
+@media(min-width:768px) {
+    #page-wrapper {
+        position: relative;
+        top: 0px;
+        left: 0px;
+        padding-bottom: 20px;
+        margin-bottom: 30px;
+        padding-left: 55px;
+        padding-right: 40px;
+        box-shadow: 0px 6px 100px darkgrey;
+        border-radius: 11px;
+    }
+
+        #page-wrapper.menuopen {
+            margin-left: 228px;
+        }
+
+    #side {
+        -webkit-transition: none;
+        transition: none;
+        background-color: #1a1b46;
+    }
+
+    .page-content {
+        opacity: 0.9;
+        -webkit-transition: opacity .4s linear;
+        -moz-transition: opacity .4s linear;
+        -o-transition: opacity .4s linear;
+        transition: opacity .4s linear;
+    }
+
+    .page-content-ease-in {
+        opacity: 1;
+    }
+
+    .container {
+        width: 100% !important;
+    }
+}
+
+
+#wrapper {
+    width: 100%;
+}
+
+#page-citizen-wrapper {
+    padding: 0 15px;
+    border: none;
+    background-color: #2e30be;
+}
+
+#container-citizen {
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 70px;
+}
+
+@media(min-width:768px) {
+    #page-citizen-wrapper {
+        position: relative;
+        top: 0px;
+        left: 0px;
+        padding-bottom: 20px;
+        margin-bottom: 30px;
+        padding-left: 55px;
+        padding-right: 40px;
+        box-shadow: 0px 6px 100px darkgrey;
+        border-radius: 35px;
+        height: 450px;
+    }
+
+        #page-citizen-wrapper.menuopen {
+            margin-left: 228px;
+        }
+
+    #side {
+        -webkit-transition: none;
+        transition: none;
+        background-color: #1a1b46;
+    }
+
+    .page-content {
+        opacity: 0.9;
+        -webkit-transition: opacity .4s linear;
+        -moz-transition: opacity .4s linear;
+        -o-transition: opacity .4s linear;
+        transition: opacity .4s linear;
+    }
+
+    .page-content-ease-in {
+        opacity: 1;
+    }
+
+    .container-citizen {
+        width: 100% !important;
+    }
+}
+
+.display-inline {
+    display: inline-block;
+    float: none;
+}
+
+.nav > li > a:hover {
+    background-color: var(--MenuBarAccordionItemHover);
+}
+
+
+/*...................... Custom Colors ...................... */
+.navbar-custom {
+    background-color: var(--NavBarCustom);
+    color: var(--NavBarCustomLabel);
+    border-radius: 0;
+    z-index: 1000;
+}
+
+    .navbar-custom .navbar-nav > li > a {
+        color: var(--NavBarCustomLinhaA);
+    }
+
+    .navbar-custom .navbar-nav > .active > a {
+        color: var(--NavBarCustomActiveLabelA);
+        background-color: var(--NavBarCustomActiveA);
+    }
+
+        .navbar-custom .navbar-nav > li > a:hover,
+        .navbar-custom .navbar-nav > li > a:focus,
+        .navbar-custom .navbar-nav > .active > a:hover,
+        .navbar-custom .navbar-nav > .active > a:focus,
+        .navbar-custom .navbar-nav > .open > a {
+            text-decoration: none;
+            background-color: darkblue;
+        }
+
+    .navbar-custom .navbar-brand {
+        color: var(--NavBarCustomNavBrand);
+    }
+
+    .navbar-custom .navbar-toggle {
+        background-color: var(--NavBarCustomNavToggle);
+    }
+
+    .navbar-custom .icon-bar {
+        background-color: var(--NavBarCustomIconBar);
+    }
+
+    .navbar-custom .navbar-nav .dropdown-menu {
+        background-color: var(--NavBarCustomDropdownMenu);
+    }
+
+        .navbar-custom .navbar-nav .dropdown-menu > li > a {
+            color: var(--NavBarCustomDropdownMenuLinhaA);
+        }
+
+            .navbar-custom .navbar-nav .dropdown-menu > li > a:hover, .navbar-custom .navbar-nav .dropdown-menu > li > a:focus {
+                color: white;
+            }

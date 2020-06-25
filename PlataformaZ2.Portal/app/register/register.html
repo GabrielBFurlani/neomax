@@ -1,0 +1,23 @@
+﻿<!-------------------------------------- Panel (basic frame for all nested views) --------------------------------------------->
+<!-------------------------------------------- Navbar (fixed on top) -------------------------------------------->
+<nav class="navbar navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!------------ left side ----------->
+        <ul class="nav navbar-nav">
+            <!----- Brand ----->
+            <li>
+                <div class="brand-logo">
+                    <a href="#/panel/home"><img src="assets/img/logo.png" alt="Logo" class="brand-logo-image" /></a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!--------------------------------------------------------------------------------------------------------------->
+<!------------------------------------- Container for the nested views------------------------------------------->
+<div id="container">
+    <div id="page-wrapper" class="col-md-12">
+        <div class="page-content" ui-view>
+        </div>
+    </div>
+</div>

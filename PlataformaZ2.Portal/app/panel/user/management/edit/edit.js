@@ -26,11 +26,11 @@
 
         //Load Page
         function loadPage() {
-
+            /*
             $http.get(_apiUrl + '/profile/all')
                 .then(function successCallback(response) {
                     $scope.profiles = response.data.resultData;
-                });
+                });*/
 
             //Check if its update operation
             if (id != 0) {

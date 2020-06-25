@@ -1,0 +1,611 @@
+﻿<!--Form-->
+<div class="container-fluid">
+
+    <!-- Barra Progresso -->
+
+    <div class="row line-space-30 col-md-offset-2 col-md-8">
+        <div class="col-md-12 text-center">
+        </div>
+    </div>
+
+    <!-- Barra Progresso -->
+
+    <form id="msform" class="col-md-8 col-md-offset-2">
+        <!-- progressbar -->
+        <ul id="progressbar">
+            <li ng-class="{active: step >= 1}" id="generalData" ng-click="changeStep(1)"><strong>Dados Gerais</strong></li>
+            <li ng-class="{active: step >= 2}" id="infos" ng-click="changeStep(2)"><strong>Informa&ccedil;&otilde;es Adicionais</strong></li>
+            <li ng-class="{active: step >= 3}" id="bankData" ng-click="changeStep(3)"><strong>Dados Banc&aacute;rios</strong></li>
+            <li ng-class="{active: step >= 4}" id="docs" ng-click="changeStep(4)"><strong>Documentos</strong></li>
+        </ul>
+    </form>
+
+    <!--Results-->
+    <!--STEP 1: BASIC INFORMATIONS-->
+
+    <form class="col-md-8 col-md-offset-2" role="form" id="form1" name="form1" ng-submit="saveForm1()" novalidate ng-show="step==1">
+
+        <div class="row line-space-10">
+            <div class="col-md-6">
+                <div class="form-group" ng-class="{'has-error': form1.cpfcnpj.$error.required && (form1.cpfcnpj.$dirty || form1.$submitted)}">
+                    <label class="control-label">*CPF/CNPJ</label>
+                    <input name="cpfcnpj" id="cpfcnpj" class="form-control" ng-model="client.cpfcnpj" required ng-change="cpfCnpjFormater()" />
+                    <div ng-messages="form1.cpfcnpj.$error" class="error-message" role="alert" ng-show="form1.cpfcnpj.$error && (form1.cpfcnpj.$dirty || form1.$submitted)">
+                        <div ng-message="required">{{validationMessages.required}}</div>
+                        <div ng-message="invalid">{{validationMessages.invalid}}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group" ng-class="{'has-error': form1.cnpjPaying.$error.required && (form1.cnpjPaying.$dirty || form1.$submitted)}">
+                    <label class="control-label">*CNPJ Fonte Pagadora</label>
+                    <input type="text" name="cnpjPaying" id="cnpjPaying" class="form-control" ng-model="client.cnpjPaying" required ng-change="cnpjPayingFormater()" />
+                    <div ng-messages="form1.cnpjPagador.$error" class="error-message" role="alert" ng-show="form1.cnpjPaying.$error && (form1.cnpjPaying.$dirty || form1.$submitted)">
+                        <div ng-message="required">{{validationMessages.required}}</div>
+                        <div ng-message="invalid">{{validationMessages.invalid}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row line-space-10">
+            <div class="col-md-6">
+                <div class="form-group" ng-class="{'has-error': (form1.nome.$error.required || form1.nome.$error.invalid) && (form1.nome.$dirty || form1.$submitted)}">
+                    <label class="control-label">*Nome Completo</label>
+                    <input type="text" id="name" name="name" autocomplete="new-password" class="form-control" ng-model="client.name" maxLength="100" required />
+                    <div ng-messages="form1.name.$error" class="error-message" role="alert" ng-show="form1.name.$error && (form1.nome.$dirty || form1.$submitted)">
+                        <div ng-message="required">{{validationMessages.required}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">Como Gostaria de Ser Chamado?</label>
+                    <input type="text" id="socialName" name="socialName" autocomplete="new-password" class="form-control" ng-model="client.socialName" maxLength="50" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row line-space-10">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">Endere&ccedil;o Eletr&ocirc;nico (E-mail)</label>
+                    <input type="text" id="email" name="email" autocomplete="new-password" class="form-control" ng-model="client.email" maxLength="100" />
+                    <div ng-messages="form1.email.$error" class="error-message" role="alert" ng-show="form1.email.$error && (form1.email.$dirty || form1.$submitted)">
+                        <div ng-message="invalid">{{validationMessages.invalid}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">Sexo</label>
+                    <select name="sexo" id="sexo" class="form-control" ng-model="client.gender"
+                            ng-options="item for item in genderTypes">
+                        <option value="">---Selecione---</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- TELEPHONE INFORMATIONS-->
+        <!--newTelephone.telephoneType-->
+        <div class="row line-space-10">
+            <div class="col-md-3">
+                <div class="form-group" ng-class="{'has-error': form1.newTelefoneType.$error.required && (form1.newTelefoneType.$dirty || form1.$submitted)}">
+                    <label class="control-label">Tipo Telefone</label>
+                    <select name="newTelefoneType" id="newTelefoneType" class="form-control" ng-model="telephoneType"
+                            ng-options="item for item in telephoneTypes" value="{{item.parameter}}">
+                        <option value="">---Selecione---</option>
+                    </select>
+                    <div ng-messages="form1.newTelefoneType.$error" class="error-message" role="alert" ng-show="newTelephoneErrors.typeRequired">
+                        <div ng-message="required">{{validationMessages.required}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group" ng-class="{'has-error': form1.newTelephoneNumero.$error.required && (form1.newTelephoneNumero.$dirty || form1.$submitted)}">
+                    <label class="control-label">Telefone</label>
+                    <input class="form-control" type="text" id="newTelephoneNumero" name="newTelephoneNumero" autocomplete="new-password" ng-model="newTelephone.numero" ui-mask="(99) 9999-9999?9" />
+                    <div ng-messages="form1.newTelephoneNumero.$error" class="error-message" role="alert" ng-show="newTelephoneErrors.numberRequired">
+                        <div ng-message="required">{{validationMessages.required}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label class="control-label">Nome Contato (Opcional)</label>
+                    <input class="form-control" type="text" id="newTelephoneContactName" name="newTelephoneContactName" autocomplete="new-password" ng-model="newTelephone.contactName" maxLength="100" />
+                </div>
+            </div>
+            <div class="col-md-1 line-space-20">
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary line-space-5 column-space" ng-click="addPhone()" uib-tooltip="Adicionar" ng-show="!viewMode">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="client.telephones.length <= 0" class="row">
+            <div class=" col-md-offset-1 col-md-5">
+                <h5 class="error-message" role="alert" ng-show="(form1.newTelephoneNumber.$dirty || form1.newTelephoneType.$dirty || form1.$submitted)">Necess&aacute;rio um Telefone</h5>
+                <h5 ng-show="!form1.newTelephoneNumero.$dirty && !form1.newTelefoneType.$dirty">Nenhum Telefone Adicionado</h5>
+            </div>
+        </div>
+        <div class="row" ng-show="client.telephones.length > 0">
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th width="120px"></th>
+                        <th width="150px">N&uacute;mero</th>
+                        <th width="150px">Tipo</th>
+                        <th>Contato</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="telephone in client.telefones track by $index">
+                        <td>
+                            <button type="button" class="btn btn-sm btn-warning" uib-tooltip="Editar" ng-click="editPhone(telephone, $index)">
+                                <i class="fas fa-pencil-alt"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-danger column-space" uib-tooltip="Excluir" ng-click="client.telephones.splice($index, 1)">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </td>
+                        <td>({{telephone.ddd}}){{telephone.number}}</td>
+                        <td class="uppercase-mask">{{telephone.telephoneTypeObj.name}}</td>
+                        <td class="uppercase-mask">{{telephone.contactName}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row line-space-20">
+            <div class="col-md-12 text-center">
+                <div ng-if="!submited">
+                    <button type="button" class="btn btn-default" ng-click="back()"><i class="fas fa-arrow-left"></i> Voltar</button>
+                    <button type="button" ng-click="next()" class="btn btn-default">
+                        Avan&ccedil;ar  <span class="fas fa-arrow-right"></span>
+                    </button>
+                </div>
+                <div class="lds-roller-sm" ng-if="submited" ng-bind-html="showLoading()"></div>
+            </div>
+        </div>
+
+    </form>
+
+
+
+    <!-- STEP 2 Aditional Informations-->
+
+    <form class="col-md-8 col-md-offset-2" role="form" name="form2" ng-submit="saveForm2()" novalidate ng-show="step==2">
+
+        <div class="row line-space-10">
+            <div class="col-md-6">
+                <div class="form-group" ng-class="{'has-error': form2.typeNoteIssued.$error.required && (form2.typeNoteIssued.$dirty || form2.$submitted)}">
+                    <label class="control-label">Tipo de Nota Emitida</label>
+                    <select name="typeNoteIssued" id="typeNoteIssued" class="form-control" ng-model="client.noteType"
+                            ng-options="item for item in noteTypes" value="{{item.parameter}}">
+                        <option value="">---Selecione---</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group" ng-class="{'has-error': form2.annualBilling.$error.required && (form2.annualBilling.$dirty || form2.$submitted)}">
+                    <label class="control-label">Faturamento Anual</label>
+                    <select name="annualBilling" id="annualBilling" class="form-control" ng-model="newTelephone.annualBilling"
+                            ng-options="item for item in annualBillingTypes" value="{{item.parameter}}">
+                        <option value="">---Selecione---</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row line-space-10">
+            <div class="col-md-12">
+                <div class="form-group" ng-class="{'has-error': form2.companyNature.$error.required && (form2.companyNature.$dirty || form2.$submitted)}">
+                    <label class="control-label">Natureza da Empresa</label>
+                    <select name="typeNoteIssued" id="typeNoteIssued" class="form-control" ng-model="client.companyNature"
+                            ng-options="item for item in companyNatureTypes" value="{{item.parameter}}">
+                        <option value="">---Selecione---</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row line-space-10">
+            <div class="col-md-6">
+                <div class="form-group" ng-class="{'has-error': form2.dateContact.$error.required && (form2.dateContact.$dirty || form2.$submitted)}">
+                    <label class="control-label">Melhores Dias para Contato</label>
+                    <select name="dateContact" id="dateContact" class="form-control" ng-model="datesContact"
+                            ng-options="item for item in days" value="{{item.parameter}}">
+                        <option value="">---Selecione---</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group" ng-class="{'has-error': form2.timeContact.$error.required && (form2.timeContact.$dirty || form2.$submitted)}">
+                    <label class="control-label">Melhores Hor&aacute;rios para Contato</label>
+                    <select name="timeContact" id="timeContact" class="form-control" ng-model="client.timesContact"
+                            ng-options="item for item in times" value="{{item.parameter}}">
+                        <option value="">---Selecione---</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row line-space-20">
+            <div class="col-md-12 text-center">
+                <div ng-if="!submited">
+                    <button type="button" class="btn btn-default" ng-click="back()"><i class="fas fa-arrow-left"></i> Voltar</button>
+                    <button type="submit" class="btn btn-default">
+                        Avan&ccedil;ar  <span class="fas fa-arrow-right"></span>
+                    </button>
+                </div>
+                <div class="lds-roller-sm" ng-if="submited" ng-bind-html="showLoading()"></div>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+
+<!--STEP 3: Bank-->
+
+<form class="col-md-6 col-md-offset-3" role="form" name="form3" ng-submit="saveForm3()" novalidate ng-show="step==3">
+
+    <div class="row line-space-10">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="form-group" ng-class="{'has-error': form3.newBank.$error.required && (form3.newBank.$dirty || form3.$submitted)}">
+                <label class="control-label">Banco</label>
+                <input class="form-control" type="text" name="newBank" id="newBank" ng-model="newBank.bank"/>
+                <div ng-messages="form3.newBank.$error" class="error-message" role="alert" ng-show="newBankErrors.newBankRequired">
+                    <div ng-message="required">{{validationMessages.required}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row line-space-10">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="form-group" ng-class="{'has-error': form3.newBankAgency.$error.required && (form3.newBankAgency.$dirty || form3.$submitted)}">
+                <label class="control-label">Ag&ecirc;ncia</label>
+                <input class="form-control" type="text" id="newBankAgency" name="newBankAgency" autocomplete="new-password" ng-model="newBank.agency" />
+                <div ng-messages="form3.newBankAgency.$error" class="error-message" role="alert" ng-show="newBankErrors.agencyRequired">
+                    <div ng-message="required">{{validationMessages.required}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row line-space-10">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="form-group" ng-class="{'has-error': form3.newBankAccount.$error.required && (form3.newBankAccount.$dirty || form3.$submitted)}">
+                <label class="control-label">Conta Banc&aacute;ria</label>
+                <input class="form-control" type="text" id="newBankAccount" name="newBankAccount" autocomplete="new-password" ng-model="newBank.account" />
+                <div ng-messages="form3.newBankAccount.$error" class="error-message" role="alert" ng-show="newBankErrors.accountRequired">
+                    <div ng-message="required">{{validationMessages.required}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-1 line-space-20">
+            <div class="form-group">
+                <button type="button" class="btn btn-primary line-space-5 column-space" ng-click="addBank()" uib-tooltip="Adicionar" ng-show="!viewMode">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div ng-show="client.banks.length <= 0" class="row">
+        <div class="text-center">
+            <h5 class="error-message" role="alert" ng-show="(form3.newTelephoneNumber.$dirty || form3.newTelephoneType.$dirty || form3.$submitted)">Necess&aacute;rio um Telefone</h5>
+            <h5 ng-show="!form3.newTelephoneNumero.$dirty && !form3.newTelefoneType.$dirty">Nenhum Banco Adicionado</h5>
+        </div>
+    </div>
+
+    <div class="row" ng-show="client.banks.length > 0">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th width="120px"></th>
+                    <th>Banco</th>
+                    <th>Ag&ecirc;ncia</th>
+                    <th>Conta</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="bank in client.banks track by $index">
+                    <td>
+                        <button type="button" class="btn btn-sm btn-warning" uib-tooltip="Editar" ng-click="editBank(bank, $index)">
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-danger column-space" uib-tooltip="Excluir" ng-click="client.banks.splice($index, 1)">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </td>
+                    <td>{{bank.bank}}
+                    <td class="uppercase-mask">{{bank,agency}}</td>
+                    <td class="uppercase-mask">{{bank.account}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row line-space-20">
+        <div class="col-md-12 text-center">
+            <div ng-if="!submited">
+                <button type="button" class="btn btn-default" ng-click="back()"><i class="fas fa-arrow-left"></i> Voltar</button>
+                <button type="button" ng-click="next()" class="btn btn-default">
+                    Avan&ccedil;ar  <span class="fas fa-arrow-right"></span>
+                </button>
+            </div>
+            <div class="lds-roller-sm" ng-if="submited" ng-bind-html="showLoading()"></div>
+        </div>
+    </div>
+
+</form>
+
+<!--STEP 4 COMPLEMENTARY INFORMATIONS-->
+<!--
+<form class="col-md-8 col-md-offset-2" role="form" name="form4" ng-submit="saveForm4()" novalidate ng-show="step==4">
+
+    <div class="row line-space-10">
+        <div class="col-md-12">
+            <div class="form-group" ng-class="{'has-error': form4.grauEscolaridade.$error.required && (form4.grauEscolaridade.$dirty || form4.$submitted)}">
+                <label class="control-label" ng-show="grauEscolaridadeObrigatorio">*Grau de Escolaridade</label>
+                <label class="control-label" ng-show="!grauEscolaridadeObrigatorio">Grau de Escolaridade</label>
+                <select name="grauEscolaridade" id="grauEscolaridade" class="form-control" ng-model="client.grauEscolaridade" ng-required="grauEscolaridadeObrigatorio"
+                        ng-options="item.parameter as item.name for item in grausEscolaridade" ng-change="changeEducationLevel()">
+                    <option value="">---Selecione---</option>
+                </select>
+                <div ng-messages="form4.grauEscolaridade.$error" class="error-message" role="alert" ng-show="form4.grauEscolaridade.$error && (form4.grauEscolaridade.$dirty || form4.$submitted)">
+                    <div ng-message="required">{{validationMessages.required}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row line-space-10">
+
+        <div class="col-md-12">
+            <div class="row line-space-10">
+                <div class="col-md-6" ng-show="client.grauEscolaridade == 5 || client.grauEscolaridade == 7 || client.grauEscolaridade == 9 || client.grauEscolaridade == 4" ng-class="{'has-error': !frequentaEscola && (form4.grauEscolaridade.$dirty || form4.$submitted)}">
+
+                    <div class="form-group">
+                        <label for="frequentaEscola" class="control-label">*Frequenta Escola</label>
+                        <input type="radio" class="btn btn-default" name="frequentaEscolaSim" value="{{1}}" ng-model="frequentaEscola" ng-required="client.grauEscolaridade == 5 || client.grauEscolaridade == 7 || client.grauEscolaridade == 9 || client.grauEscolaridade == 4"> Sim
+                        <input type="radio" class="btn btn-default" name="frequentaEscolaNao" value="{{0}}" ng-model="frequentaEscola" ng-required="client.grauEscolaridade == 5 || client.grauEscolaridade == 7 || client.grauEscolaridade == 9 || client.grauEscolaridade == 4"> N&atilde;o
+                    </div>
+
+                </div>
+
+                <div class="col-md-6" ng-show="frequentaEscola == 1" ng-class="{'has-error': !estudanteRedePublica && (form4.grauEscolaridade.$dirty || form4.$submitted)}">
+
+                    <div class="form-group">
+                        <label for="estudanteRedePublica" class="control-label">Aluno de Rede de Ensino</label>
+                        <input type="radio" class="btn btn-default" name="estudanteRedePublicaSim" value="{{1}}" ng-model="estudanteRedePublica" ng-required="frequentaEscola == 1"> Sim
+                        <input type="radio" class="btn btn-default" name="estudanteRedePublicaNao" value="{{0}}" ng-model="estudanteRedePublica" ng-required="frequentaEscola == 1"> N&atilde;o
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row line-space-10" ng-show="frequentaEscola == 1 && estudanteRedePublica == 1 && (client.grauEscolaridade == 5 || client.grauEscolaridade == 7 || client.grauEscolaridade == 9 || client.grauEscolaridade == 4)">
+            <div class="col-md-12">
+                <div class="form-group" ng-class="{'has-error': form4.unidadeEnsino.$error.required && (form4.unidadeEnsino.$dirty || form4.$submitted)}">
+                    <label class="control-label" ng-show="unidadeEnsinoObrigatorio">*Unidade de Ensino</label>
+                    <label class="control-label" ng-show="!unidadeEnsinoObrigatorio">Unidade de Ensino</label>
+                    <select name="unidadeEnsino" id="unidadeEnsino" class="form-control" ng-model="client.codigoUnidadeEnsino" ng-required="frequentaEscola == 1 && estudanteRedePublica == 1 && (client.grauEscolaridade == 5 || client.grauEscolaridade == 7 || client.grauEscolaridade == 9 || client.grauEscolaridade == 4) && unidadeEnsinoObrigatorio"
+                            ng-options="item.codigo as item.descricao for item in unidadesEnsino">
+                        <option value="">---Selecione---</option>
+                    </select>
+                    <div ng-messages="form4.unidadeEnsino.$error" class="error-message" role="alert" ng-show="form4.unidadeEnsino.$error && (form4.unidadeEnsino.$dirty || form4.$submitted)">
+                        <div ng-message="required">{{validationMessages.required}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row line-space-10">
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <input type="checkbox" id="planoSaude" name="planoSaude" class="line-space-5" ng-model="client.convenioMedico" />
+                <label for="planoSaude" class="control-label">Possui Plano de Sa&uacute;de Privado</label>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row line-space-10">
+
+        <div class="col-md-6">
+            <label name="labelPossuiDeficiencia" class="control-label" ng-class="{'has-error': form4.possuiDeficiencia.$error.required && form4.$submitted}">Possu&iacute; Defici&ecirc;ncia?</label>
+            <div class="form-group" ng-class="{'has-error': form4.tipoDeficiencia.$error.required && (form4.tipoDeficiencia.$dirty || form4.$submitted)}">
+                <input type="radio" class="btn btn-default" name="possuiDeficiencia" value="{{1}}" ng-model="possuiDeficiencia" required> Sim
+                <input type="radio" class="btn btn-default" name="naoPossuiDeficiencia" value="{{0}}" ng-model="possuiDeficiencia" required> N&atilde;o
+                <div ng-messages="form4.possuiDeficiencia.$error" class="error-message" role="alert" ng-show="form4.possuiDeficiencia.$error && form4.$submitted">
+                    <div ng-message="required">{{validationMessages.required}}</div>
+                </div>
+                <p></p>
+                <label class="control-label" ng-show="possuiDeficiencia == 1">Tipo de Defici&ecirc;ncia</label>
+                <select name="tipoDeficiencia" id="tipoDeficiencia" class="form-control" ng-model="client.tipoDeficiencia" ng-required="possuiDeficiencia == 1"
+                        ng-options="item.parameter as item.name for item in tiposDeficiencia" ng-show="possuiDeficiencia == 1">
+                    <option value="">---Selecione---</option>
+                </select>
+                <div ng-messages="form4.tipoDeficiencia.$error" class="error-message" role="alert" ng-show="form4.tipoDeficiencia.$error && (form4.tipoDeficiencia.$dirty || form4.$submitted)">
+                    <div ng-message="required">{{validationMessages.required}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <label name="necessitaEquipamentoLocomocao" class="control-label">Necessita Equipamento de Locomoção</label>
+            <div class="form-group" ng-class="{'has-error': form4.equipamentoLocomocao.$error.required && (form4.equipamentoLocomocao.$dirty || form4.$submitted)}">
+                <input type="radio" class="btn btn-default" name="necessitaEquimanto" value="{{1}}" ng-model="necessitaEquipamentoLocomocao" required> Sim
+                <input type="radio" class="btn btn-default" name="naoNecessitaEquipamento" value="{{0}}" ng-model="necessitaEquipamentoLocomocao" required> N&atilde;o
+                <div ng-messages="form4.necessitaEquimanto.$error" class="error-message" role="alert" ng-show="form4.necessitaEquimanto.$error && form4.$submitted">
+                    <div ng-message="required">{{validationMessages.required}}</div>
+                </div>
+                <p></p>
+                <label class="control-label" ng-show="necessitaEquipamentoLocomocao == 1">Equipamento Locomo&ccedil;&atilde;o</label>
+                <select name="equipamentoLocomocao" id="equipamentoLocomocao" class="form-control" ng-model="client.codigoEquipamentoLocomocao" ng-required="necessitaEquipamentoLocomocao ==1"
+                        ng-options="item.codigo as item.descricao for item in equipamentosLocomocao" ng-show="necessitaEquipamentoLocomocao == 1">
+                    <option value="">---Selecione---</option>
+                </select>
+                <div ng-messages="form4.equipamentoLocomocao.$error" class="error-message" role="alert" ng-show="form4.equipamentoLocomocao.$error && (form4.equipamentoLocomocao.$dirty || form4.$submitted)">
+                    <div ng-message="required">{{validationMessages.required}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row line-space-20">
+        <div class="col-md-12 text-center">
+            <div ng-if="!submited">
+                <button type="button" class="btn btn-default" ng-click="back()"><i class="fas fa-arrow-left"></i> Voltar</button>
+                <button type="submit" class="btn btn-default">
+                    Avan&ccedil;ar  <span class="fas fa-arrow-right"></span>
+                </button>
+            </div>
+            <div class="lds-roller-sm" ng-if="submited" ng-bind-html="showLoading()"></div>
+        </div>
+    </div>
+
+</form>
+
+STEP 5
+
+<form class="col-md-8 col-md-offset-2" role="form" name="form5" ng-submit="saveForm5()" novalidate ng-show="step==5">
+
+    <div class="lds-roller-sm text-center" ng-show="loadPhoto" ng-bind-html="showLoading()"></div>
+
+    <div ng-show="!loadPhoto">
+        <div class="line-space-10">
+            <div class="col-md-12 text-center">
+                <div ng-if="hasPhoto">
+                    <img ng-if="!newPhoto" ng-src="data:image/png;base64,{{conteudoArquivoFoto}}" alt="Foto" class="img-photo finalUserPhoto" />
+                    <img ng-if="newPhoto" ng-src="{{conteudoArquivoFoto}}" alt="Foto" class="img-photo finalUserPhoto" />
+                </div>
+                <img src="assets/img/no_photo.png" alt="Foto" class="img-circle user-final-photo" ng-if="!hasPhoto" />
+            </div>
+        </div>
+
+        <div class="row line-space-20">
+            <div class="col-md-12 text-center">
+                <button type="button" class="btn btn btn-primary column-space" ng-click="openModalImage()"><i class="fas fa-camera-retro"></i> Incluir/Alterar Foto</button>
+                <button type="button" class="btn btn btn-danger" ng-click="deletePhoto()" ng-if="hasPhoto">
+                    <i class="fas fa-times"></i> Excluir Foto
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row line-space-30">
+        <div class="col-md-12 text-center">
+            <div ng-if="!submited">
+                <button type="button" class="btn btn-default" ng-click="back()"><i class="fas fa-arrow-left"></i> Voltar</button>
+                <button type="submit" class="btn btn-primary column-space">
+                    Avan&ccedil;ar <span class="fas fa-arrow-right"></span>
+                </button>
+            </div>
+            <div class="lds-roller-sm" ng-if="submited" ng-bind-html="showLoading()"></div>
+        </div>
+    </div>
+
+</form>
+
+STEP 6
+
+<form class="col-md-8 col-md-offset-2" role="form" name="form6" ng-submit="submitForm()" novalidate ng-show="step==6">
+
+    LAYOUT PARA DOCUMENTOS
+
+    <div class="row line-space-10">
+        <div class="col-md-8 col-md-offset-2">
+            <label class="control-label">Tipo Documento</label> <span ng-if="newDocument.type" class="far fa-question-circle" uib-tooltip="{{newDocument.type.descricao}}"></span>
+            <select name="tipoDocumento" id="tipoDocumento" class="form-control" ng-model="newDocument.type"
+                    ng-options=" item as item.descricao for item in tiposDocumentos | orderBy:'obrigatorio' | orderBy:'descricao' ">
+                <option value="">---Selecione---</option>
+            </select>
+            <div class="error-message" ng-show="newDocumentErrors.type && newDocument.type == null">Obrigat&oacute;rio!</div>
+        </div>
+    </div>
+
+    <div class="row line-space-10">
+
+        <div class="col-md-8 col-md-offset-2">
+            <label class="control-label">Anexo</label>
+            <div class="form-group">
+                <input type="file" id="file-input-doc" name="file-input-doc" class="form-control" file-input file-model="newDocument.file"
+                       show-Drag-Drop="false" show-Preview="true" accept='image/*' allowed-File-Extensions="['jpg', 'png', 'jpeg']" />
+            </div>
+            <div class="error-message" ng-show="newDocumentErrors.file && newDocument.file == null">Obrigat&oacute;rio!</div>
+        </div>
+
+        <div class="col-md-1 line-space-20">
+            <div class="form-group">
+                <button type="button" id="addDocument" class="btn btn-primary line-space-5 column-space" ng-click="addDocument()" uib-tooltip="Adicionar" ng-show="!viewMode">
+                    <i class="fas fa-plus"></i>
+                </button>
+                <img class="btn btn-sm" src="assets/img/icon_add.svg" height="45" ng-click="addDocument()" uib-tooltip="Adicionar" ng-show="!viewMode" />
+            </div>
+        </div>
+    </div>
+
+    <div class="section row line-space-35 text-center" ng-show="documentos && documentos.length > 0">
+        <span>Lista de Documentos</span>
+    </div>
+
+    <div class="row line-space-10" ng-show="documentos && documentos.length > 0">
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th width="120px"></th>
+                        <th width="150px">Tipo Documento</th>
+                        <th width="150px">Arquivo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="doc in documentos track by $index">
+                        <td>
+                            <button type="button" class="btn btn-sm btn-danger column-space" uib-tooltip="Excluir" ng-click="documentos.splice($index, 1)">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </td>
+                        <td class="uppercase-mask">{{doc.type.descricao}}</td>
+                        <td class="align-center">
+                            <img ng-if="!doc.new" ng-src="data:image/png;base64,{{doc.contentFilePhoto}}" alt="Foto" class="img-photo finalUserPhoto" />
+                            <img ng-if="doc.new" ng-src="{{doc.contentFilePhoto}}" alt="Foto" class="img-photo finalUserPhoto" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div ng-show="docsMissing && docsMissing.length > 1"> <h3 class="error-message text-center"> Documentos Obrigat&oacute;rios Faltantes: {{docsMissing}} </h3></div>
+
+    <div class="row line-space-20">
+        <div class="col-md-12 text-center">
+            <div ng-if="!submited">
+                <button type="button" class="btn btn-default" ng-click="back()"><i class="fas fa-arrow-left"></i> Voltar</button>
+                <button type="submit" class="btn btn-primary column-space">
+                    Enviar <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+            <div class="lds-roller-sm" ng-if="submited" ng-bind-html="showLoading()"></div>
+        </div>
+    </div>
+
+</form>
+    -->

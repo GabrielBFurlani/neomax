@@ -13,24 +13,25 @@
                     <li>
                         <h4 class="menubar-label">Menu</h4>
                     </li>
-                    <li ng-if="isAdmin">
+                    <li>
                         <uib-accordion close-others='true'>
-                            <div uib-accordion-group panel-class="menubar-accordion" heading="Gerenciamento"
+                            <div uib-accordion-group panel-class="menubar-accordion" heading="Admin"
                                  is-open="isAccordionOpen" ng-mouseover="isAccordionOpen = true" ng-mouseleave="isAccordionOpen = false">
                                 <ul class="nav nav-list menubar-accordion-items">
-                                    <li ng-if="isAdmin"><a href="#/panel/user/management/list">Usu&aacute;rios</a></li>
-                                    <li ng-if="isAdmin"><a href="#">Exemplo 1</a></li>
-                                    <li ng-if="isAdmin"><a href="#">Exemplo 2</a></li>
+                                    <li><a href="#/panel/user/management/list">Usu&aacute;rios</a></li>
+                                    <li><a href="#/panel/client/list">Clientes</a></li>
+                                    <li><a href="#/panel/process/admin/list">Processos</a></li>
                                 </ul>
                             </div>
                         </uib-accordion>
                     </li>
                     <li>
                         <uib-accordion close-others='true'>
-                            <div uib-accordion-group panel-class="menubar-accordion" heading="Consultas"
+                            <div uib-accordion-group panel-class="menubar-accordion" heading="Cliente"
                                  is-open="isAccordionOpen2" ng-mouseover="isAccordionOpen2 = true" ng-mouseleave="isAccordionOpen2 = false">
                                 <ul class="nav nav-list menubar-accordion-items">
-                                    <li><a href="#">Exemplo 3</a></li>
+                                    <li><a href="">Meus Dados</a></li>
+                                    <li><a href="#/panel/process/client/list">Processos</a></li>
                                 </ul>
                             </div>
                         </uib-accordion>

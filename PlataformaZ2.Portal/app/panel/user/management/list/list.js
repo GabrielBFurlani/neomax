@@ -2,7 +2,7 @@
 
     angular.module("app").controller('userManagementListController', ['$scope', '$state', '$http', 'CONFIG', '$uibModal', 'userControl', function ($scope, $state, $http, CONFIG, $uibModal, userControl) {
         var _apiUrl = CONFIG.apiRootUrl;
-        
+
         $scope.maxVisiblePages = 5;
 
         $scope.paginationResponse = {
@@ -18,16 +18,17 @@
             idProfile: null,
             pageNumber: 1
         };
-        
-        //loadPage()
-        function loadPage() {           
 
+        //loadPage()
+        function loadPage() {
+            /*
             $http.get(_apiUrl + '/profile/all')
                 .then(function successCallback(response) {
                     $scope.profiles = response.data.resultData;                   
                 });
 
             $scope.search();
+        */
         }
 
         //Button: Search
@@ -67,11 +68,11 @@
 
                 $http.delete(_apiUrl + '/user/management/' + id)
                     .then(function successCallback(response) {
-                        loadPage();                         
-                     })
+                        loadPage();
+                    })
             });
         };
-        
+
         loadPage();
 
     }]);

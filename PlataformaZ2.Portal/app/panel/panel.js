@@ -8,23 +8,23 @@
         function loadPage() {
                         
             //gets the logged user data (user session)
-            $scope.session = userControl.userSession;
+           /* $scope.session = userControl.userSession;
             
             //checks if the logged user has photo
             if ($scope.session.photo) {
                 $scope.hasPhoto = true;
             }
-            else {
+            else {*/
                 $scope.hasPhoto = false;
-            }
+            /*}*/
 
             //checks if the logged user has "admin" profile
-            if ($scope.session.idProfile == 2) {
+           /*if ($scope.session.idProfile == 2) {
                 $scope.isAdmin = true;
             }
-            else {
+            else {*/
                 $scope.isAdmin = false;
-            }
+           /* }*/
         }
 
         $scope.wasMenubarToggled = function () {

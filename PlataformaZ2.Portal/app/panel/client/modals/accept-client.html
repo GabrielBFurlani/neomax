@@ -1,0 +1,19 @@
+﻿<div class="modal-header ng-scope">
+    <h3 class="modal-title">Criar uma conta</h3>
+</div>
+<form role="form" novalidate angular-validator angular-validator-submit="signUp()" name="signUpForm">
+    <div class="modal-body ng-scope">
+        <div class="row">
+            <button type="button" class="btn btn-primary column-space">Aceitar Cliente</button>
+            <button type="button" class="btn btn-primary column-space">Recusar Cliente</button>
+            <button type="button" class="btn btn-primary column-space">Suspender Cliente</button>
+        </div>
+    </div>
+    <div class="modal-footer ng-scope">
+        <div class="row">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-default" ng-click="cancel()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</form>

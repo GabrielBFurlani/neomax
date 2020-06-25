@@ -10,13 +10,13 @@
 
         //Load Page
         function loadPage() {
-            
+            /*
             //check if the user is logged and the browser has not been closed (there are cookies)
             if ($cookies.get('username')) {
 
                 //continue without log-in (just update user's session)
                 userControl.recoverUserSession(userControl.userSession.username);
-            }
+            }*/
         }
 
         //Log-in
@@ -25,7 +25,9 @@
             // Call the user service to login:
             //  - get the session and save it in the browser local storage
             //  - save data to cookies
-            userControl.login($scope.credentials);
+            //userControl.login($scope.credentials);
+
+            $state.go('panel.home'); 
         };
 
         //Button: Forgot Password
@@ -41,6 +43,9 @@
         //Button: Sign-Up
         $scope.signUp = function () {
 
+            $state.go('register.signUp');
+
+            /*
             //open modal
             var modalInstance = $uibModal.open({
                 templateUrl: 'app/login/modals/sign-up.html',
@@ -51,14 +56,14 @@
             modalInstance.result.then(function (signUpUser) {
                 
                 //get the login credentials of the new user
-                $scope.credentials = {
+               /* $scope.credentials = {
                     username: signUpUser.username,
                     password: signUpUser.password
                 };
 
                 //log-in into the system
                 $scope.access();
-            });
+            });*/
         };
 
         //Procedural scripts

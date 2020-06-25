@@ -1,0 +1,103 @@
+﻿<div class="container">
+    <div class="row line-space-20">
+        <div class="col-md-12 text-center">
+            <h3 class="control-label">Processo</h3>
+        </div>
+    </div>
+    <hr />
+    <form role="form" novalidate angular-validator angular-validator-submit="save()" name="editForm">
+        <div class="row line-space-10">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">*Perfil</label>
+                    <select name="profile" id="profile" class="form-control" ng-model="user.idProfile"
+                            ng-options="item.id as item.name for item in profiles"
+                            validate-on="submit" required required-message="'Obrigatório'">
+                        <option value="">---Selecione---</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">*E-mail (login)</label>
+                    <input type="email" id="email" name="email" class="form-control" ng-model="user.username" maxLength="100"
+                           validate-on="submit" invalid-message="'Formato inválido'" required required-message="'Obrigatório'" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">*CPF</label>
+                    <input type="text" id="cpf" name="cpf" class="form-control" ng-model="user.cpf" ui-mask="999.999.999-99" maxLength="14"
+                           validate-on="submit" required required-message="'Obrigatório'" invalid-message="'Formato Inválido'" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label class="control-label">*Nome Completo</label>
+                    <input type="text" id="name" name="name" class="form-control" ng-model="user.name" maxLength="100"
+                           validate-on="submit" required required-message="'Obrigatório'" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">*Como gostaria de ser chamado?</label>
+                    <input type="text" id="nickname" name="nickname" class="form-control" ng-model="user.nickname" maxLength="25"
+                           validate-on="submit" required required-message="'Obrigatório'" />
+                </div>
+            </div>
+        </div>
+        <!--Photo area-->        
+        <div class="row line-space-20">
+            <!--Left side-->
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label">Foto do Perfil</label>
+                            <input type="file" id="fileInput" name="fileInput" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="crop-area">
+                            <img-crop image="originalImage"
+                                      result-image="croppedImage"
+                                      result-image-size="300"
+                                      area-type="circle"
+                                      area-init-size="300"
+                                      area-min-size="10">
+                            </img-crop>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Right side-->
+            <div class="col-md-6 text-center">
+                <div class="line-space-30">
+                    <label class="control-label">Visualização Final da Foto (300x300)</label>                    
+                </div>
+                <div class="line-space-10">
+                    <div><img ng-src="data:{{user.photo.mimeType}};base64,{{user.photo.imageData}}" alt="Foto" class="img-circle user-final-photo" ng-if="hasPhoto" /></div>
+                    <img src="assets/img/no_photo.png" alt="Foto" class="img-circle user-final-photo" ng-if="!hasPhoto" />
+                </div>
+                <div class="line-space-10" ng-if="user.photo">
+                    <button type="button" class="btn btn-sm btn-danger" ng-click="deletePhoto()">
+                        <span class="glyphicon glyphicon-remove"></span> Excluir Foto
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!--Form Buttons-->
+        <div class="row line-space-20">
+            <div class="col-md-12 text-center">
+                <button type="button" class="btn btn-default" ng-click="back()">Cancelar</button>
+                <button type="submit" class="btn btn-primary column-space">
+                    <span class="glyphicon glyphicon-floppy-disk"></span> Salvar
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

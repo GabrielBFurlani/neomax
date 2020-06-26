@@ -70,7 +70,7 @@
     .menubar-toggle-button:hover {
         background-color: var(--ButtonMenuBarHover);
     }
-
+    
 .menu-icon {
     color: white;
     font-size: 28px;
@@ -89,7 +89,8 @@
     }
 
 .brand-logo-image {
-    height: 45px;     /*the full height of menubar is 55px*/
+    height: 120px;     /*the full height of menubar is 55px*/
+    width: 140px;
     margin-top: 5px;
 }
 

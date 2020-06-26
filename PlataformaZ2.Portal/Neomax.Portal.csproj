@@ -106,6 +106,7 @@
     <Content Include="app\panel\panel.html" />
     <Content Include="app\panel\panel.js" />
     <Content Include="app\shared\directives\file-input-document.directive.js" />
+    <Content Include="app\shared\directives\file-input.directive.js" />
     <Content Include="app\shared\directives\flow-component\custom-flow.html" />
     <Content Include="app\shared\directives\flow-component\custom-flow.js" />
     <Content Include="app\shared\directives\flow-component\license.txt" />
@@ -135,6 +136,7 @@
     <Content Include="assets\css\loading-icon.css" />
     <Content Include="assets\css\zPanel.css" />
     <Content Include="assets\img\logo.png" />
+    <Content Include="assets\img\no_image.jpg" />
     <Content Include="assets\img\no_photo.png" />
     <Content Include="assets\img\zetacorp.png" />
     <Content Include="assets\libs\angular-bootstrap\ui-bootstrap-csp.css" />

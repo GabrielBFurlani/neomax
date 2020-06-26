@@ -10,7 +10,7 @@
             },
             replace: true,
             template:
-                '<div style="height: 150px; width: 150px; text-align: center; color: #ffffff; background-color: #106b28; cursor: pointer; border-radius: 20px;">' +
+                '<div style="height: 150px; width: 150px; text-align: center; color: #ffffff; background-color: gray; cursor: pointer; border-radius: 20px;">' +
                 '   <div style="font-size: 76px; max-height: 100px;">' +
                 '       <i class="{{icon}}"></i>' +
                 '   </div>' +

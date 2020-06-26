@@ -4,21 +4,24 @@
     <!-- Barra Progresso -->
 
     <div class="row line-space-30 col-md-offset-2 col-md-8">
-        <div class="col-md-12 text-center">
-        </div>
+        <h2 class="col-md-12 text-center">
+            Cria&ccedil;&atilde;o da Sua Conta  <img src="assets/img/logo.png" alt="Logo" class="brand-logo-image" />
+        </h2>
     </div>
 
     <!-- Barra Progresso -->
 
-    <form id="msform" class="col-md-8 col-md-offset-2">
-        <!-- progressbar -->
-        <ul id="progressbar">
-            <li ng-class="{active: step >= 1}" id="generalData" ng-click="changeStep(1)"><strong>Dados Gerais</strong></li>
-            <li ng-class="{active: step >= 2}" id="infos" ng-click="changeStep(2)"><strong>Informa&ccedil;&otilde;es Adicionais</strong></li>
-            <li ng-class="{active: step >= 3}" id="bankData" ng-click="changeStep(3)"><strong>Dados Banc&aacute;rios</strong></li>
-            <li ng-class="{active: step >= 4}" id="docs" ng-click="changeStep(4)"><strong>Documentos</strong></li>
-        </ul>
-    </form>
+    <div class="row line-space-70">
+        <form id="msform" class="col-md-8 col-md-offset-2">
+            <!-- progressbar -->
+            <ul id="progressbar">
+                <li ng-class="{active: step >= 1}" id="generalData" ng-click="changeStep(1)"><strong>Dados Gerais</strong></li>
+                <li ng-class="{active: step >= 2}" id="infos" ng-click="changeStep(2)"><strong>Informa&ccedil;&otilde;es Adicionais</strong></li>
+                <li ng-class="{active: step >= 3}" id="bankData" ng-click="changeStep(3)"><strong>Dados Banc&aacute;rios</strong></li>
+                <li ng-class="{active: step >= 4}" id="docs" ng-click="changeStep(4)"><strong>Documentos</strong></li>
+            </ul>
+        </form>
+    </div>
 
     <!--Results-->
     <!--STEP 1: BASIC INFORMATIONS-->
@@ -262,7 +265,7 @@
         <div class="col-md-6 col-md-offset-3">
             <div class="form-group" ng-class="{'has-error': form3.newBank.$error.required && (form3.newBank.$dirty || form3.$submitted)}">
                 <label class="control-label">Banco</label>
-                <input class="form-control" type="text" name="newBank" id="newBank" ng-model="newBank.bank"/>
+                <input class="form-control" type="text" name="newBank" id="newBank" ng-model="newBank.bank" />
                 <div ng-messages="form3.newBank.$error" class="error-message" role="alert" ng-show="newBankErrors.newBankRequired">
                     <div ng-message="required">{{validationMessages.required}}</div>
                 </div>
@@ -350,6 +353,23 @@
     </div>
 
 </form>
+
+<!--STEP 4: Dosc-->
+
+<form class="col-md-6 col-md-offset-3" role="form" name="form3" ng-submit="saveForm4()" novalidate ng-show="step==4">
+
+    <div class="row line-space-30 text-center">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="form-group">
+                <label class="control-label">Escolha os Arquivos que Deseja Enviar para a Solicita&ccedil;&atilde;o (.jpeg.jpg.png):</label>
+                <input type="file" id="fileInput" name="fileInput" class="form-control" file-input file-model="fileUpload.fileList" change="loadPhoto(fileUpload.fileList[0])"
+                       show-Drag-Drop="false" show-Preview="true" accept='image/*' show-Remove="true" allowed-File-Extensions="['jpg', 'png', 'jpeg', 'pdf']" multiple />
+            </div>
+        </div>
+    </div>
+
+</form>
+
 
 <!--STEP 4 COMPLEMENTARY INFORMATIONS-->
 <!--

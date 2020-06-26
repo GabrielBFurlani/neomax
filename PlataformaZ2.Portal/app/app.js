@@ -60,6 +60,12 @@
             false: "Não",
             true: "Sim",
             null: "Não Utilizado"
+        },
+        processStatus: {
+            0: "Aguardando Aprovação",
+            1: "Necessita de Revisão",
+            2: "Aprovado",
+            3: "reprovado"
         }
     });
 

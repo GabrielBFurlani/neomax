@@ -95,6 +95,10 @@
     border-color: black;
 }
 
+.img-photo {
+    width: 300px;
+    height: 300px;
+}
 
 /*................................................. Image Visualization classes .............................................. */
 .user-visualization-photo {
@@ -506,7 +510,7 @@ table tbody tr td {
             text-decoration: none;
             background-color: darkblue;
         }
-
+            
     .navbar-custom .navbar-brand {
         color: var(--NavBarCustomNavBrand);
     }
@@ -530,3 +534,14 @@ table tbody tr td {
             .navbar-custom .navbar-nav .dropdown-menu > li > a:hover, .navbar-custom .navbar-nav .dropdown-menu > li > a:focus {
                 color: white;
             }
+
+.product-border {
+    border: 5px solid #555;
+    height: 100%;
+    padding: 10px;
+    width: 100%;
+    /*  position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px*/
+}

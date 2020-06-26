@@ -14,6 +14,9 @@
         $scope.telephoneTypes = CONFIG.telephoneTypes;
         $scope.genderTypes = CONFIG.genderTypes;
 
+        $scope.fileUpload = {
+            fileList: []
+        }
 
         $scope.stepsNames = ["1 - Dados Pessoais", "2 - Seus Documentos e Filiações", "3 - Residência", "4 - Informações Complementares",
             "5 - Foto do Perfil", "6 - Comprovante de Anexos"];

@@ -7,9 +7,9 @@
         $scope.user = {};
 
         $scope.processes = {
-            protocolNumber: '0002/2020', clientName: 'Pedro Dotaviano', date: '15/04/2020',
+            protocolNumber: '0002/2020', clientName: 'Pedro Dotaviano', date: '15/04/2020', cnpj: "80.280.007/0001-43",
             products: [{ id: 2, product: "produto X", situation: 'Aguardando Aprovação'},
-            { protocolNumber: '0001/2020', situation: 'Aprovado', clientName: 'Kléber Silva', date: '05/04/2020', id: 1, product: "produto Y" }]
+                { protocolNumber: '0001/2020', situation: 'Aprovado', clientName: 'Kléber Silva', date: '05/04/2020', id: 1, product: "produto Y" }],
         };
 
         //Load Page
@@ -48,8 +48,8 @@
 
             //open modal
             var modalInstance = $uibModal.open({
-                templateUrl: 'app/panel/client/modals/accept-client.html',
-                controller: 'acceptClientController'
+                templateUrl: 'app/panel/process/modals/accept-client.html',
+                controller: 'defineProcessController'
             });
 
         };

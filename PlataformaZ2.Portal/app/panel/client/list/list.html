@@ -6,7 +6,7 @@
     </div>
     <!--Filter-->
     <div class="row line-space-10">
-        <div class="col-md-12">
+        <div class="col-md-8 col-md-offset-2">
             <uib-accordion close-others="oneAtATime">
                 <uib-accordion-group class="panel-default" is-open="isFilterOpen">
                     <uib-accordion-heading>
@@ -14,40 +14,10 @@
                     </uib-accordion-heading>
                     <form role="form" novalidate angular-validator angular-validator-submit="newSearch()" name="filterForm">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label">Nome</label>
+                                    <label class="control-label">Nome/CPF/CNPJ</label>
                                     <input type="text" id="nameOrUsername" name="nameOrUsername" class="form-control" ng-model="filter.nameOrUsername" maxLength="100" />
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label">CPF/CNPJ</label>
-                                    <input type="text" id="nameOrUsername" name="nameOrUsername" class="form-control" ng-model="filter.nameOrUsername" maxLength="100" />
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label class="control-label">Tipo</label>
-                                    <select id="profile" name="profile" class="form-control" ng-model="filter.idProfile"
-                                            ng-options="item.id as item.name for item in profiles">
-                                        <option value="">---Todos---</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label head-label">*Data</label>
-                                    <p class="input-group">
-                                        <input type="text" name="date" id="date" class="form-control" ng-model="filter.date"
-                                               uib-datepicker-popup="ddMMyyyy" is-open="datePicker.opened" current-text="Hoje" clear-text="Limpar"
-                                               close-text="Fechar" ui-mask="99/99/9999" />
-                                        <span class="input-group-btn">
-                                            <button type="button" class="btn btn-default" ng-click="datePickerOpen()" ng-disabled="!editMode">
-                                                <i class="fa fa-calendar"></i>
-                                            </button>
-                                        </span>
-                                    </p>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -74,14 +44,13 @@
         <!--Result listing-->
         <div ng-switch-when="false">
             <div class="row line-space-20">
-                <div class="col-md-12">
+                <div class="col-md-8 col-md-offset-2">
                     <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th></th>
                                 <th>Nome</th>
-                                <th>CPF</th>
-                                <th>CNPJ</th>
+                                <th>CPF/CNPJ</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -93,7 +62,6 @@
                                 </td>
                                 <td>{{client.name}}</td>
                                 <td>{{client.cpf}}</td>
-                                <td>{{client.cnpj}}</td>
                             </tr>
                         </tbody>
                     </table>

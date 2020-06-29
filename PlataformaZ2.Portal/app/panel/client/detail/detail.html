@@ -1,28 +1,144 @@
 ﻿<div class="container">
     <div class="row line-space-20">
         <div class="col-md-12 text-center">
-            <h3 class="control-label">Detalhes do Cliente</h3>
+            <h2 class="control-label">Detalhes do Cliente</h2>
         </div>
     </div>
     <hr />
     <form role="form" novalidate angular-validator angular-validator-submit="edit()" name="editForm">
-        <div class="row line-space-10">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label class="control-label">Nome:  {{client.name}}</label>
+        <div class="col-md-12">
+
+            <div class="col-md-12 line-space-30">
+                <h3 class="text-center"><i class="fas fa-user-circle"></i>   Dados Gerais</h3>
+                <hr />
+            </div>
+
+
+            <div class="row line-space-10">
+                <div class="col-md-4">
+                    <h4 class="form-group">
+                        <label class="control-label">Nome:</label> {{client.name}}
+                    </h4>
+                </div>
+                <div class="col-md-4">
+                    <h4 class="form-group">
+                        <label class="control-label">Como Gostaria de ser Chamado:</label> {{client.nickname}}
+                    </h4>
+                </div>
+                <div class="col-md-4">
+                    <h4 class="form-group">
+                        <label class="control-label">Sexo:</label> {{client.gender}}
+                    </h4>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label class="control-label">CPF : {{client.cpf}}</label>
+
+            <div class="row line-space-10">
+                <div class="col-md-4">
+                    <h4 class="form-group">
+                        <label class="control-label">E-mail:</label> {{client.email}}
+                    </h4>
+                </div>
+                <div class="col-md-4">
+                    <h4 class="form-group">
+                        <label class="control-label">CPF/CNPJ:</label> {{client.cpf}}
+                    </h4>
+                </div>
+                <div class="col-md-4">
+                    <h4 class="form-group">
+                        <label class="control-label">CNPJ Fonte Pagadora:</label> {{client.cnpj}}
+                    </h4>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label class="control-label">CNPJ : {{client.cnpj}}</label>
+
+            <div class="row line-space-10">
+                <div class="col-md-12">
+                    <h4 class="form-group">
+                        <label class="control-label">Contato:</label> {{client.telephones}}
+                    </h4>
                 </div>
             </div>
+
+
+            <div class="col-md-12 line-space-30">
+                <h3 class="text-center"><i class="fas fa-info-circle"></i>   Informa&ccedil;&otilde;es Adicionais</h3>
+                <hr />
+            </div>
+
+            <div class="row line-space-10">
+                <div class="col-md-6">
+                    <h4 class="form-group">
+                        <label class="control-label">Tipo Nota Emitida:</label> {{client.noteType}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="form-group">
+                        <label class="control-label">Faturamento Anual:</label> {{client.annualBilling}}
+                    </h4>
+                </div>
+
+            </div>
+
+            <div class="row line-space-10">
+                <div class="col-md-6">
+                    <h4 class="form-group">
+                        <label class="control-label">Natureza da Empresa:</label> {{client.companyNature}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="form-group">
+                        <label class="control-label">Melhores dias/Horarios para contato:</label> {{client.contactDays}}
+                    </h4>
+                </div>
+            </div>
+
+            <div class="col-md-12 line-space-30">
+                <h3 class="text-center"><i class="fas fa-university"></i>   Bancos</h3>
+                <hr />
+            </div>
+
+
+            <div class="row" ng-show="client.banks.length < 0">
+                <div class="col-md-12 text-center">
+                    <h4>Nenhum banco adicionado</h4>
+                </div>
+            </div>
+
+            <div class="row" ng-show="client.banks.length > 0">
+
+                <div class="row" ng-show="client.banks.length > 0">
+                    <div class="col-md-6 col-md-offset-3">
+
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Banco</th>
+                                    <th>Ag&ecirc;ncia</th>
+                                    <th>Conta</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="bank in client.banks track by $index">
+                                    <td>{{bank.bank}}
+                                    <td class="uppercase-mask">{{bank.agency}}</td>
+                                    <td class="uppercase-mask">{{bank.account}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 line-space-30">
+                <h3 class="text-center">
+                    <i class="fas fa-id-card"></i>   Documentos
+                </h3>
+                <hr />
+            </div>
+
         </div>
+
+
+
 
         <!--Form Buttons-->
         <div class="row line-space-20">

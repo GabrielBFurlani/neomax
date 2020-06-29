@@ -73,6 +73,11 @@
             });
         };
 
+        //Button: Back
+        $scope.back = function () {
+            $state.go("panel.home");
+        }
+
         loadPage();
 
     }]);

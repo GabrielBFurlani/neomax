@@ -7,81 +7,89 @@
 
     <div class="row line-space-20">
         <div class="col-md-8 col-md-offset-2">
-            <div class="block-title">
-                <span>Dados Cliente</span>
-            </div>
+            <!--<div class="block-title">-->
+            <h2>Dados Cliente</h2>
+            <!--</div>-->
         </div>
     </div>
 
     <div class="row line-space-10">
-        <div class="col-md-4">
-            <div class="form-group">
-                <label class="control-label">Nome Cliente: {{processes.clientName}}</label>
+        <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-4">
+                <div class="row line-space-10">
+                    <div class="form-group">
+                        <label class="control-label">Nome Cliente: {{processes.clientName}}</label>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="row line-space-10">
-        <div class="col-md-4">
-            <div class="form-group">
-                <label class="control-label">Protocolo:  {{processes.protocolNumber}}</label>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label class="control-label">CPF/CNPJ : {{processes.cnpj}}</label>
+
+            <div class="row line-space-10">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Protocolo:  {{processes.protocolNumber}}</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">CPF/CNPJ : {{processes.cnpj}}</label>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="row line-space-20">
         <div class="col-md-8 col-md-offset-2">
-            <div class="block-title">
-                <span>Lista de Produtos Solicitados</span>
-            </div>
+            <!--<div class="block-title">-->
+            <h2>Lista de Produtos Solicitados</h2>
+            <!--</div>-->
         </div>
     </div>
 
     <form role="form" novalidate angular-validator angular-validator-submit="edit()" name="editForm">
-        <div ng-repeat="process in processes.products">
-            <div class="row line-space-10">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label class="control-label">Produto: {{process.product}}</label>
+        <div class="col-md-8 col-md-offset-2">
+            <div class="row line-space-20" ng-repeat="process in processes.products">
+                <div class="row line-space-10">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Produto: {{process.product}}</label>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row line-space-10">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label class="control-label">Situa&ccedil;&atilde;o: {{process.situation}}</label>
+                <div class="row line-space-10">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Situa&ccedil;&atilde;o: {{process.situation}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" href="">Anexos</label>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label class="control-label" href="">Anexos</label>
+
+                <button type="button" ng-click="edit()" class="btn btn-primary column-space">
+                    <span class="glyphicon glyphicon-floppy-disk"></span> Definir Status
+                </button>
+
+                <!--<div class="row line-space-20">
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="block-title">
+                            <span></span>
+                        </div>
                     </div>
-                </div>
+                </div>-->
             </div>
 
-            <button type="button" ng-click="edit()" class="btn btn-primary column-space">
-                <span class="glyphicon glyphicon-floppy-disk"></span> Definir Status
-            </button>
-
+            <!--Form Buttons-->
             <div class="row line-space-20">
-                <div class="col-md-8 col-md-offset-2">
-                    <div class="block-title">
-                        <span></span>
-                    </div>
+                <div class="col-md-12 text-center">
+                    <button type="button" class="btn btn-default" ng-click="back()">Cancelar</button>
+
                 </div>
             </div>
         </div>
 
-        <!--Form Buttons-->
-        <div class="row line-space-20">
-            <div class="col-md-12 text-center">
-                <button type="button" class="btn btn-default" ng-click="back()">Cancelar</button>
-
-            </div>
-        </div>
     </form>
 </div>

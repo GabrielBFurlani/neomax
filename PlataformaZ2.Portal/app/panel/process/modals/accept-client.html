@@ -1,0 +1,36 @@
+﻿<div class="modal-header ng-scope">
+    <h3 class="modal-title text-center">Definir Status da Solicita&ccedil;&atilde;o</h3>
+</div>
+<form role="form" novalidate angular-validator angular-validator-submit="signUp()" name="signUpForm">
+    <div class="row" ng-show="!openSuggestion">
+        <div class="text-center">
+            <div class="modal-body ng-scope">
+                <div class="row text-center">
+                    <button type="button" class="btn btn-primary column-space">Recusar</button>
+                    <button type="button" class="btn btn-primary column-space" ng-click="openSuggestion = true">Solicitar Revisão</button>
+                    <button type="button" class="btn btn-primary column-space">Aprovar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row line-space-20 text-center" ng-show="openSuggestion">
+        <div class="col-md-10 col-md-offset-1">
+            <label class="control-label">Sugest&atilde;o</label>
+            <!--<input type="text" id="observacao" name="observacao" class="form-control uppercase-mask" ng-model="tipoDocumento.observacao"
+            maxLength="200" ng-disabled="!modoEditar" />-->
+            <textarea style="resize: none" type="text" id="suggestion" name="suggestion" class="form-control" ng-model="tipoDocumento.observacao"
+                      maxLength="200" rows="10" />
+        </div>
+    </div>
+
+    <div class="modal-footer ng-scope line-space-20">
+        <div class="row">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-default" ng-click="cancel(true)">Cancelar</button>
+                <button type="button" class="btn btn-default" ng-click="cancel()" ng-show="openSuggestion">Alterar Status</button>
+                <button type="button" class="btn btn-default" ng-click="cancel(true)" ng-show="openSuggestion">Enviar</button>
+            </div>
+        </div>
+    </div>
+</form>

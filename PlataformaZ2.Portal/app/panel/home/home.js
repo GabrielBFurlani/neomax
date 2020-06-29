@@ -6,10 +6,19 @@
             if (pageNumber == 1) {
                 $state.go('panel.myAccount');
             }
-            else
+            else {
                 if (pageNumber == 2) {
                     $state.go('panel.process.client.list');
                 }
+                else
+                    if (pageNumber == 3) {
+                        $state.go('panel.client.list');
+                    }
+                    else
+                        if (pageNumber == 4) {
+                            $state.go('panel.user.management.list');
+                        }
+            }
         }
 
     }]);

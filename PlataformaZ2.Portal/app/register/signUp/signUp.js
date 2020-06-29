@@ -255,7 +255,7 @@
 
         $scope.next = function () {
 
-            if ($scope.step == 6)
+            if ($scope.step == 4)
                 $state.go('login');
             else
                 $scope.step++;

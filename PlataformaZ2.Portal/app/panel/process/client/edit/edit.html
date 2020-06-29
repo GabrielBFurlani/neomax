@@ -1,7 +1,7 @@
 ﻿<div class="container">
     <div class="row line-space-20">
         <div class="col-md-12 text-center">
-            <h2 class="control-label">Nova Solicita&ccedil;&atilde;o<span ng-show="step == 1">: Lista de Produtos Adicionados</span><span ng-show="productSelected == null && step == 2">Escolha do Produto</span><span ng-show="productSelected != null && step == 2">: Adi&ccedil;&atilde;o do Produto</span><span ng-show="step == 3">: Resumo</span></h2>
+            <h2 class="control-label">Nova Solicita&ccedil;&atilde;o<span ng-show="step == 1">: Lista de Produtos Adicionados</span><span ng-show="productSelected == null && step == 2">: Escolha do Produto</span><span ng-show="productSelected != null && step == 2">: Adi&ccedil;&atilde;o do Produto</span></h2>
         </div>
     </div>
     <hr />
@@ -14,7 +14,6 @@
                 <button type="button" class="btn btn-primary" ng-click="step = 2">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Adicionar Produto
                 </button>
-
 
             </div>
 
@@ -62,7 +61,7 @@
             <div class="row line-space-20">
                 <div class="col-md-12 text-center">
                     <button type="button" class="btn btn-default" ng-show="productSelected == null" ng-click="back()">Cancelar</button>
-                    <button type="button" class="btn btn-primary column-space" ng-click="finalize()">
+                    <button type="button" class="btn btn-primary column-space" ng-click="finalize()" ng-show="products.length > 0">
                         <span class="glyphicon glyphicon-floppy-disk"></span> Finalizar Solicita&ccedil;&atilde;o
                     </button>
                 </div>
@@ -81,7 +80,7 @@
                             </ul>
 
                             <h3 class="text-left">
-                                Podemos então dizer que os Direitos de crédito são: 1-Direitos relativos, por que se dirigem a pessoas determinadas. 2-Direitos a uma prestação positiva ou negativa, pois exigem um determinado comportamento do devedor.
+                                O endosso de título de crédito transfere o direito de recepção do valor nominal do respectivo título do endossante para o endossatário. Normalmente é utilizado como garantia de crédito em operações bancárias.
                             </h3>
                         </div>
                     </div>
@@ -95,7 +94,7 @@
                             </ul>
 
                             <h3 class="text-left">
-                                O endosso de título de crédito transfere o direito de recepção do valor nominal do respectivo título do endossante para o endossatário. Normalmente é utilizado como garantia de crédito em operações bancárias.
+                                Podemos então dizer que os Direitos de crédito são: 1-Direitos relativos, por que se dirigem a pessoas determinadas. 2-Direitos a uma prestação positiva ou negativa, pois exigem um determinado comportamento do devedor.
                             </h3>
                         </div>
                     </div>

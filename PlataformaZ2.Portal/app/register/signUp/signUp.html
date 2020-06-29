@@ -361,10 +361,22 @@
     <div class="row line-space-30 text-center">
         <div class="col-md-8 col-md-offset-2">
             <div class="form-group">
-                <label class="control-label">Escolha os Arquivos que Deseja Enviar para a Solicita&ccedil;&atilde;o (.jpeg.jpg.png):</label>
+                <label class="control-label">Escolha seus Documentos (.jpeg.jpg.png):</label>
                 <input type="file" id="fileInput" name="fileInput" class="form-control" file-input file-model="fileUpload.fileList" change="loadPhoto(fileUpload.fileList[0])"
                        show-Drag-Drop="false" show-Preview="true" accept='image/*' show-Remove="true" allowed-File-Extensions="['jpg', 'png', 'jpeg', 'pdf']" multiple />
             </div>
+        </div>
+    </div>
+
+    <div class="row line-space-20">
+        <div class="col-md-12 text-center">
+            <div ng-if="!submited">
+                <button type="button" class="btn btn-default" ng-click="back()"><i class="fas fa-arrow-left"></i> Voltar</button>
+                <button type="button" ng-click="next()" class="btn btn-default">
+                    Avan&ccedil;ar  <span class="fas fa-arrow-right"></span>
+                </button>
+            </div>
+            <div class="lds-roller-sm" ng-if="submited" ng-bind-html="showLoading()"></div>
         </div>
     </div>
 

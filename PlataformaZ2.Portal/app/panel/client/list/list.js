@@ -76,6 +76,10 @@
             $state.go('panel.client.detail', { idClient: id });
         };
 
+        $scope.back = function () {
+            $state.go('panel.home');
+        }
+
         loadPage();
 
     }]);

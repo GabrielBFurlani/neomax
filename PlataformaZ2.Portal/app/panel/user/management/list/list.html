@@ -3,10 +3,10 @@
         <div class="col-md-12 text-center">
             <h3 class="control-label">Usu&aacute;rios</h3>
         </div>
-    </div>    
+    </div>
     <!--Filter-->
     <div class="row line-space-10">
-        <div class="col-md-12">
+        <div class="col-md-8 col-md-offset-2">
             <uib-accordion close-others="oneAtATime">
                 <uib-accordion-group class="panel-default" is-open="isFilterOpen">
                     <uib-accordion-heading>
@@ -14,19 +14,10 @@
                     </uib-accordion-heading>
                     <form role="form" novalidate angular-validator angular-validator-submit="newSearch()" name="filterForm">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label">Nome ou E-mail</label>
+                                    <label class="control-label">Nome/E-mail/CPF</label>
                                     <input type="text" id="nameOrUsername" name="nameOrUsername" class="form-control" ng-model="filter.nameOrUsername" maxLength="100" />
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label class="control-label">Perfil</label>
-                                    <select id="profile" name="profile" class="form-control" ng-model="filter.idProfile"
-                                            ng-options="item.id as item.name for item in profiles" >
-                                        <option value="">---Todos---</option>
-                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -42,7 +33,7 @@
     </div>
     <!--New Item Button-->
     <div class="row line-space-10">
-        <div class="col-md-12">
+        <div class="col-md-8 col-md-offset-2">
             <button type="button" class="btn btn-success" ng-click="edit(0)">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Novo Usu&aacute;rio
             </button>
@@ -56,18 +47,18 @@
                 <div class="col-md-12 text-center">
                     <h4>Nenhum resultado encontrado</h4>
                 </div>
-            </div>            
+            </div>
         </div>
         <!--Result listing-->
         <div ng-switch-when="false">
             <div class="row line-space-20">
-                <div class="col-md-12">
+                <div class="col-md-8 col-md-offset-2 text-center">
                     <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th></th>
                                 <th>Nome</th>
-                                <th>Perfil</th>
+                                <th>CPF</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -81,7 +72,7 @@
                                     </button>
                                 </td>
                                 <td>{{user.name}}</td>
-                                <td>{{user.profileName}}</td>
+                                <td>{{user.cpf}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -98,5 +89,10 @@
                 </div>
             </div>
         </div>
-    </div>    
+        <div class="row line-space-10">
+            <div class="col-md-12 text-center">
+                <button type="button" class="btn btn-default" ng-click="back()">Voltar</button>
+            </div>
+        </div>
+    </div>
 </div>

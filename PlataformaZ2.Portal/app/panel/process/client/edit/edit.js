@@ -123,6 +123,10 @@
             $scope.step--;  
         }
 
+        $scope.finalize = function () {
+            $state.go("panel.process.client.list");
+        }
+
         //procedural script
         loadPage();
 

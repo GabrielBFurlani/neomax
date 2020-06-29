@@ -1,7 +1,7 @@
 ﻿(function () {
     "use strict";
 
-    angular.module('app').controller('acceptClientController', ['$scope', '$http', 'CONFIG', '$uibModalInstance', function ($scope, $http, CONFIG, $uibModalInstance) {
+    angular.module('app').controller('defineProcessController', ['$scope', '$http', 'CONFIG', '$uibModalInstance', function ($scope, $http, CONFIG, $uibModalInstance) {
         var _apiUrl = CONFIG.apiRootUrl;
 
         $scope.signUpUser = {
@@ -11,6 +11,8 @@
             nickname: '',
             cpf: ''
         };
+
+        $scope.openSuggestion = false;
 
         $scope.reEnterPassword = '';
 
@@ -31,7 +33,11 @@
         }
 
         //Button: Cancel
-        $scope.cancel = function () {
+        $scope.cancel = function (close) {
+
+            if ($scope.openSuggestion && !close)
+                $scope.openSuggestion = false;
+            else
             $uibModalInstance.dismiss();
         }
 

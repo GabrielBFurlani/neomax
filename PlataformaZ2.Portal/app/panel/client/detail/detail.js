@@ -7,10 +7,15 @@
         $scope.client = {};
 
         if ($scope.id == 1) {
-            $scope.client = { name: 'João Antonio', cpf: '78803885161', cnpj: '38042126000100', id: 1 };
+            $scope.client = { name: 'João Antonio', cpf: '78803885161', cnpj: '38042126000100', id: 1, telephones: "19993162405 / 33427677", gender: "Masculino", nickname: "Joâo", email: "joaoAntonio459@gmail.com"};
         }
         else {
-            $scope.client = { name: 'Pedro Dotaviano', cpf: '62311649850', cnpj: '33983543000125', id: 2 };
+            $scope.client = {
+                name: 'Pedro Dotaviano', cpf: '62311649850', cnpj: '33983543000125', id: 2, telephones: "19993162405 / 33427677", gender: "Masculino", nickname: "Pedro", email: "pedrotaviano@gmail.com",
+                noteType: "Nota de Produto", annualBilling: "De R$ 1 milhão até R$ 2 milhões", companyNature: "Empresa de Responsabilidade Limitada (LTDA)", contactDays: "Quarta/Quinta/Sexta - 09h/10h/11h/14h/15h/16h",
+                banks: [{ bank: "Banco do Brasil", agency: "098556", account: "12659" }]
+            };
+              
         }
 
         //Load Page

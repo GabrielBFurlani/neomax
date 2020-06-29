@@ -83,8 +83,8 @@
     <Content Include="app\panel\client\detail\detail.js" />
     <Content Include="app\panel\client\list\list.html" />
     <Content Include="app\panel\client\list\list.js" />
-    <Content Include="app\panel\client\modals\accept-client.html" />
-    <Content Include="app\panel\client\modals\accept-client.js" />
+    <Content Include="app\panel\process\modals\accept-client.html" />
+    <Content Include="app\panel\process\modals\accept-client.js" />
     <Content Include="app\panel\client\user.html" />
     <Content Include="app\panel\process\admin\detail\detail.html" />
     <Content Include="app\panel\process\admin\detail\detail.js" />
@@ -298,7 +298,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="app\panel\process\modals\" />
     <Folder Include="assets\js\" />
   </ItemGroup>
   <PropertyGroup>

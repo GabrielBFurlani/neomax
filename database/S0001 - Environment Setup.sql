@@ -1,164 +1,207 @@
 /*
  * S0001 - Environment Setup 
- * Description: Creation of the Database and the basic tables (user, profiles, permissions, appliedScript)
  */
+ 
+-- Apoios
 
- /**************************** DATABASE: Creation  ******************************/
-USE master
-GO
+CREATE TABLE Produto(
+	Codigo BIGSERIAL PRIMARY KEY,
+    Nome VARCHAR(200) NOT NULL,
+	Descricao VARCHAR(1000) NOT NULL,
+    Ativo BOOLEAN NOT NULL
+);
 
-IF  EXISTS (
-	SELECT name 
-		FROM sys.databases 
-		WHERE name = 'PlataformaZ2'
+GRANT ALL PRIVILEGES ON TABLE Produto TO neomaxuser;
+ALTER TABLE Produto OWNER TO neomaxuser;
 
-)
-DROP DATABASE PlataformaZ2
-GO
+CREATE TABLE Arquivo (
+    Codigo BIGSERIAL PRIMARY KEY,
+	Nome VARCHAR(100) NOT NULL,
+	DataCriacao TIMESTAMP NOT NULL,
+	Conteudo BYTEA NOT NULL
+);
 
-CREATE DATABASE PlataformaZ2
-GO
+GRANT ALL PRIVILEGES ON TABLE Arquivo TO neomaxuser;
+ALTER TABLE Arquivo OWNER TO neomaxuser;
 
-/**************************** DATABASE: User Creation  ******************************/
-USE [PlataformaZ2]
-GO
+CREATE TABLE Telefone (
+	Codigo BIGSERIAL PRIMARY KEY,
+	Numero INTEGER NOT NULL,
+	TipoTelefone SMALLINT NOT NULL,
+	NomeContato VARCHAR(80) NULL
+);
 
-IF NOT EXISTS (SELECT loginname FROM syslogins WHERE name = 'platUser')
-BEGIN
-	CREATE LOGIN platUser WITH PASSWORD = 'platPass'
-END;
-GO
+GRANT ALL PRIVILEGES ON TABLE Telefone TO neomaxuser;
+ALTER TABLE Telefone OWNER TO neomaxuser;
 
-IF NOT EXISTS (SELECT * FROM sys.database_principals WHERE name = N'platUser')
-BEGIN
-    CREATE USER [platUser] FOR LOGIN [platUser]
-    EXEC sp_addrolemember N'db_owner', N'platUser'
-END;
-GO
-  
-/**************************** DATABASE: Usage  ******************************/  
-USE [PlataformaZ2]
-GO
+-- Cliente
 
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+CREATE TABLE UsuarioDisponivel (
+    Codigo BIGSERIAL PRIMARY KEY,
+    Email VARCHAR(150) NULL,
+    Token VARCHAR(250) NOT NULL
+);
 
+GRANT ALL PRIVILEGES ON TABLE UsuarioDisponivel TO neomaxuser;
+ALTER TABLE UsuarioDisponivel OWNER TO neomaxuser;
 
-/********** TABLE: AppliedScript **********/
-CREATE TABLE [dbo].[AppliedScript](
-	[ScriptNumber] [int] NOT NULL,
-	[ScriptName] [nvarchar](250) NOT NULL,
- CONSTRAINT [PK_AppliedScript] PRIMARY KEY CLUSTERED 
-(
-	[ScriptNumber] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
+CREATE TABLE Cliente (
+    Codigo BIGSERIAL PRIMARY KEY,
+	CNPJFontePagadora VARCHAR(18) NULL,
+	Sexo INT NULL,
+	CodigoFoto INTEGER NULL,
+	TipoNotaEmitida INT NULL,
+	FaturamentoAnual INT NULL,
+	NaturezaEmpresa INT NULL,
+	CONSTRAINT FK_Cliente_Foto FOREIGN KEY (CodigoFoto)
+	REFERENCES Arquivo (Codigo) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION
+);
 
-/********** TABLE: Profile **********/
-CREATE TABLE [dbo].[Profile](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](50) NOT NULL,
-	[Description] [nvarchar](250) NULL,
- CONSTRAINT [PK_Profile] PRIMARY KEY CLUSTERED 
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
+GRANT ALL PRIVILEGES ON TABLE Cliente TO neomaxuser;
+ALTER TABLE Cliente OWNER TO neomaxuser;
 
-/********** TABLE: Permission **********/
-CREATE TABLE [dbo].[Permission](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](100) NOT NULL,
-	[Description] [nvarchar](250) NULL,
- CONSTRAINT [PK_Permission] PRIMARY KEY CLUSTERED 
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
+CREATE TABLE ClienteTelefone (
+    CodigoCliente INTEGER NOT NULL,
+	CodigoTelefone INTEGER NOT NULL,
+	PRIMARY KEY (CodigoCliente, CodigoTelefone),
+	CONSTRAINT FK_ClienteTelefone_Cliente FOREIGN KEY (CodigoCliente)
+	REFERENCES Cliente (Codigo) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT FK_ClienteTelefone_Telefone FOREIGN KEY (CodigoTelefone)
+	REFERENCES Telefone (Codigo) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION
+);
 
-/********** TABLE: ProfilePermission **********/
-CREATE TABLE [dbo].[ProfilePermission](
-	[IdProfile] [int] NOT NULL,
-	[IdPermission] [int] NOT NULL,
- CONSTRAINT [PK_ProfilePermission] PRIMARY KEY CLUSTERED 
-   ([IdProfile],[IdPermission] ASC)
-   WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
+GRANT ALL PRIVILEGES ON TABLE ClienteTelefone TO neomaxuser;
+ALTER TABLE ClienteTelefone OWNER TO neomaxuser;
 
-ALTER TABLE [dbo].[ProfilePermission] WITH CHECK ADD CONSTRAINT [Fk1_ProfilePermission] FOREIGN KEY([IdProfile])
-REFERENCES [dbo].[Profile] ([Id])
-GO
+CREATE TABLE ClienteDocumento (
+    CodigoCliente INTEGER NOT NULL,
+	CodigoDocumento INTEGER NOT NULL,
+	PRIMARY KEY (CodigoCliente, CodigoDocumento),
+	CONSTRAINT FK_ClienteDocumento_Cliente FOREIGN KEY (CodigoCliente)
+	REFERENCES Cliente (Codigo) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT FK_ClienteDocumento_Documento FOREIGN KEY (CodigoDocumento)
+	REFERENCES Arquivo (Codigo) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION
+);
 
-ALTER TABLE [dbo].[ProfilePermission] WITH CHECK ADD CONSTRAINT [Fk2_ProfilePermission] FOREIGN KEY([IdPermission])
-REFERENCES [dbo].[Permission] ([Id])
-GO
+GRANT ALL PRIVILEGES ON TABLE ClienteDocumento TO neomaxuser;
+ALTER TABLE ClienteDocumento OWNER TO neomaxuser;
 
-/********** TABLE: File **********/
-CREATE TABLE [dbo].[File](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](100) NOT NULL,
-	[RealName] [nvarchar](100) NOT NULL,
- CONSTRAINT [PK_File] PRIMARY KEY CLUSTERED 
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
+CREATE TABLE ClienteDiaContato (
+    CodigoCliente INTEGER NOT NULL,
+	DiaContato INTEGER NOT NULL,
+	CONSTRAINT FK_ClienteDiaContato_Cliente FOREIGN KEY (CodigoCliente)
+	REFERENCES Cliente (Codigo) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION
+);
 
-/********** TABLE: User **********/
-CREATE TABLE [dbo].[User](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[Username] [nvarchar](100) NOT NULL,
-	[Password] [nvarchar](100) NOT NULL,
-	[Name] [nvarchar](100) NOT NULL,
-	[Nickname] [nvarchar](25) NOT NULL,
-	[Cpf] [nvarchar](11) NOT NULL,	
-	[IdPhoto] [int] NULL,
-	[IdProfile] [int] NOT NULL,	
-	[AccessToken] [nvarchar](250) NULL,
-	[AccessTokenCreationDate] [datetime] NULL,
-	[Active] [bit] NOT NULL, 
- CONSTRAINT [PK_User] PRIMARY KEY CLUSTERED 
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
+GRANT ALL PRIVILEGES ON TABLE ClienteDiaContato TO neomaxuser;
+ALTER TABLE ClienteDiaContato OWNER TO neomaxuser;
 
-ALTER TABLE [dbo].[User] WITH CHECK ADD CONSTRAINT [Fk1_User] FOREIGN KEY([IdPhoto])
-REFERENCES [dbo].[File] ([Id])
-GO
+CREATE TABLE ClienteHoraContato (
+    CodigoCliente INTEGER NOT NULL,
+	HorarioContato INTEGER NOT NULL,
+	CONSTRAINT FK_ClienteHoraContato_Cliente FOREIGN KEY (CodigoCliente)
+	REFERENCES Cliente (Codigo) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION
+);
 
-ALTER TABLE [dbo].[User] WITH CHECK ADD CONSTRAINT [Fk2_User] FOREIGN KEY([IdProfile])
-REFERENCES [dbo].[Profile] ([Id])
-GO
+GRANT ALL PRIVILEGES ON TABLE ClienteHoraContato TO neomaxuser;
+ALTER TABLE ClienteHoraContato OWNER TO neomaxuser;
 
+CREATE TABLE Banco (
+    Codigo BIGSERIAL PRIMARY KEY,
+    Banco VARCHAR(100) NOT NULL,
+	Agencia VARCHAR(10) NOT NULL,
+	Conta VARCHAR(10) NOT NULL
+);
 
-/********** TABLE: PasswordDefinition **********/
-CREATE TABLE [dbo].[PasswordDefinition](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[IdUser] [int] NOT NULL,
-	[Token] [nvarchar](250) NOT NULL,
-	[CreationDate] [datetime] NOT NULL,
-	[ExpirationDate] [datetime] NULL,
- CONSTRAINT [PK_PasswordDefinition] PRIMARY KEY CLUSTERED 
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
+GRANT ALL PRIVILEGES ON TABLE Banco TO neomaxuser;
+ALTER TABLE Banco OWNER TO neomaxuser;
 
-ALTER TABLE [dbo].[PasswordDefinition] WITH CHECK ADD CONSTRAINT [Fk1_PasswordDefinition] FOREIGN KEY([IdUser])
-REFERENCES [dbo].[User] ([Id])
-GO
-ALTER TABLE [dbo].[PasswordDefinition] CHECK CONSTRAINT [Fk1_PasswordDefinition]
-GO
+CREATE TABLE ClienteBanco (
+    CodigoCliente INT NOT NULL,
+	CodigoBanco INT NOT NULL,
+	CONSTRAINT FK_ClienteBanco_Cliente FOREIGN KEY (CodigoCliente)
+	REFERENCES Cliente (Codigo) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT FK_ClienteBanco_Banco FOREIGN KEY (CodigoBanco)
+	REFERENCES Banco (Codigo) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION
+);
 
---Register the script as applied
-INSERT INTO [dbo].[AppliedScript] ([ScriptNumber], [ScriptName]) VALUES (1, 'Environment Setup')
+GRANT ALL PRIVILEGES ON TABLE ClienteBanco TO neomaxuser;
+ALTER TABLE ClienteBanco OWNER TO neomaxuser;
+	
+-- Cliente
+CREATE TABLE Usuario (
+    Codigo BIGSERIAL PRIMARY KEY,
+	Nome VARCHAR(100) NOT NULL,
+	NickName VARCHAR(50) NULL,
+	Usuario VARCHAR(18) NOT NULL,
+	Email VARCHAR(150),
+	Senha VARCHAR(64) NOT NULL,
+	TokenAcesso VARCHAR(250) NULL,
+	TokenAcessoDataCriacao TIMESTAMP NULL,
+	CodigoFoto INT NULL,
+	CodigoCliente INT NULL,
+	Ativo BOOLEAN NOT NULL,
+	CONSTRAINT FK_Usuario_Foto FOREIGN KEY (CodigoFoto)
+	REFERENCES Arquivo (Codigo) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT FK_Usuario_Cliente FOREIGN KEY (CodigoCliente)
+	REFERENCES Cliente (Codigo) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+GRANT ALL PRIVILEGES ON TABLE Usuario TO neomaxuser;
+ALTER TABLE Usuario OWNER TO neomaxuser;
+
+CREATE TABLE DefinicaoSenha (
+	Codigo BIGSERIAL PRIMARY KEY,
+	CodigoUsuario INT NOT NULL,
+	Token VARCHAR(250) NOT NULL,
+	DataCriacao TIMESTAMP NOT NULL,
+	DataExpiracao TIMESTAMP NULL,
+	CONSTRAINT FK_DefinicaoSenha_Usuario FOREIGN KEY (CodigoUsuario)
+	REFERENCES Usuario (Codigo) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+GRANT ALL PRIVILEGES ON TABLE DefinicaoSenha TO neomaxuser;
+ALTER TABLE DefinicaoSenha OWNER TO neomaxuser;
+
+-- Solicitações
+
+CREATE TABLE Solicitacao(
+	Codigo BIGSERIAL PRIMARY KEY,
+    Protocolo INT NOT NULL,
+	CodigoCliente INT NOT NULL,
+	Status INT NOT NULL,
+	DataCriacao TIMESTAMP NOT NULL,
+	CONSTRAINT FK_Solicitacao_Cliente FOREIGN KEY (CodigoCliente)
+	REFERENCES Cliente (Codigo) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+GRANT ALL PRIVILEGES ON TABLE Solicitacao TO neomaxuser;
+ALTER TABLE Solicitacao OWNER TO neomaxuser;
+
+CREATE TABLE SolicitacaoProduto(
+	Codigo BIGSERIAL PRIMARY KEY,
+    CodigoSolicitacao INT NOT NULL,
+	CodigoProduto INT NOT NULL,
+	Status INT NOT NULL,
+	DataCriacao TIMESTAMP NOT NULL,
+	Titulo VARCHAR(150),
+	CONSTRAINT FK_SolicitacaoProduto_Solicitacao FOREIGN KEY (codigoSolicitacao)
+	REFERENCES Solicitacao (Codigo) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT FK_SolicitacaoProduto_Produto FOREIGN KEY (codigoProduto)
+	REFERENCES Produto (Codigo) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+GRANT ALL PRIVILEGES ON TABLE SolicitacaoProduto TO neomaxuser;
+ALTER TABLE SolicitacaoProduto OWNER TO neomaxuser;
+
+CREATE TABLE SolicitacaoProdutoDocumento (
+    CodigoSolicitacaoProduto INTEGER NOT NULL,
+	CodigoDocumento INTEGER NOT NULL,
+	CONSTRAINT FK_SolicitacaoProdutoDocumento_SolicitacaoProduto FOREIGN KEY (CodigoSolicitacaoProduto)
+	REFERENCES SolicitacaoProduto (Codigo) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT FK_SolicitacaoProdutoDocumento_Documento FOREIGN KEY (CodigoDocumento)
+	REFERENCES Arquivo (Codigo) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+GRANT ALL PRIVILEGES ON TABLE SolicitacaoProdutoDocumento TO neomaxuser;
+ALTER TABLE SolicitacaoProdutoDocumento OWNER TO neomaxuser;

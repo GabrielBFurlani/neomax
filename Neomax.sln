@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neomax.Portal", "PlataformaZ2.Portal\Neomax.Portal.csproj", "{1E197457-382B-4C74-B4A7-0AE4F2FA46E1}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neomax.Business", "Neomax.Business\Neomax.Business.csproj", "{CB8BC79D-B33F-4571-A470-A4D1015E1F75}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neomax.Data", "Neomax.Data\Neomax.Data.csproj", "{890CAA38-4C70-494E-854C-C31C4DC2F12B}"
@@ -11,14 +13,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neomax.Model", "Neomax.Mode
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neomax.WebApi", "Neomax.WebApi\Neomax.WebApi.csproj", "{8352C42D-BB8C-46D2-BD4D-B71409FA2472}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neomax.Portal", "Neomax.Portal\Neomax.Portal.csproj", "{1E197457-382B-4C74-B4A7-0AE4F2FA46E1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1E197457-382B-4C74-B4A7-0AE4F2FA46E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E197457-382B-4C74-B4A7-0AE4F2FA46E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E197457-382B-4C74-B4A7-0AE4F2FA46E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E197457-382B-4C74-B4A7-0AE4F2FA46E1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CB8BC79D-B33F-4571-A470-A4D1015E1F75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CB8BC79D-B33F-4571-A470-A4D1015E1F75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB8BC79D-B33F-4571-A470-A4D1015E1F75}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -35,10 +39,6 @@ Global
 		{8352C42D-BB8C-46D2-BD4D-B71409FA2472}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8352C42D-BB8C-46D2-BD4D-B71409FA2472}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8352C42D-BB8C-46D2-BD4D-B71409FA2472}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1E197457-382B-4C74-B4A7-0AE4F2FA46E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1E197457-382B-4C74-B4A7-0AE4F2FA46E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1E197457-382B-4C74-B4A7-0AE4F2FA46E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1E197457-382B-4C74-B4A7-0AE4F2FA46E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

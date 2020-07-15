@@ -1,0 +1,91 @@
+﻿<div class="container">
+    <div class="row line-space-20">
+        <div class="col-md-12 text-center">
+            <h3 class="control-label">Usu&aacute;rios</h3>
+        </div>
+    </div>
+    <!--Filter-->
+    <div class="row line-space-10">
+        <div class="col-md-6 col-md-offset-3">
+            <uib-accordion close-others="oneAtATime">
+                <uib-accordion-group class="panel-default" is-open="isFilterOpen">
+                    <uib-accordion-heading>
+                        <b>Filtro</b><i class="pull-right glyphicon" ng-class="{'glyphicon glyphicon-chevron-right': !isFilterOpen, 'glyphicon glyphicon-chevron-down': isFilterOpen}"></i>
+                    </uib-accordion-heading>
+                    <form role="form" novalidate angular-validator angular-validator-submit="newSearch()" name="filterForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Nome/E-mail/CPF</label>
+                                    <input type="text" id="nameOrUsername" name="nameOrUsername" class="form-control" ng-model="filter.nameOrUsername" maxLength="100" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-default line-space-25">
+                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Pesquisar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </uib-accordion-group>
+            </uib-accordion>
+        </div>
+    </div>
+    <!--New Item Button-->
+    <div class="row line-space-10">
+        <div class="col-md-6 col-md-offset-3">
+            <button type="button" class="btn btn-success" ng-click="newEmail()">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Novo Usu&aacute;rio
+            </button>
+        </div>
+    </div>
+    <!--Results-->
+    <div ng-switch on="users == null || users.length <= 0">
+        <!--"No Results Found" message-->
+        <div ng-switch-when="true">
+            <div class="row line-space-20">
+                <div class="col-md-12 text-center">
+                    <h4>Nenhum resultado encontrado</h4>
+                </div>
+            </div>
+        </div>
+        <!--Result listing-->
+        <div ng-switch-when="false">
+            <div class="row line-space-20">
+                <div class="col-md-6 col-md-offset-3 text-center">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-left">Nome</th>
+                                <th class="text-left">Usu&aacute;rio(CPF)</th>
+                                <th class="text-left">Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="user in users track by $index">
+                                <td class="text-left">{{user.name}}</td>
+                                <td class="text-left">{{user.username}}</td>
+                                <td class="text-left">{{user.email}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--Pagination controllers-->
+            <div class="row line-space-10">
+                <div class="col-md-12 text-center">
+                    <div class="pagination-sm" uib-pagination ng-model="filter.pageNumber" ng-change="search()" boundary-links="true"
+                         total-items="paginationResponse.totalResults" items-per-page="paginationResponse.resultsPerPage"
+                         first-text="Primeira" last-text="Última" next-text="Próxima" previous-text="Anterior"
+                         max-size="maxVisiblePages" force-ellipses="true">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row line-space-10">
+            <div class="col-md-12 text-center">
+                <button type="button" class="btn btn-default" ng-click="back()">Voltar</button>
+            </div>
+        </div>
+    </div>
+</div>

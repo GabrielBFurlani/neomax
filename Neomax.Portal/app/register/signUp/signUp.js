@@ -6,13 +6,6 @@
         var id = $stateParams.idUser;
         var steps = 6;
         $scope.step = 1;
-        $scope.days = CONFIG.weekdaysEnum;
-        $scope.times = CONFIG.timeEnum;
-        $scope.companyNatureTypes = CONFIG.companyNatureEnum;
-        $scope.annualBillingTypes = CONFIG.annualBillingEnum;
-        $scope.noteTypes = CONFIG.issuedNoteEnum;
-        $scope.telephoneTypes = CONFIG.telephoneTypes;
-        $scope.genderTypes = CONFIG.genderTypes;
 
         $scope.fileUpload = {
             fileList: []
@@ -35,31 +28,55 @@
         }
 
         $scope.client = {
-            banks: []
+            banks: [],
+            telephones: [],
+            contactDays: [],
+            ContactTimes: [],
+            Documents: []
         };
 
         $scope.newBankErrors = {};
+        $scope.newTelephoneErrors = {};
 
         //Load Page
         function loadPage() {
 
             setProgressBar();
 
-            /*  
-              //get user data
-              $http.get(_apiUrl + '/user/userArea/' + id)
-                  .then(function successCallback(response) {
-  
-                      $scope.user = response.data.resultData;
-  
-                      //checks if the user has photo
-                      if ($scope.user.photo) {
-                          $scope.hasPhoto = true;
-                      }
-                      else {
-                          $scope.hasPhoto = false;
-                      }
-                  });   */
+            $http.get(_apiUrl + '/clients/telephoneTypes')
+                .then(function successCallback(response) {
+                    $scope.telephoneTypes = response.data.resultData;
+                })
+
+            $http.get(_apiUrl + '/clients/genderTypes')
+                .then(function successCallback(response) {
+                    $scope.genderTypes = response.data.resultData;
+                })
+
+            $http.get(_apiUrl + '/clients/noteTypes')
+                .then(function successCallback(response) {
+                    $scope.noteTypes = response.data.resultData;
+                })
+
+            $http.get(_apiUrl + '/clients/annualBillingTypes')
+                .then(function successCallback(response) {
+                    $scope.annualBillingTypes = response.data.resultData;
+                })
+
+            $http.get(_apiUrl + '/clients/companyNatureTypes')
+                .then(function successCallback(response) {
+                    $scope.companyNatureTypes = response.data.resultData;
+                })
+
+            $http.get(_apiUrl + '/clients/days')
+                .then(function successCallback(response) {
+                    $scope.days = response.data.resultData;
+                })
+
+            $http.get(_apiUrl + '/clients/times')
+                .then(function successCallback(response) {
+                    $scope.times = response.data.resultData;
+                })
         }
 
         $scope.cnpjPayingFormater = function () {
@@ -223,14 +240,16 @@
 
             $scope.client.banks.push({
                 account: $scope.newBank.account,
-                bank: $scope.newBank.bank.parameter,
+                bank: $scope.newBank.bank,
                 agency: $scope.newBank.agency
             });
+
+            console.log($scope.client.banks);
 
             $scope.newBank = {
                 account: null,
                 bank: null,
-                agency: null,
+                agency: null
             }
         }
 
@@ -253,17 +272,81 @@
             $scope.client.banks.splice(index, 1);
         }
 
+
+        //Management phone
+        $scope.addPhone = function () {
+            $scope.newTelephoneErrors.typeRequired = false;
+            $scope.newTelephoneErrors.numberRequired = false;
+            $scope.newTelephoneErrors.nameRequired = false;
+
+            if (!$scope.newTelephone.telephoneType) {
+                $scope.newTelephoneErrors.typeRequired = true;
+            }
+
+            if (!$scope.newTelephone.number) {
+                $scope.newTelephoneErrors.numberRequired = true;
+            }
+
+            if ($scope.newTelephoneErrors.typeRequired || $scope.newTelephoneErrors.numberRequired || $scope.newTelephoneErrors.nameRequired) {
+                return;
+            }
+
+            $scope.client.telephones.push({
+                contactName: $scope.newTelephone.contactName,
+                telephoneType: $scope.newTelephone.telephoneType.parameter,
+                telephoneTypeObj: $scope.newTelephone.telephoneType,
+                number: $scope.newTelephone.number,
+            });
+
+            $scope.newTelephone = {
+                contactName: null,
+                telephoneType: null,
+                telephoneTypeObj: null,
+                number: null,
+            }
+        }
+
+        $scope.editPhone = function (phone, index) {
+
+            var editPhone = {};
+
+            angular.copy(phone, editPhone);
+
+            console.log(editPhone);
+
+            $scope.newTelephone.contactName = editPhone.contactName;
+
+            $scope.newTelephone.telephoneType = $scope.telephoneTypes[editPhone.telephoneType - 1];
+
+            $scope.newTelephone.number = editPhone.number;
+
+            $scope.client.telephones.splice(index, 1);
+        }
+
         $scope.next = function () {
 
-            if ($scope.step == 4)
+            if ($scope.step == 5)
+            {
+                /*
                 $state.go('login');
+                */
+
+                console.log($scope.client);
+
+                $http.post(_apiUrl + '/clients', $scope.client)
+                    .success(function successCallback(response) {
+                        $state.go("login");
+                    })
+
+            }
+
             else
                 $scope.step++;
         }
 
         /* Save form 1 */
         $scope.saveForm1 = function () {
-            //if ($scope.form1.$valid && $scope.cidadao.banks.length > 0) {
+            //if ($scope.form1.$valid && $scope.client.banks.length > 0) {
             //    loadIssueBody();
             //}
 
@@ -297,6 +380,14 @@
             //};
 
             $scope.step = 5;
+
+        }
+
+        $scope.saveForm5 = function () {
+            //if ($scope.form4.$valid) {
+            //};
+
+           // $scope.step = 5;
 
         }
 

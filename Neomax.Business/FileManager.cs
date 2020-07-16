@@ -36,7 +36,7 @@ namespace Neomax.Business
             try
             {
                 ////Converts the image to base64 string
-                fileBase64Dto.ImagemBase64 = Convert.ToBase64String(file.Content);
+                fileBase64Dto.ImageBase64 = Convert.ToBase64String(file.Content);
 
                 ////Generates the the MIME Type from file extension 
                 fileBase64Dto.MimeType = file.MimeType;

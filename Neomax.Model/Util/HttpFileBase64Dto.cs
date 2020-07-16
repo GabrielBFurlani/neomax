@@ -22,19 +22,15 @@ namespace Neomax.Model.Util
         }
 
         /// <summary> Obtém ou define o conteúdo da imagem em base 64 </summary>
-        [JsonProperty("imagemBase64")]
-        public string ImagemBase64 { get; set; }
+        public string ImageBase64 { get; set; }
 
         /// <summary> Obtém ou define o MimeType da imagem </summary>
-        [JsonProperty("mimeType")]
         public string MimeType { get; set; }
 
         /// <summary> Obtém ou define o nome do arquivo da imagem </summary>
-        [JsonProperty("nomeArquivo")]
         public string FileName { get; set; }
 
         /// <summary> Obtém ou define o código identificador do arquivo </summary>
-        [JsonProperty("codigoArquivo")]
         public int? FileId { get; set; }
     }
 }

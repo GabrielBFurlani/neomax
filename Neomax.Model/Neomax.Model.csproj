@@ -74,6 +74,7 @@
     <Compile Include="Util\Domain.cs" />
     <Compile Include="Util\HttpResultModel.cs" />
     <Compile Include="Util\OperationResult.cs" />
+    <Compile Include="Util\ParameterDto.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

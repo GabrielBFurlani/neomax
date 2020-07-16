@@ -97,10 +97,10 @@
                                     </button>
                                 </td>
                                 <td>{{process.protocolNumber}}</td>
-                                <td ng-show="process.id == 1" bgcolor="#00FF00">{{process.situation}}</td>
-                                <td ng-show="process.id == 2" bgcolor="YELLOW">{{process.situation}}</td>
-                                <td ng-show="process.id == 3" bgcolor="#FF4500">{{process.situation}}</td>
-                                <td ng-show="process.id == 4" bgcolor="#B22222">{{process.situation}}</td>
+                                <td ng-show="process.id == 1" bgcolor="#00FF00">{{process.situation.name}}</td>
+                                <td ng-show="process.id == 2" bgcolor="YELLOW">{{process.situation.name}}</td>
+                                <td ng-show="process.id == 3" bgcolor="#FF4500">{{process.situation.name}}</td>
+                                <td ng-show="process.id == 4" bgcolor="#B22222">{{process.situation.name}}</td>
                                 <td>{{process.date | date: 'dd/MM/yyyy'}}</td>
                             </tr>
                         </tbody>

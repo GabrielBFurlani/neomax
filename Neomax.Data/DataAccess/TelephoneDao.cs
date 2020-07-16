@@ -17,7 +17,7 @@ namespace Neomax.Data.DataAccess
     {
 
         /// <summary> Gets or sets the telephone number </summary>
-        public virtual int Number { get; set; }
+        public virtual string Number { get; set; }
 
         /// <summary> Gets or sets the telephone type </summary>
         public virtual TelephoneType TelephoneType { get; set; }

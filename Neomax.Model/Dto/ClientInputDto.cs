@@ -24,71 +24,54 @@ namespace Neomax.Model.Dto
         }
 
         /// <summary> Gets or sets the client name </summary>
-        [JsonProperty("nome")]
         public string Name { get; set; }
 
         /// <summary> Gets or sets the client CNPJ </summary>
-        [JsonProperty("Username")]
         public string Username { get; set; }
 
         /// <summary> Gets or sets the client CNPJ </summary>
-        [JsonProperty("NickName")]
         public string NickName { get; set; }
 
         /// <summary> Gets or sets the client CNPJ </summary>
-        [JsonProperty("Senha")]
         public string Password { get; set; }
 
         /// <summary> Gets or sets the client CNPJ </summary>
-        [JsonProperty("SenhaConfirmacao")]
         public string PasswordConfirmation { get; set; }
 
         /// <summary> Gets or sets the client url base </summary>
-        [JsonProperty("CNPJFontePagadora")]
-        public string CNPJPayingSource { get; set; }
+        public string CnpjPaying { get; set; }
 
         /// <summary> Gets or sets the client url base </summary>
-        [JsonProperty("Email")]
         public string Email { get; set; }
 
         /// <summary> Gets or sets the client url base </summary>
-        [JsonProperty("sexo")]
         public Gender? Gender { get; set; }
 
         /// <summary> Gets or sets the client url base </summary>
-        [JsonProperty("TipoNotaEmitida")]
         public TypeNoteEmited? TypeNoteEmited { get; set; }
 
         /// <summary> Gets or sets the client url base </summary>
-        [JsonProperty("FaturamentoAnual")]
         public AnnualBilling? AnnualBilling { get; set; }
 
         /// <summary> Gets or sets the client url base </summary>
-        [JsonProperty("NaturezaEmpresa")]
-        public NatureBackground? NatureBackground { get; set; }
+        public CompanyNatureTypes? CompanyNatureType { get; set; }
 
         /// <summary> Gets or sets the client CNPJ </summary>
-        [JsonProperty("foto")]
         public ImageBase64Dto Photo { get; set; }
 
         /// <summary> Gets or sets the client configurations list (it's a many-to-many reference) </summary>
-        [JsonProperty("Bancos")]
         public List<BankDto> Banks { get; set; }
 
         /// <summary> Gets or sets the client configurations list (it's a many-to-many reference) </summary>
-        [JsonProperty("Bancos")]
         public List<TelephoneDto> Telephones { get; set; }
 
         /// <summary> Gets or sets the client configurations list (it's a many-to-many reference) </summary>
-        [JsonProperty("DiasContato")]
         public List<ContactDay> ContactDays { get; set; }
 
         /// <summary> Gets or sets the client configurations list (it's a many-to-many reference) </summary>
-        [JsonProperty("HorasContato")]
         public List<ContactTime> ContactTimes { get; set; }
 
         /// <summary> Gets or sets the client configurations list (it's a many-to-many reference) </summary>
-        [JsonProperty("Documentos")]
         public List<HttpFileBase64Dto> Documents { get; set; }
     }
 }

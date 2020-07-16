@@ -2,6 +2,7 @@
 
     angular.module("app").controller('processClientListController', ['$scope', '$state', '$http', 'CONFIG', '$uibModal', 'userControl', function ($scope, $state, $http, CONFIG, $uibModal, userControl) {
         var _apiUrl = CONFIG.apiRootUrl;
+
         $scope.processStatus = CONFIG.processStatus;
 
         $scope.maxVisiblePages = 5;
@@ -11,20 +12,6 @@
             resultsPerPage: null,
             response: {}
         };
-
-        $scope.processes = [
-            { protocolNumber: '0003/2020', situation: $scope.processStatus[1], date: new Date(2020, 04, 19), id: 3 },
-            { protocolNumber: '0002/2020', situation: $scope.processStatus[0], date: new Date(2020, 04, 15), id: 2 },
-            { protocolNumber: '0001/2020', situation: $scope.processStatus[2], date: new Date(2020, 04, 05), id: 1 },
-            { protocolNumber: '0004/2020', situation: $scope.processStatus[3], date: new Date(2020, 04, 03), id: 4 }
-        ];
-
-        $scope.processesList = [
-            { protocolNumber: '0003/2020', situation: $scope.processStatus[1], date: new Date(2020, 04, 19), id: 3 },
-            { protocolNumber: '0002/2020', situation: $scope.processStatus[0], date: new Date(2020, 04, 15), id: 2 },
-            { protocolNumber: '0001/2020', situation: $scope.processStatus[2], date: new Date(2020, 04, 05), id: 1 },
-            { protocolNumber: '0004/2020', situation: $scope.processStatus[3], date: new Date(2020, 04, 03), id: 4 }
-        ];
 
         $scope.isFilterOpen = false;
 
@@ -48,14 +35,28 @@
 
         //loadPage()
         function loadPage() {
-            /*
-            $http.get(_apiUrl + '/profile/all')
+
+            $http.get(_apiUrl + '/clients/solicitationStatus')
                 .then(function successCallback(response) {
-                    $scope.profiles = response.data.resultData;                   
+                    $scope.processStatus = response.data.resultData;
+
+                    $scope.processes = [
+                        { protocolNumber: '0003/2020', situation: $scope.processStatus[1], date: new Date(2020, 04, 19), id: 3 },
+                        { protocolNumber: '0002/2020', situation: $scope.processStatus[0], date: new Date(2020, 04, 15), id: 2 },
+                        { protocolNumber: '0001/2020', situation: $scope.processStatus[2], date: new Date(2020, 04, 05), id: 1 },
+                        { protocolNumber: '0004/2020', situation: $scope.processStatus[3], date: new Date(2020, 04, 03), id: 4 }
+                    ];
+
+                    $scope.processesList = [
+                        { protocolNumber: '0003/2020', situation: $scope.processStatus[1], date: new Date(2020, 04, 19), id: 3 },
+                        { protocolNumber: '0002/2020', situation: $scope.processStatus[0], date: new Date(2020, 04, 15), id: 2 },
+                        { protocolNumber: '0001/2020', situation: $scope.processStatus[2], date: new Date(2020, 04, 05), id: 1 },
+                        { protocolNumber: '0004/2020', situation: $scope.processStatus[3], date: new Date(2020, 04, 03), id: 4 }
+                    ];
                 });
-    
+
             $scope.search();
-        */
+
         }
 
         //Button: Search

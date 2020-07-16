@@ -26,7 +26,7 @@ ALTER TABLE Arquivo OWNER TO neomaxuser;
 
 CREATE TABLE Telefone (
 	Codigo BIGSERIAL PRIMARY KEY,
-	Numero INTEGER NOT NULL,
+	Numero VARCHAR(20) NOT NULL,
 	TipoTelefone SMALLINT NOT NULL,
 	NomeContato VARCHAR(80) NULL
 );

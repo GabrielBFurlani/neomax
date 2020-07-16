@@ -10,22 +10,14 @@
             //gets the logged user data (user session)
             $scope.session = userControl.userSession;
 
+            $scope.isAdmin = $scope.session.isAdmin;
+
             //checks if the logged user has photo
             if ($scope.session.photo) {
                 $scope.hasPhoto = true;
             }
             else {
                 $scope.hasPhoto = false;
-            }
-
-            console.log($scope.session);
-
-            //checks if the logged user has "admin" profile
-            if ($scope.session.client == null) {
-                $scope.isAdmin = true;
-            }
-            else {
-                $scope.isAdmin = false;
             }
         }
 

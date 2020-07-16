@@ -24,24 +24,18 @@ namespace Neomax.Model.Dto
         }
 
         /// <summary> Gets or sets the client name </summary>
-        [JsonProperty("nome")]
         public string Name { get; set; }
 
         /// <summary> Gets or sets the client CNPJ </summary>
-        [JsonProperty("cnpj")]
         public string CNPJ { get; set; }
 
         /// <summary> Gets or sets the client url base </summary>
-        [JsonProperty("Url")]
         public string Url { get; set; }
 
         /// <summary> Gets or sets the client CNPJ </summary>
-        [JsonProperty("brasao")]
-        public HttpFileBase64Dto BlazonFile { get; set; }
+        public HttpFileBase64Dto Photo { get; set; }
 
         /// <summary> Gets or sets a value indicating whether client is active (when deleted, it's kept on the table, but the status is false) </summary>
-        [JsonProperty("ativo")]
-
         public bool Active { get; set; }
     }
 }

@@ -35,21 +35,21 @@ namespace Neomax.Data.DataAccess
         public virtual AnnualBilling? AnnualBilling { get; set; }
 
         /// <summary> Gets or sets the client Blazon </summary>
-        public virtual NatureBackground? NatureBackground { get; set; }
+        public virtual CompanyNatureTypes? NatureBackground { get; set; }
 
         /// <summary> Gets or sets the client Blazon </summary>
-        public virtual List<BankDao> ListBanks { get; set; }
+        public virtual IList<BankDao> ListBanks { get; set; }
 
         /// <summary> Gets or sets the client Blazon </summary>
-        public virtual List<TelephoneDao> ListTelephones { get; set; }
+        public virtual IList<TelephoneDao> ListTelephones { get; set; }
 
         /// <summary> Gets or sets the client Blazon </summary>
-        public virtual List<ContactDayDao> ListContactDay { get; set; }
+        public virtual IList<ContactDayDao> ListContactDay { get; set; }
 
         /// <summary> Gets or sets the client Blazon </summary>
-        public virtual List<ContactTimeDao> ListContactTime { get; set; }
+        public virtual IList<ContactTimeDao> ListContactTime { get; set; }
 
         /// <summary> Gets or sets the client Blazon </summary>
-        public virtual List<FileDao> ListDocuments { get; set; }
+        public virtual IList<FileDao> ListDocuments { get; set; }
     }
 }

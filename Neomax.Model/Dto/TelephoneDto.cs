@@ -24,15 +24,12 @@ namespace Neomax.Model.Dto
         }
 
         /// <summary> Gets or sets the client name </summary>
-        [JsonProperty("Numero")]
         public string Number { get; set; }
 
         /// <summary> Gets or sets the client CNPJ </summary>
-        [JsonProperty("Tipo")]
         public TelephoneType TelephoneType { get; set; }
 
         /// <summary> Gets or sets the client url base </summary>
-        [JsonProperty("Contato")]
         public string ContactName { get; set; }
     }
 }

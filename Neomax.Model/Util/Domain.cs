@@ -20,10 +20,6 @@ namespace Neomax.Model.Util
     public enum ContactDay
     {
         /// <summary> Indicates a day of week </summary>
-        [DescriptionAttribute("Domingo")]
-        Sunday = 0,
-
-        /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Segunda-Feira")]
         Monday = 1,
 
@@ -41,11 +37,7 @@ namespace Neomax.Model.Util
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Sexta-Feira")]
-        Friday = 5,
-
-        /// <summary> Indicates a day of week </summary>
-        [DescriptionAttribute("Sabado")]
-        Saturday = 6
+        Friday = 5
     }
 
     public enum ContactTime
@@ -91,15 +83,15 @@ namespace Neomax.Model.Util
     {
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Masculino")]
-        Time09to10 = 0,
+        Male = 0,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Feminino")]
-        Time10to11 = 1,
+        Feminine = 1,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Não informado/Indiferente")]
-        Time11to12 = 2
+        Uninformed = 2
     }
 
     public enum TypeNoteEmited
@@ -136,7 +128,7 @@ namespace Neomax.Model.Util
         FourPlus = 3
     }
 
-    public enum NatureBackground
+    public enum CompanyNatureTypes
     {
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Empresário Individual (EI)")]

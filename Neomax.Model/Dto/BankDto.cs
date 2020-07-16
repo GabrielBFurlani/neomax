@@ -24,15 +24,12 @@ namespace Neomax.Model.Dto
         }
 
         /// <summary> Gets or sets the client name </summary>
-        [JsonProperty("Banco")]
         public string Bank { get; set; }
 
         /// <summary> Gets or sets the client CNPJ </summary>
-        [JsonProperty("Agencia")]
         public string Agency { get; set; }
 
         /// <summary> Gets or sets the client url base </summary>
-        [JsonProperty("Conta")]
         public string Account { get; set; }
     }
 }

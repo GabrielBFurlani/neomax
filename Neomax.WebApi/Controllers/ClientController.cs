@@ -24,7 +24,7 @@ namespace Neomax.WebApi.Controllers
     /// <summary>
     /// Profile Controller
     /// </summary>
-    [RoutePrefix("api/clientes")]
+    [RoutePrefix("api/clients")]
     [SessionManagement]
     public class ClientController : ApiController
     {
@@ -126,12 +126,13 @@ namespace Neomax.WebApi.Controllers
         /// </summary>
         [Route("")]
         [HttpPost]
-        [SimpleAuthentication]
         public IHttpActionResult Create(ClientInputDto clientInputDto)
         {
             try
             {
-                return this.Ok(new HttpResultModel(string.Empty, ClientManager.CreateOrUpdate(null, clientInputDto)));
+                var message = ClientManager.CreateOrUpdate(null, clientInputDto);
+
+                return Ok(new HttpResultModel(message));
             }
             catch (PermissionException)
             {
@@ -202,5 +203,186 @@ namespace Neomax.WebApi.Controllers
                 return this.BadRequest("Não foi possível obter a lista paginada de clientes");
             }
         }
+
+        #region enumerators
+
+        /// <summary>
+        /// Get all activities types
+        /// </summary>
+        /// <returns>Operation result with List of all activities types (enum)</returns>
+        [Route("telephoneTypes")]
+        [HttpGet]
+        public IHttpActionResult GetTelephoneTypes()
+        {
+            try
+            {
+                return this.Ok(new HttpResultModel(string.Empty, Enum.GetValues(typeof(TelephoneType)).Cast<TelephoneType>().Select(x => new ParameterDto() { Parameter = (int)x, Name = Domain.TextValueFrom(x) }).OrderBy(x => x.Parameter)));
+            }
+            catch (BusinessException e)
+            {
+                return this.BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest("COULD_NOT_PERFORM_OPERATION");
+            }
+        }
+
+        /// <summary>
+        /// Get all activities types
+        /// </summary>
+        /// <returns>Operation result with List of all activities types (enum)</returns>
+        [Route("genderTypes")]
+        [HttpGet]
+        public IHttpActionResult GetGenderTypes()
+        {
+            try
+            {
+                return this.Ok(new HttpResultModel(string.Empty, Enum.GetValues(typeof(Gender)).Cast<Gender>().Select(x => new ParameterDto() { Parameter = (int)x, Name = Domain.TextValueFrom(x) }).OrderBy(x => x.Parameter)));
+            }
+            catch (BusinessException e)
+            {
+                return this.BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest("COULD_NOT_PERFORM_OPERATION");
+            }
+        }
+
+        /// <summary>
+        /// Get all activities types
+        /// </summary>
+        /// <returns>Operation result with List of all activities types (enum)</returns>
+        [Route("noteTypes")]
+        [HttpGet]
+        public IHttpActionResult GetNoteTypes()
+        {
+            try
+            {
+                return this.Ok(new HttpResultModel(string.Empty, Enum.GetValues(typeof(TypeNoteEmited)).Cast<TypeNoteEmited>().Select(x => new ParameterDto() { Parameter = (int)x, Name = Domain.TextValueFrom(x) }).OrderBy(x => x.Parameter)));
+            }
+            catch (BusinessException e)
+            {
+                return this.BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest("COULD_NOT_PERFORM_OPERATION");
+            }
+        }
+
+        /// <summary>
+        /// Get all activities types
+        /// </summary>
+        /// <returns>Operation result with List of all activities types (enum)</returns>
+        [Route("annualBillingTypes")]
+        [HttpGet]
+        public IHttpActionResult GetAnnualBillingTypes()
+        {
+            try
+            {
+                return this.Ok(new HttpResultModel(string.Empty, Enum.GetValues(typeof(AnnualBilling)).Cast<AnnualBilling>().Select(x => new ParameterDto() { Parameter = (int)x, Name = Domain.TextValueFrom(x) }).OrderBy(x => x.Parameter)));
+            }
+            catch (BusinessException e)
+            {
+                return this.BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest("COULD_NOT_PERFORM_OPERATION");
+            }
+        }
+
+        /// <summary>
+        /// Get all activities types
+        /// </summary>
+        /// <returns>Operation result with List of all activities types (enum)</returns>
+        [Route("companyNatureTypes")]
+        [HttpGet]
+        public IHttpActionResult GetCompanyNatureTypes()
+        {
+            try
+            {
+                return this.Ok(new HttpResultModel(string.Empty, Enum.GetValues(typeof(CompanyNatureTypes)).Cast<CompanyNatureTypes>().Select(x => new ParameterDto() { Parameter = (int)x, Name = Domain.TextValueFrom(x) }).OrderBy(x => x.Parameter)));
+            }
+            catch (BusinessException e)
+            {
+                return this.BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest("COULD_NOT_PERFORM_OPERATION");
+            }
+        }
+
+        /// <summary>
+        /// Get all activities types
+        /// </summary>
+        /// <returns>Operation result with List of all activities types (enum)</returns>
+        [Route("days")]
+        [HttpGet]
+        public IHttpActionResult GetWeekDays()
+        {
+            try
+            {
+                return this.Ok(new HttpResultModel(string.Empty, Enum.GetValues(typeof(ContactDay)).Cast<ContactDay>().Select(x => new ParameterDto() { Parameter = (int)x, Name = Domain.TextValueFrom(x) }).OrderBy(x => x.Parameter)));
+            }
+            catch (BusinessException e)
+            {
+                return this.BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest("COULD_NOT_PERFORM_OPERATION");
+            }
+        }
+
+        /// <summary>
+        /// Get all activities types
+        /// </summary>
+        /// <returns>Operation result with List of all activities types (enum)</returns>
+        [Route("times")]
+        [HttpGet]
+        public IHttpActionResult GetContactTimes()
+        {
+            try
+            {
+                return this.Ok(new HttpResultModel(string.Empty, Enum.GetValues(typeof(ContactTime)).Cast<ContactTime>().Select(x => new ParameterDto() { Parameter = (int)x, Name = Domain.TextValueFrom(x) }).OrderBy(x => x.Parameter)));
+            }
+            catch (BusinessException e)
+            {
+                return this.BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest("COULD_NOT_PERFORM_OPERATION");
+            }
+        }
+
+        /// <summary>
+        /// Get all activities types
+        /// </summary>
+        /// <returns>Operation result with List of all activities types (enum)</returns>
+        [Route("solicitationStatus")]
+        [HttpGet]
+        public IHttpActionResult GetSolicitationStatus()
+        {
+            try
+            {
+                return this.Ok(new HttpResultModel(string.Empty, Enum.GetValues(typeof(SolicitationStatus)).Cast<SolicitationStatus>().Select(x => new ParameterDto() { Parameter = (int)x, Name = Domain.TextValueFrom(x) }).OrderBy(x => x.Parameter)));
+            }
+            catch (BusinessException e)
+            {
+                return this.BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest("COULD_NOT_PERFORM_OPERATION");
+            }
+        }
+        
+
+        #endregion
     }
 }

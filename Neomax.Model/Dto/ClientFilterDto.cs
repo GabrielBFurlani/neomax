@@ -24,15 +24,12 @@ namespace Neomax.Model.Dto
         }
 
         /// <summary> Gets or sets the client name </summary>
-        [JsonProperty("argumento")]
         public string Argument { get; set; }
 
         /// <summary> Gets or sets the client configurations list (it's a many-to-many reference) </summary>
-        [JsonProperty("codigoCidade")]
         public int? IdCity { get; set; }
 
         /// <summary> Gets or sets the state of City </summary>
-        [JsonProperty("somenteAtivos")]
         public bool ActiveOnly { get; set; }
     }
 }

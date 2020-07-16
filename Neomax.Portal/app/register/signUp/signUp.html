@@ -18,7 +18,8 @@
                 <li ng-class="{active: step >= 1}" id="generalData" ng-click="changeStep(1)"><strong>Dados Gerais</strong></li>
                 <li ng-class="{active: step >= 2}" id="infos" ng-click="changeStep(2)"><strong>Informa&ccedil;&otilde;es Adicionais</strong></li>
                 <li ng-class="{active: step >= 3}" id="bankData" ng-click="changeStep(3)"><strong>Dados Banc&aacute;rios</strong></li>
-                <li ng-class="{active: step >= 4}" id="docs" ng-click="changeStep(4)"><strong>Documentos</strong></li>
+                <li ng-class="{active: step >= 4}" id="photo" ng-click="changeStep(4)"><strong>Foto</strong></li>
+                <li ng-class="{active: step >= 5}" id="docs" ng-click="changeStep(5)"><strong>Documentos</strong></li>
             </ul>
         </form>
     </div>
@@ -30,10 +31,10 @@
 
         <div class="row line-space-10">
             <div class="col-md-6">
-                <div class="form-group" ng-class="{'has-error': form1.cpfcnpj.$error.required && (form1.cpfcnpj.$dirty || form1.$submitted)}">
-                    <label class="control-label">*CPF/CNPJ</label>
-                    <input name="cpfcnpj" id="cpfcnpj" class="form-control" ng-model="client.cpfcnpj" required ng-change="cpfCnpjFormater()" />
-                    <div ng-messages="form1.cpfcnpj.$error" class="error-message" role="alert" ng-show="form1.cpfcnpj.$error && (form1.cpfcnpj.$dirty || form1.$submitted)">
+                <div class="form-group" ng-class="{'has-error': form1.username.$error.required && (form1.username.$dirty || form1.$submitted)}">
+                    <label class="control-label">*CPF/CNPJ (Login)</label>
+                    <input name="username" id="username" class="form-control" ng-model="client.username" required ng-change="usernameFormater()" />
+                    <div ng-messages="form1.username.$error" class="error-message" role="alert" ng-show="form1.username.$error && (form1.username.$dirty || form1.$submitted)">
                         <div ng-message="required">{{validationMessages.required}}</div>
                         <div ng-message="invalid">{{validationMessages.invalid}}</div>
                     </div>
@@ -54,6 +55,23 @@
 
         <div class="row line-space-10">
             <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">*Senha</label>
+                    <input type="password" id="name" name="name" class="form-control" ng-model="client.password" maxLength="100"
+                           validate-on="submit" required required-message="'Obrigatório'" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">*Confirmação Senha</label>
+                    <input type="password" id="name" name="name" class="form-control" ng-model="client.passwordConfirmation" maxLength="100"
+                           validate-on="submit" required required-message="'Obrigatório'" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row line-space-10">
+            <div class="col-md-6">
                 <div class="form-group" ng-class="{'has-error': (form1.nome.$error.required || form1.nome.$error.invalid) && (form1.nome.$dirty || form1.$submitted)}">
                     <label class="control-label">*Nome Completo</label>
                     <input type="text" id="name" name="name" autocomplete="new-password" class="form-control" ng-model="client.name" maxLength="100" required />
@@ -65,7 +83,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label class="control-label">Como Gostaria de Ser Chamado?</label>
-                    <input type="text" id="socialName" name="socialName" autocomplete="new-password" class="form-control" ng-model="client.socialName" maxLength="50" />
+                    <input type="text" id="nickName" name="nickName" autocomplete="new-password" class="form-control" ng-model="client.nickName" maxLength="50" />
                 </div>
             </div>
         </div>
@@ -84,7 +102,7 @@
                 <div class="form-group">
                     <label class="control-label">Sexo</label>
                     <select name="sexo" id="sexo" class="form-control" ng-model="client.gender"
-                            ng-options="item for item in genderTypes">
+                            ng-options="item.parameter as item.name for item in genderTypes">
                         <option value="">---Selecione---</option>
                     </select>
                 </div>
@@ -92,13 +110,12 @@
         </div>
 
         <!-- TELEPHONE INFORMATIONS-->
-        <!--newTelephone.telephoneType-->
         <div class="row line-space-10">
             <div class="col-md-3">
                 <div class="form-group" ng-class="{'has-error': form1.newTelefoneType.$error.required && (form1.newTelefoneType.$dirty || form1.$submitted)}">
                     <label class="control-label">Tipo Telefone</label>
-                    <select name="newTelefoneType" id="newTelefoneType" class="form-control" ng-model="telephoneType"
-                            ng-options="item for item in telephoneTypes" value="{{item.parameter}}">
+                    <select name="newTelefoneType" id="newTelefoneType" class="form-control" ng-model="newTelephone.telephoneType"
+                            ng-options="item.name for item in telephoneTypes">
                         <option value="">---Selecione---</option>
                     </select>
                     <div ng-messages="form1.newTelefoneType.$error" class="error-message" role="alert" ng-show="newTelephoneErrors.typeRequired">
@@ -107,10 +124,10 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="form-group" ng-class="{'has-error': form1.newTelephoneNumero.$error.required && (form1.newTelephoneNumero.$dirty || form1.$submitted)}">
+                <div class="form-group" ng-class="{'has-error': form1.newTelephoneNumber.$error.required && (form1.newTelephoneNumber.$dirty || form1.$submitted)}">
                     <label class="control-label">Telefone</label>
-                    <input class="form-control" type="text" id="newTelephoneNumero" name="newTelephoneNumero" autocomplete="new-password" ng-model="newTelephone.numero" ui-mask="(99) 9999-9999?9" />
-                    <div ng-messages="form1.newTelephoneNumero.$error" class="error-message" role="alert" ng-show="newTelephoneErrors.numberRequired">
+                    <input class="form-control" type="text" id="newTelephoneNumero" name="newTelephoneNumero" autocomplete="new-password" ng-model="newTelephone.number" ui-mask="(99) 9999-9999?9" />
+                    <div ng-messages="form1.newTelephoneNumber.$error" class="error-message" role="alert" ng-show="newTelephoneErrors.numberRequired">
                         <div ng-message="required">{{validationMessages.required}}</div>
                     </div>
                 </div>
@@ -148,7 +165,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="telephone in client.telefones track by $index">
+                    <tr ng-repeat="telephone in client.telephones track by $index">
                         <td>
                             <button type="button" class="btn btn-sm btn-warning" uib-tooltip="Editar" ng-click="editPhone(telephone, $index)">
                                 <i class="fas fa-pencil-alt"></i>
@@ -157,7 +174,7 @@
                                 <i class="fas fa-times"></i>
                             </button>
                         </td>
-                        <td>({{telephone.ddd}}){{telephone.number}}</td>
+                        <td>{{telephone.number}}</td>
                         <td class="uppercase-mask">{{telephone.telephoneTypeObj.name}}</td>
                         <td class="uppercase-mask">{{telephone.contactName}}</td>
                     </tr>
@@ -179,8 +196,6 @@
 
     </form>
 
-
-
     <!-- STEP 2 Aditional Informations-->
 
     <form class="col-md-8 col-md-offset-2" role="form" name="form2" ng-submit="saveForm2()" novalidate ng-show="step==2">
@@ -189,8 +204,8 @@
             <div class="col-md-6">
                 <div class="form-group" ng-class="{'has-error': form2.typeNoteIssued.$error.required && (form2.typeNoteIssued.$dirty || form2.$submitted)}">
                     <label class="control-label">Tipo de Nota Emitida</label>
-                    <select name="typeNoteIssued" id="typeNoteIssued" class="form-control" ng-model="client.noteType"
-                            ng-options="item for item in noteTypes" value="{{item.parameter}}">
+                    <select name="typeNoteIssued" id="typeNoteIssued" class="form-control" ng-model="client.TypeNoteEmited"
+                            ng-options="item.parameter as item.name for item in noteTypes">
                         <option value="">---Selecione---</option>
                     </select>
                 </div>
@@ -199,8 +214,8 @@
             <div class="col-md-6">
                 <div class="form-group" ng-class="{'has-error': form2.annualBilling.$error.required && (form2.annualBilling.$dirty || form2.$submitted)}">
                     <label class="control-label">Faturamento Anual</label>
-                    <select name="annualBilling" id="annualBilling" class="form-control" ng-model="newTelephone.annualBilling"
-                            ng-options="item for item in annualBillingTypes" value="{{item.parameter}}">
+                    <select name="annualBilling" id="annualBilling" class="form-control" ng-model="client.annualBilling"
+                            ng-options="item.parameter as item.name for item in annualBillingTypes">
                         <option value="">---Selecione---</option>
                     </select>
                 </div>
@@ -211,8 +226,8 @@
             <div class="col-md-12">
                 <div class="form-group" ng-class="{'has-error': form2.companyNature.$error.required && (form2.companyNature.$dirty || form2.$submitted)}">
                     <label class="control-label">Natureza da Empresa</label>
-                    <select name="typeNoteIssued" id="typeNoteIssued" class="form-control" ng-model="client.companyNature"
-                            ng-options="item for item in companyNatureTypes" value="{{item.parameter}}">
+                    <select name="typeNoteIssued" id="typeNoteIssued" class="form-control" ng-model="client.CompanyNatureType"
+                            ng-options="item.parameter as item.name for item in companyNatureTypes">
                         <option value="">---Selecione---</option>
                     </select>
                 </div>
@@ -224,7 +239,7 @@
                 <div class="form-group" ng-class="{'has-error': form2.dateContact.$error.required && (form2.dateContact.$dirty || form2.$submitted)}">
                     <label class="control-label">Melhores Dias para Contato</label>
                     <select name="dateContact" id="dateContact" class="form-control" ng-model="datesContact"
-                            ng-options="item for item in days" value="{{item.parameter}}">
+                            ng-options="item.parameter as item.name for item in days">
                         <option value="">---Selecione---</option>
                     </select>
                 </div>
@@ -234,7 +249,7 @@
                 <div class="form-group" ng-class="{'has-error': form2.timeContact.$error.required && (form2.timeContact.$dirty || form2.$submitted)}">
                     <label class="control-label">Melhores Hor&aacute;rios para Contato</label>
                     <select name="timeContact" id="timeContact" class="form-control" ng-model="client.timesContact"
-                            ng-options="item for item in times" value="{{item.parameter}}">
+                            ng-options="item.parameter as item.name for item in times">
                         <option value="">---Selecione---</option>
                     </select>
                 </div>
@@ -333,7 +348,7 @@
                         </button>
                     </td>
                     <td>{{bank.bank}}
-                    <td class="uppercase-mask">{{bank,agency}}</td>
+                    <td class="uppercase-mask">{{bank.agency}}</td>
                     <td class="uppercase-mask">{{bank.account}}</td>
                 </tr>
             </tbody>
@@ -354,9 +369,50 @@
 
 </form>
 
-<!--STEP 4: Dosc-->
+<!--Step 4 -> Photo-->
 
-<form class="col-md-6 col-md-offset-3" role="form" name="form3" ng-submit="saveForm4()" novalidate ng-show="step==4">
+<form class="col-md-8 col-md-offset-2" role="form" name="form5" ng-submit="saveForm4()" novalidate ng-show="step==4">
+
+    <!--<div class="lds-roller-sm text-center" ng-show="loadPhoto" ng-bind-html="showLoading()"></div>-->
+
+    <div ng-show="!loadPhoto">
+        <div class="line-space-10">
+            <div class="col-md-12 text-center">
+                <div ng-if="hasPhoto">
+                    <img ng-if="!newPhoto" ng-src="data:image/png;base64,{{conteudoArquivoFoto}}" alt="Foto" class="img-photo finalUserPhoto" />
+                    <img ng-if="newPhoto" ng-src="{{conteudoArquivoFoto}}" alt="Foto" class="img-photo finalUserPhoto" />
+                </div>
+                <img src="assets/img/no_photo.png" alt="Foto" class="img-circle user-final-photo" ng-if="!hasPhoto" />
+            </div>
+        </div>
+
+        <div class="row line-space-20">
+            <div class="col-md-12 text-center">
+                <button type="button" class="btn btn btn-primary column-space" ng-click="openModalImage()"><i class="fas fa-camera-retro"></i> Incluir/Alterar Foto</button>
+                <button type="button" class="btn btn btn-danger" ng-click="deletePhoto()" ng-if="hasPhoto">
+                    <i class="fas fa-times"></i> Excluir Foto
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row line-space-20">
+        <div class="col-md-12 text-center">
+            <div ng-if="!submited">
+                <button type="button" class="btn btn-default" ng-click="back()"><i class="fas fa-arrow-left"></i> Voltar</button>
+                <button type="button" ng-click="next()" class="btn btn-default">
+                    Avan&ccedil;ar  <span class="fas fa-arrow-right"></span>
+                </button>
+            </div>
+            <div class="lds-roller-sm" ng-if="submited" ng-bind-html="showLoading()"></div>
+        </div>
+    </div>
+
+</form>
+
+<!--STEP 5: Dosc-->
+
+<form class="col-md-6 col-md-offset-3" role="form" name="form3" ng-submit="saveForm5()" novalidate ng-show="step==5">
 
     <div class="row line-space-30 text-center">
         <div class="col-md-8 col-md-offset-2">

@@ -30,7 +30,7 @@ namespace Neomax.Business
         /// <summary> Static logger variable </summary>
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static ClientDto CreateOrUpdate(int? id, ClientInputDto clientInputDto)
+        public static string CreateOrUpdate(int? id, ClientInputDto clientInputDto)
         {
             ClientRepository clientRepository = new ClientRepository();
 
@@ -54,6 +54,20 @@ namespace Neomax.Business
             {
                 throw new BusinessException("O CPF/CNPJ deve ser informado");
             }
+
+            if (!IsCnpj(clientInputDto.Username) && !IsCpf(clientInputDto.Username))
+            {
+                throw new BusinessException("CPF/CNPJ inválido");
+            }
+
+            clientInputDto.Username = clientInputDto.Username.Replace(".", "").Replace("-", "").Replace("/", "");
+
+            if (!IsCnpj(clientInputDto.CnpjPaying))
+            {
+                throw new BusinessException("CNPJ da fonte pagadora inválido");
+            }
+
+            clientInputDto.CnpjPaying = clientInputDto.CnpjPaying.Replace(".", "").Replace("-", "").Replace("/", "");
 
             if (string.IsNullOrWhiteSpace(clientInputDto.Password))
             {
@@ -113,9 +127,9 @@ namespace Neomax.Business
             ClientDao clientDao = new ClientDao()
             {
                 AnnualBilling = clientInputDto.AnnualBilling,
-                CNPJPayingSource = clientInputDto.CNPJPayingSource,
+                CNPJPayingSource = clientInputDto.CnpjPaying,
                 Gender = clientInputDto.Gender,
-                NatureBackground = clientInputDto.NatureBackground,
+                NatureBackground = clientInputDto.CompanyNatureType,
                 TypeNoteEmited = clientInputDto.TypeNoteEmited,
                 ListBanks = new List<BankDao>(),
                 ListContactDay = new List<ContactDayDao>(),
@@ -148,7 +162,7 @@ namespace Neomax.Business
                 {
                     newTelephone = new TelephoneDao()
                     {
-                        Number = int.Parse(telephone.Number),
+                        Number = telephone.Number,
                         ContactName = telephone.ContactName,
                         TelephoneType = telephone.TelephoneType
                     };
@@ -198,11 +212,10 @@ namespace Neomax.Business
 
             clientRepository.CreateOrUpdate(clientDao);
 
-            //var clientDto = Mapper.Map<ClientDto>(clientDao);
+            userDao.Client = clientDao;
+            userRepository.CreateOrUpdate(userDao);
 
-            //User.Photo = fileManager.CreateBase64WithFile(userDao.Photo);
-
-            return null;
+            return "Seu Cadastro foi Finalizado com Sucesso";
         }
 
         //public static UserDto GetByIdUser(int idUser)
@@ -337,6 +350,77 @@ namespace Neomax.Business
             {
                 return string.Empty;
             }
+        }
+
+        public static bool IsCnpj(string cnpj)
+        {
+            int[] multiplicador1 = new int[12] { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
+            int[] multiplicador2 = new int[13] { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
+            int soma;
+            int resto;
+            string digito;
+            string tempCnpj;
+            cnpj = cnpj.Trim();
+            cnpj = cnpj.Replace(".", "").Replace("-", "").Replace("/", "");
+            if (cnpj.Length != 14)
+                return false;
+            tempCnpj = cnpj.Substring(0, 12);
+            soma = 0;
+            for (int i = 0; i < 12; i++)
+                soma += int.Parse(tempCnpj[i].ToString()) * multiplicador1[i];
+            resto = (soma % 11);
+            if (resto < 2)
+                resto = 0;
+            else
+                resto = 11 - resto;
+            digito = resto.ToString();
+            tempCnpj = tempCnpj + digito;
+            soma = 0;
+            for (int i = 0; i < 13; i++)
+                soma += int.Parse(tempCnpj[i].ToString()) * multiplicador2[i];
+            resto = (soma % 11);
+            if (resto < 2)
+                resto = 0;
+            else
+                resto = 11 - resto;
+            digito = digito + resto.ToString();
+            return cnpj.EndsWith(digito);
+        }
+
+        public static bool IsCpf(string cpf)
+        {
+            int[] multiplicador1 = new int[9] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+            int[] multiplicador2 = new int[10] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+            string tempCpf;
+            string digito;
+            int soma;
+            int resto;
+            cpf = cpf.Trim();
+            cpf = cpf.Replace(".", "").Replace("-", "");
+            if (cpf.Length != 11)
+                return false;
+            tempCpf = cpf.Substring(0, 9);
+            soma = 0;
+
+            for (int i = 0; i < 9; i++)
+                soma += int.Parse(tempCpf[i].ToString()) * multiplicador1[i];
+            resto = soma % 11;
+            if (resto < 2)
+                resto = 0;
+            else
+                resto = 11 - resto;
+            digito = resto.ToString();
+            tempCpf = tempCpf + digito;
+            soma = 0;
+            for (int i = 0; i < 10; i++)
+                soma += int.Parse(tempCpf[i].ToString()) * multiplicador2[i];
+            resto = soma % 11;
+            if (resto < 2)
+                resto = 0;
+            else
+                resto = 11 - resto;
+            digito = digito + resto.ToString();
+            return cpf.EndsWith(digito);
         }
 
     }

@@ -256,7 +256,7 @@ table tbody tr td {
     #progressbar li {
         list-style-type: none;
         font-size: 20px;
-        width: 25%;
+        width: 20%;
         float: left;
         position: relative;
         font-weight: 400
@@ -284,6 +284,12 @@ table tbody tr td {
         font-family: "Font Awesome 5 Free";
         font-weight: 900;
         content: "\f19c";
+    }
+
+    #progressbar #photo:before {
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        content: "\f3e0";
     }
 
     #progressbar li:before {

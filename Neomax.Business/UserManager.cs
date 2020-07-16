@@ -793,7 +793,7 @@ namespace Neomax.Business
             {
                 throw new BusinessException("O campo Nome é obrigatório");
             }
-           
+
             // check if the username is being used
             if (userRepository.CheckUsername(id, username))
             {
@@ -820,7 +820,7 @@ namespace Neomax.Business
                 throw new BusinessException("A senha deve ter no mínimo 5 dígitos");
             }
 
-            if(!password.Equals(passwordConfirmation))
+            if (!password.Equals(passwordConfirmation))
             {
                 throw new BusinessException("Senha e confirmação devem ser iguais");
             }

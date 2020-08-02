@@ -1,7 +1,7 @@
 ﻿////-----------------------------------------------------------------------
-//// <copyright file="SolicitationProductMap.cs" company="Zetacorp">
-////  (R) Registrado 2018 Zetacorp.
-////  Desenvolvido por ZETACORP.
+//// <copyright file="SolicitationProductMap.cs" company="Gabriel Furlani">
+////  (R) Registrado 2018 Gabriel Furlani.
+////  Desenvolvido por Gabriel Furlani.
 //// </copyright>
 ////-----------------------------------------------------------------------
 namespace Neomax.Data.Mapping
@@ -23,11 +23,13 @@ namespace Neomax.Data.Mapping
             this.Table("SolicitacaoProduto");
             this.Id(x => x.Id, "Codigo").GeneratedBy.Identity();
             this.Map(x => x.Title, "Titulo");
+            this.Map(x => x.ProductName, "NomeProduto");
+            this.Map(x => x.CNPJPayingSource, "CNPJFontePagadora");
             this.Map(x => x.CreationDate, "DataCriacao");
             this.Map(x => x.Status, "Status").CustomType<SolicitationStatus>();
             this.References(x => x.Solicitation, "CodigoSolicitacao");
             this.References(x => x.Product, "CodigoProduto");
-            HasManyToMany(x => x.ListDocuments).Table("SolicitacaoProdutoDocumento").ParentKeyColumn("CodigoSolicitacaoProduto").ChildKeyColumn("CodigoDocumento");
+            HasManyToMany(x => x.ListDocuments).Table("SolicitacaoProdutoDocumento").ParentKeyColumn("CodigoSolicitacaoProduto").ChildKeyColumn("CodigoDocumento").Cascade.All();
         }
     }
 }

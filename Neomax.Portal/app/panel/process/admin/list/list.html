@@ -3,10 +3,11 @@
         <div class="col-md-12 text-center">
             <h3 class="control-label">Processos</h3>
         </div>
-    </div>    
+    </div>
+    <!--Filter-->
     <!--Filter-->
     <div class="row line-space-10">
-        <div class="col-md-12">
+        <div class="col-md-8 col-md-offset-2">
             <uib-accordion close-others="oneAtATime">
                 <uib-accordion-group class="panel-default" is-open="isFilterOpen">
                     <uib-accordion-heading>
@@ -16,17 +17,32 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="control-label">Nome ou E-mail</label>
-                                    <input type="text" id="nameOrUsername" name="nameOrUsername" class="form-control" ng-model="filter.nameOrUsername" maxLength="100" />
+                                    <label class="control-label">Protocolo/Cliente(CPF/CNPJ/Nome)</label>
+                                    <input type="text" id="protocolNumber" name="protocolNumber" class="form-control" ng-model="filter.argument" maxLength="30" />
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    <label class="control-label">Perfil</label>
-                                    <select id="profile" name="profile" class="form-control" ng-model="filter.idProfile"
-                                            ng-options="item.id as item.name for item in profiles" >
+                                    <label class="control-label">Situa&ccedil;&atilde;o</label>
+                                    <select id="profile" name="profile" class="form-control" ng-model="filter.solicitationStatus" ng-change="search()"
+                                            ng-options="item.parameter as item.name for item in processStatus">
                                         <option value="">---Todos---</option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label head-label">Data Submiss&atilde;o</label>
+                                    <p class="input-group">
+                                        <input type="text" name="date" id="date" class="form-control" ng-model="filter.creationDate"
+                                               uib-datepicker-popup="ddMMyyyy" is-open="datePicker.opened" current-text="Hoje" clear-text="Limpar"
+                                               close-text="Fechar" ui-mask="99/99/9999" />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="datePickerOpen()">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </p>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -48,34 +64,39 @@
                 <div class="col-md-12 text-center">
                     <h4>Nenhum resultado encontrado</h4>
                 </div>
-            </div>            
+            </div>
         </div>
         <!--Result listing-->
         <div ng-switch-when="false">
             <div class="row line-space-20">
-                <div class="col-md-12">
+                <div class="col-md-8 col-md-offset-2">
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th></th>
+                                <th width="150px"></th>
                                 <th>Protocolo</th>
+                                <th>Cliente</th>
                                 <th>Situa&ccedil;&atilde;o</th>
-                                <th>Nome Cliente</th>
                                 <th>Data Solicita&ccedil;&atilde;o</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="process in processes track by $index">
                                 <td>
-                                    <button type="button" class="btn btn-sm btn-default column-space" uib-tooltip="Editar" ng-click="detail(process.id)">
+                                    <button type="button" class="btn btn-sm btn-warning column-space" uib-tooltip="Visualizar" ng-click="detail(client.id)">
+                                        <i class="fas fa-search-plus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-default column-space" uib-tooltip="Editar" ng-click="edit(process.id)" ng-if="process.id == 3">
                                         <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                                     </button>
                                 </td>
-                                <td>{{process.protocolNumber}}</td>
-                                <td ng-show="process.id == 1" bgcolor="00FF00">{{process.situation}}</td>
-                                <td ng-show="process.id == 2" bgcolor="YELLOW">{{process.situation}}</td>
-                                <td>{{process.clientName}}</td>
-                                <td>{{process.date}}</td>
+                                <td>{{process.protocol}}</td>
+                                <td>{{process.client.user.name}}</td>
+                                <td ng-show="process.status == 3" bgcolor="#00FF00">{{process.statusName}}</td>
+                                <td ng-show="process.status == 1" bgcolor="YELLOW">{{process.statusName}}</td>
+                                <td ng-show="process.status == 2" bgcolor="#FF4500">{{process.statusName}}</td>
+                                <td ng-show="process.status == 4" bgcolor="#B22222">{{process.statusName}}</td>
+                                <td>{{process.creationDate | date: 'dd/MM/yyyy'}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -92,5 +113,5 @@
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 </div>

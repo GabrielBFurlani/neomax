@@ -17,7 +17,7 @@
 
             </div>
 
-            <div ng-switch on="products == null || products.length <= 0">
+            <div ng-switch on="products.products == null || products.products.length <= 0">
                 <!--"No Results Found" message-->
                 <div ng-switch-when="true">
                     <div class="row line-space-20">
@@ -36,19 +36,21 @@
                                         <th></th>
                                         <th>T&iacute;tulo</th>
                                         <th>Produto</th>
+                                        <th>CNPJ Fonte Pagadora</th>
                                         <th>N&uacute;mero Arquivos</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="product in products track by $index">
+                                    <tr ng-repeat="product in products.products track by $index">
                                         <td>
                                             <button type="button" class="btn btn-sm btn-warning column-space" uib-tooltip="Visualizar">
                                                 <i class="fas fa-search-plus"></i>
                                             </button>
                                         </td>
                                         <td>{{product.title}}</td>
-                                        <td>{{product.type}}</td>
-                                        <td>{{product.files}}</td>
+                                        <td>{{product.productType}}</td>
+                                        <td>{{product.CNPJPayingSource}}</td>
+                                        <td>{{product.nFiles}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -61,7 +63,7 @@
             <div class="row line-space-20">
                 <div class="col-md-12 text-center">
                     <button type="button" class="btn btn-default" ng-show="productSelected == null" ng-click="back()">Cancelar</button>
-                    <button type="button" class="btn btn-primary column-space" ng-click="finalize()" ng-show="products.length > 0">
+                    <button type="submit" class="btn btn-primary column-space" ng-show="products.products.length > 0">
                         <span class="glyphicon glyphicon-floppy-disk"></span> Finalizar Solicita&ccedil;&atilde;o
                     </button>
                 </div>
@@ -120,6 +122,13 @@
 
             <div class="row line-space-30 text-center">
                 <div class="col-md-4 col-md-offset-4">
+                    <label class="control-label">CNPJ Fonte Pagadora</label>
+                    <input type="text" name="CNPJPayingSource" id="CNPJPayingSource" class="form-control" ng-model="newProduct.CNPJPayingSource" required ng-change="cnpjPayingFormater()" />
+                </div>
+            </div>
+
+            <div class="row line-space-30 text-center">
+                <div class="col-md-4 col-md-offset-4">
                     <div class="form-group">
                         <label class="control-label">Escolha os Arquivos que Deseja Enviar para a Solicita&ccedil;&atilde;o (.jpeg.jpg.png):</label>
                         <input type="file" id="fileInput" name="fileInput" class="form-control" file-input file-model="fileUpload.fileList" change="loadPhoto(fileUpload.fileList[0])"
@@ -169,6 +178,7 @@
                                         <th></th>
                                         <th>T&iacute;tulo</th>
                                         <th>Produto</th>
+                                        <th>CNPJ Fonte Pagadora</th>
                                         <th>N&uacute;mero Arquivos</th>
                                     </tr>
                                 </thead>
@@ -180,7 +190,8 @@
                                             </button>
                                         </td>
                                         <td>{{product.title}}</td>
-                                        <td>{{product.type}}</td>
+                                        <td>{{product.productType}}</td>
+                                        <td>{{product.CNPJPayingSource}}</td>
                                         <td>{{product.files}}</td>
                                     </tr>
                                 </tbody>

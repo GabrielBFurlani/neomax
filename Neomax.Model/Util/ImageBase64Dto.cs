@@ -1,7 +1,7 @@
 ﻿////-----------------------------------------------------------------------
-//// <copyright file="ImageBase64Dto.cs" company="ZetaCorp">
-////  (R) Registrado 2018 ZetaCorp.
-////  Desenvolvido por ZETACORP.
+//// <copyright file="ImageBase64Dto.cs" company="Gabriel Furlani">
+////  (R) Registrado 2018 Gabriel Furlani.
+////  Desenvolvido por Gabriel Furlani.
 //// </copyright>
 ////-----------------------------------------------------------------------
 namespace Neomax.Model.Util

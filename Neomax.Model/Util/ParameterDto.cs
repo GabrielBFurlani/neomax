@@ -1,7 +1,7 @@
 ﻿////-----------------------------------------------------------------------
 //// <copyright file="ParameterDto.cs" company="GabrielFurlani">
 ////  (R) Registrado 2020 Gabriel Furlani.
-////  Desenvolvido por ZETACORP.
+////  Desenvolvido por Gabriel Furlani.
 //// </copyright>
 ////-----------------------------------------------------------------------
 namespace Neomax.Model.Util

@@ -1,7 +1,7 @@
 ﻿////-----------------------------------------------------------------------
-//// <copyright file="ClientController.cs" company="ZetaCorp">
-////  (R) Registrado 2020 Zetacorp.
-////  Desenvolvido por ZETACORP.
+//// <copyright file="ClientController.cs" company="Gabriel Furlani">
+////  (R) Registrado 2020 Gabriel Furlani.
+////  Desenvolvido por Gabriel Furlani.
 //// </copyright>
 ////-----------------------------------------------------------------------
 namespace Neomax.WebApi.Controllers

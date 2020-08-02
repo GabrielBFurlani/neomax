@@ -1,7 +1,7 @@
 ﻿////-----------------------------------------------------------------------
-//// <copyright file="ContactTimeDao.cs" company="Zetacorp">
-////  (R) Registrado 2020 Zetacorp.
-////  Desenvolvido por ZETACORP.
+//// <copyright file="ContactTimeDao.cs" company="Gabriel Furlani">
+////  (R) Registrado 2020 Gabriel Furlani.
+////  Desenvolvido por Gabriel Furlani.
 //// </copyright>
 ////-----------------------------------------------------------------------
 namespace Neomax.Data.DataAccess

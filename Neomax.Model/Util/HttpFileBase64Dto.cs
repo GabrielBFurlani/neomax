@@ -1,7 +1,7 @@
 ﻿////-----------------------------------------------------------------------
-//// <copyright file="HttpFileBase64Dto.cs" company="ZetaCorp">
-////  (R) Registrado 2020 Zetacorp.
-////  Desenvolvido por ZETACORP.
+//// <copyright file="HttpFileBase64Dto.cs" company="Gabriel Furlani">
+////  (R) Registrado 2020 Gabriel Furlani.
+////  Desenvolvido por Gabriel Furlani.
 //// </copyright>
 ////-----------------------------------------------------------------------
 namespace Neomax.Model.Util

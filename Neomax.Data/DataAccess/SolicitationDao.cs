@@ -1,7 +1,7 @@
 ﻿////-----------------------------------------------------------------------
-//// <copyright file="SolicitationDao.cs" company="Zetacorp">
-////  (R) Registrado 2020 Zetacorp.
-////  Desenvolvido por ZETACORP.
+//// <copyright file="SolicitationDao.cs" company="Gabriel Furlani">
+////  (R) Registrado 2020 Gabriel Furlani.
+////  Desenvolvido por Gabriel Furlani.
 //// </copyright>
 ////-----------------------------------------------------------------------
 namespace Neomax.Data.DataAccess
@@ -23,15 +23,18 @@ namespace Neomax.Data.DataAccess
         }
 
         /// <summary> Gets or sets the client name </summary>
-        public virtual int Protocol { get; set; }
+        public virtual string Protocol { get; set; }
 
         /// <summary> Gets or sets the client CNPJ </summary>
         public virtual ClientDao Client { get; set; }
 
         /// <summary> Gets or sets the client CNPJ </summary>
-        public virtual SolicitationStatus? Status { get; set; }
+        public virtual SolicitationStatus Status { get; set; }
 
         /// <summary> Gets or sets the client CNPJ </summary>
         public virtual DateTime CreationDate { get; set; }
+
+        /// <summary> Gets or sets the client CNPJ </summary>
+        public virtual IList<SolicitationProductDao> ProductsList { get; set; }
     }
 }

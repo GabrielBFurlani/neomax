@@ -38,6 +38,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,6 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dto\SolicitationProductDto.cs" />
+    <Compile Include="Dto\SolicitationProductInputDto.cs" />
+    <Compile Include="Dto\SolicitationDto.cs" />
+    <Compile Include="Dto\SolicitationFilterDto.cs" />
+    <Compile Include="Dto\SolicitationInputDto.cs" />
     <Compile Include="Dto\NewUserDto.cs" />
     <Compile Include="Dto\TelephoneDto.cs" />
     <Compile Include="Dto\BankDto.cs" />

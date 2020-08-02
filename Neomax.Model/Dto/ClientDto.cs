@@ -1,7 +1,7 @@
 ﻿////-----------------------------------------------------------------------
-//// <copyright file="ClientDto.cs" company="ZetaCorp">
-////  (R) Registrado 2020 Zetacorp.
-////  Desenvolvido por ZETACORP.
+//// <copyright file="ClientDto.cs" company="Gabriel Furlani">
+////  (R) Registrado 2020 Gabriel Furlani.
+////  Desenvolvido por Gabriel Furlani.
 //// </copyright>
 ////-----------------------------------------------------------------------
 namespace Neomax.Model.Dto
@@ -37,5 +37,8 @@ namespace Neomax.Model.Dto
 
         /// <summary> Gets or sets a value indicating whether client is active (when deleted, it's kept on the table, but the status is false) </summary>
         public bool Active { get; set; }
+
+        /// <summary> Gets or sets the client url base </summary>
+        public UserDto User { get; set; }
     }
 }

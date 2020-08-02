@@ -1,7 +1,7 @@
 ﻿////-----------------------------------------------------------------------
-//// <copyright file="ClientManager.cs" company="ZetaCorp">
-////  (R) Registrado 2020 Zetacorp.
-////  Desenvolvido por ZETACORP.
+//// <copyright file="ClientManager.cs" company="Gabriel Furlani">
+////  (R) Registrado 2020 Gabriel Furlani.
+////  Desenvolvido por Gabriel Furlani.
 //// </copyright>
 ////-----------------------------------------------------------------------
 namespace Neomax.Business
@@ -126,6 +126,7 @@ namespace Neomax.Business
 
             ClientDao clientDao = new ClientDao()
             {
+                User = userDao,
                 AnnualBilling = clientInputDto.AnnualBilling,
                 CNPJPayingSource = clientInputDto.CnpjPaying,
                 Gender = clientInputDto.Gender,

@@ -1,7 +1,7 @@
 ﻿////-----------------------------------------------------------------------
-//// <copyright file="ProfileMap.cs" company="Zetacorp">
-////  (R) Registrado 2018 Zetacorp.
-////  Desenvolvido por ZETACORP.
+//// <copyright file="ProfileMap.cs" company="Gabriel Furlani">
+////  (R) Registrado 2018 Gabriel Furlani.
+////  Desenvolvido por Gabriel Furlani.
 //// </copyright>
 ////-----------------------------------------------------------------------
 namespace Neomax.Data.Mapping
@@ -23,7 +23,7 @@ namespace Neomax.Data.Mapping
             this.Id(x => x.Id).GeneratedBy.Identity();
             this.Map(x => x.Name);
             this.Map(x => x.Description);
-            this.HasManyToMany(x => x.Permissions).Table("ProfilePermission").ParentKeyColumn("IdProfile").ChildKeyColumn("IdPermission");
+            this.HasManyToMany(x => x.Permissions).Table("ProfilePermission").ParentKeyColumn("IdProfile").ChildKeyColumn("IdPermission").Cascade.All();
         }
     }
 }

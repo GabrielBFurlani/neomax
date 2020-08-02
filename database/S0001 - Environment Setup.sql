@@ -167,7 +167,7 @@ ALTER TABLE DefinicaoSenha OWNER TO neomaxuser;
 
 CREATE TABLE Solicitacao(
 	Codigo BIGSERIAL PRIMARY KEY,
-    Protocolo INT NOT NULL,
+    Protocolo VARCHAR(15) NOT NULL,
 	CodigoCliente INT NOT NULL,
 	Status INT NOT NULL,
 	DataCriacao TIMESTAMP NOT NULL,

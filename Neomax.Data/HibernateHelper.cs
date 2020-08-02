@@ -1,7 +1,7 @@
 ﻿////-----------------------------------------------------------------------
-//// <copyright file="HibernateHelper.cs" company="Zetacorp">
-////  (R) Registrado 2018 Zetacorp.
-////  Desenvolvido por ZETACORP.
+//// <copyright file="HibernateHelper.cs" company="Gabriel Furlani">
+////  (R) Registrado 2018 Gabriel Furlani.
+////  Desenvolvido por Gabriel Furlani.
 //// </copyright>
 ////-----------------------------------------------------------------------
 namespace Neomax.Data

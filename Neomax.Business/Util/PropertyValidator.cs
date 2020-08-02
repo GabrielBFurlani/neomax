@@ -1,7 +1,7 @@
 ﻿////-----------------------------------------------------------------------
-//// <copyright file="PropertyValidator.cs" company="ZetaCorp">
-////  (R) Registrado 2018 ZetaCorp.
-////  Desenvolvido por ZETACORP.
+//// <copyright file="PropertyValidator.cs" company="Gabriel Furlani">
+////  (R) Registrado 2018 Gabriel Furlani.
+////  Desenvolvido por Gabriel Furlani.
 //// </copyright>
 ////-----------------------------------------------------------------------
 namespace Neomax.Business.Util

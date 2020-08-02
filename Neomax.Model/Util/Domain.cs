@@ -1,7 +1,7 @@
 ﻿////-----------------------------------------------------------------------
-//// <copyright file="Domain.cs" company="Zetacorp">
-////  (R) Registrado 2018 Zetacorp.
-////  Desenvolvido por ZETACORP.
+//// <copyright file="Domain.cs" company="Gabriel Furlani">
+////  (R) Registrado 2018 Gabriel Furlani.
+////  Desenvolvido por Gabriel Furlani.
 //// </copyright>
 ////-----------------------------------------------------------------------
 namespace Neomax.Model.Util
@@ -44,153 +44,152 @@ namespace Neomax.Model.Util
     {
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("09:00h até as 10:00h")]
-        Time09to10 = 0,
+        Time09to10 = 1,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("10:00h até as 11:00h")]
-        Time10to11 = 1,
+        Time10to11 = 2,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("11:00h até as 12:00h")]
-        Time11to12 = 2,
+        Time11to12 = 3,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("12:00h até as 13:00h")]
-        Time12to13 = 3,
+        Time12to13 = 4,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("13:00h até as 14:00h")]
-        Time13to14 = 4,
+        Time13to14 = 5,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("14:00h até as 15:00h")]
-        Time14to15 = 5,
+        Time14to15 = 6,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("15:00h até as 16:00h")]
-        Time15to16 = 6,
+        Time15to16 = 7,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("16:00h até as 17:00h")]
-        Time16to17 = 7,
+        Time16to17 = 8,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("17:00h até as 18:00h")]
-        Time17to18 = 8
+        Time17to18 = 9
     }
-
     public enum Gender
     {
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Masculino")]
-        Male = 0,
+        Male = 1,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Feminino")]
-        Feminine = 1,
+        Feminine = 2,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Não informado/Indiferente")]
-        Uninformed = 2
+        Uninformed = 3
     }
 
     public enum TypeNoteEmited
     {
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Nota de Produto")]
-        ProductNote = 0,
+        ProductNote = 1,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Nota de Serviço")]
-        ServiceNote = 1,
+        ServiceNote = 2,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Nota de Produto e Serviço")]
-        ProductServiceNote = 2
+        ProductServiceNote = 3
     }
 
     public enum AnnualBilling
     {
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Até R$ 1 milhão")]
-        ToOne = 0,
+        ToOne = 1,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("De R$ 1 milhão até R$ 2 milhões")]
-        OneToTwo = 1,
+        OneToTwo = 2,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("De R$ 2 milhão até R$ 4 milhões")]
-        TwoToFour = 2,
+        TwoToFour = 3,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Mais que R$ 4 milhões")]
-        FourPlus = 3
+        FourPlus = 4
     }
 
     public enum CompanyNatureTypes
     {
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Empresário Individual (EI)")]
-        EI = 0,
+        EI = 1,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Microempresa (ME)")]
-        ME = 1,
+        ME = 2,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Microempresa Individual (MEU)")]
-        MEU = 2,
+        MEU = 3,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Empresário Individual de Responsabilidade Limitada (EIRELI)")]
-        EIRELI = 3,
+        EIRELI = 4,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Empresa de Pequeno Porte (EPP)")]
-        EPP = 4,
+        EPP = 5,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Empresa de Responsabilidade Limitada (LTDA)")]
-        LTDA = 5,
+        LTDA = 6,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Sociedade Anônima (S/A)")]
-        Time15to16 = 6,
+        Time15to16 = 7,
     }
 
     public enum SolicitationStatus
     {
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Aguardando Aprovação")]
-        WaitingApprove = 0,
+        WaitingApprove = 1,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Necessita de Revisão")]
-        RevisionSolicited = 1,
+        RevisionSolicited = 2,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Aprovado")]
-        Approved = 2,
+        Approved = 3,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Reprovado")]
-        Disapproved = 3,
+        Disapproved = 4
     }
 
     public enum TelephoneType
     {
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Fixo")]
-        Telephone = 0,
+        Telephone = 1,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Celular")]
-        Celphone = 1,
+        Celphone = 2,
 
         /// <summary> Indicates a day of week </summary>
         [DescriptionAttribute("Comercial")]
-        Commerce = 2
+        Commerce = 3
     }
 
 

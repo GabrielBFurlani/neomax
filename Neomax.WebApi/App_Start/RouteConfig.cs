@@ -1,7 +1,7 @@
 ﻿////-----------------------------------------------------------------------
-//// <copyright file="RouteConfig.cs" company="Zetacorp">
-////  (R) Registrado 2018 Zetacorp.
-////  Desenvolvido por ZETACORP.
+//// <copyright file="RouteConfig.cs" company="Gabriel Furlani">
+////  (R) Registrado 2018 Gabriel Furlani.
+////  Desenvolvido por Gabriel Furlani.
 //// </copyright>
 ////-----------------------------------------------------------------------
 namespace Neomax.WebApi

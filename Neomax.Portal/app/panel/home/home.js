@@ -24,6 +24,10 @@
                         if (pageNumber == 4) {
                             $state.go('panel.user.management.list');
                         }
+                        else
+                            if (pageNumber == 5) {
+                                $state.go('panel.process.admin.list');
+                            }
             }
         }
 

@@ -1,7 +1,7 @@
 ﻿////-----------------------------------------------------------------------
-//// <copyright file="ClientDao.cs" company="Zetacorp">
-////  (R) Registrado 2020 Zetacorp.
-////  Desenvolvido por ZETACORP.
+//// <copyright file="ClientDao.cs" company="Gabriel Furlani">
+////  (R) Registrado 2020 Gabriel Furlani.
+////  Desenvolvido por Gabriel Furlani.
 //// </copyright>
 ////-----------------------------------------------------------------------
 namespace Neomax.Data.DataAccess
@@ -21,6 +21,8 @@ namespace Neomax.Data.DataAccess
         {
         }
 
+        /// <summary> Gets or sets the client url base </summary>
+        public virtual UserDao User { get; set; }
 
         /// <summary> Gets or sets the client CNPJ </summary>
         public virtual string CNPJPayingSource { get; set; }

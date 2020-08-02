@@ -1,7 +1,7 @@
 ﻿////-----------------------------------------------------------------------
-//// <copyright file="FileRepository.cs" company="ZetaCorp">
-////  (R) Registrado 2018 ZetaCorp.
-////  Desenvolvido por ZETACORP.
+//// <copyright file="FileRepository.cs" company="Gabriel Furlani">
+////  (R) Registrado 2018 Gabriel Furlani.
+////  Desenvolvido por Gabriel Furlani.
 //// </copyright>
 ////-----------------------------------------------------------------------
 namespace Neomax.Data.Repository

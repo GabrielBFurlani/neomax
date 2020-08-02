@@ -1,7 +1,7 @@
 ﻿////-----------------------------------------------------------------------
-//// <copyright file="UserController.cs" company="ZetaCorp">
-////  (R) Registrado 2018 ZetaCorp.
-////  Desenvolvido por ZETACORP.
+//// <copyright file="UserController.cs" company="Gabriel Furlani">
+////  (R) Registrado 2018 Gabriel Furlani.
+////  Desenvolvido por Gabriel Furlani.
 //// </copyright>
 ////-----------------------------------------------------------------------
 namespace Neomax.WebApi.Controllers

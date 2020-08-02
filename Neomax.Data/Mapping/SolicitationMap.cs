@@ -1,7 +1,7 @@
 ﻿////-----------------------------------------------------------------------
-//// <copyright file="SolicitationMap.cs" company="Zetacorp">
-////  (R) Registrado 2018 Zetacorp.
-////  Desenvolvido por ZETACORP.
+//// <copyright file="SolicitationMap.cs" company="Gabriel Furlani">
+////  (R) Registrado 2018 Gabriel Furlani.
+////  Desenvolvido por Gabriel Furlani.
 //// </copyright>
 ////-----------------------------------------------------------------------
 namespace Neomax.Data.Mapping
@@ -26,6 +26,7 @@ namespace Neomax.Data.Mapping
             this.Map(x => x.CreationDate, "DataCriacao");
             this.Map(x => x.Status, "Status").CustomType<SolicitationStatus>();
             this.References(x => x.Client, "CodigoCliente");
+            HasMany(x => x.ProductsList).Table("SolicitacaoProduto").KeyColumn("CodigoSolicitacao").Cascade.All();
         }
     }
 }

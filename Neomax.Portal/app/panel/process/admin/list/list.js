@@ -12,8 +12,7 @@
         };
 
         $scope.processes = [
-            { protocolNumber: '0002/2020', situation: 'Aguardando Aprovação', clientName: 'Pedro Dotaviano', date: '15/04/2020', id: 2 },
-            { protocolNumber: '0001/2020', situation: 'Aprovado', clientName: 'Kléber Silva', date: '05/04/2020', id: 1 },
+
         ];
 
         $scope.isFilterOpen = false;
@@ -21,19 +20,31 @@
         $scope.filter = {
             nameOrUsername: '',
             idProfile: null,
-            pageNumber: 1
+            pageNumber: 1,
+            resultsPerPage: 10
+        };
+
+        //date picker 
+        $scope.datePicker = {
+            opened: false
+        };
+
+        //Button: Open datepicker
+        $scope.datePickerOpen = function () {
+            $scope.datePicker.opened = true;
         };
 
         //loadPage()
         function loadPage() {
-            /*
-            $http.get(_apiUrl + '/profile/all')
-                .then(function successCallback(response) {
-                    $scope.profiles = response.data.resultData;                   
-                });
 
-            $scope.search();
-        */
+            $http.get(_apiUrl + '/clients/solicitationStatus')
+                .then(function successCallback(response) {
+                    console.log(response);
+
+                    $scope.processStatus = response.data.resultData;
+
+                    $scope.search();
+                })
         }
 
         //Button: Search
@@ -48,13 +59,14 @@
 
         //Search (also called when pagination changes)
         $scope.search = function () {
-            /*
-            $http.post(_apiUrl + '/user/management/search', $scope.filter)
-                .then(function successCallback(response) {
 
-                    $scope.paginationResponse = response.data.resultData;;
-                    $scope.users = $scope.paginationResponse.response;
-                })*/
+            $http.post(_apiUrl + '/solicitations/admin/search', $scope.filter)
+                .then(function successCallback(response) {
+                    console.log(response);
+
+                    $scope.paginationResponse = response.data.resultData;
+                    $scope.processes = $scope.paginationResponse.response;
+                })
         }
 
         //Button: Edit User

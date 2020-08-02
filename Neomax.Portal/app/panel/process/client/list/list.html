@@ -17,25 +17,25 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="control-label">Protocolo</label>
-                                    <input type="text" id="protocolNumber" name="protocolNumber" class="form-control" ng-model="filter.protocolNumber" maxLength="9" ng-change="search()"/>
+                                    <input type="text" id="protocolNumber" name="protocolNumber" class="form-control" ng-model="filter.argument" maxLength="12" ng-change="search()"/>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="control-label">Situa&ccedil;&atilde;o</label>
-                                    <select id="profile" name="profile" class="form-control" ng-model="filter.status" ng-change="search()"
-                                            ng-options="item for item in processStatus">
+                                    <select id="profile" name="profile" class="form-control" ng-model="filter.solicitationStatus" ng-change="search()"
+                                            ng-options="item.parameter as item.name for item in processStatus">
                                         <option value="">---Todos---</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="control-label head-label">Data</label>
+                                    <label class="control-label head-label">Data Submiss&atilde;o</label>
                                     <p class="input-group">
-                                        <input type="text" name="date" id="date" class="form-control" ng-model="filter.date"
+                                        <input type="text" name="date" id="date" class="form-control" ng-model="filter.creationDate"
                                                uib-datepicker-popup="ddMMyyyy" is-open="datePicker.opened" current-text="Hoje" clear-text="Limpar"
-                                               close-text="Fechar" ui-mask="99/99/9999" ng-change="search()"/>
+                                               close-text="Fechar" ui-mask="99/99/9999" ng-change="search()" />
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="datePickerOpen()">
                                                 <i class="fa fa-calendar"></i>
@@ -96,12 +96,12 @@
                                         <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                                     </button>
                                 </td>
-                                <td>{{process.protocolNumber}}</td>
-                                <td ng-show="process.id == 1" bgcolor="#00FF00">{{process.situation.name}}</td>
-                                <td ng-show="process.id == 2" bgcolor="YELLOW">{{process.situation.name}}</td>
-                                <td ng-show="process.id == 3" bgcolor="#FF4500">{{process.situation.name}}</td>
-                                <td ng-show="process.id == 4" bgcolor="#B22222">{{process.situation.name}}</td>
-                                <td>{{process.date | date: 'dd/MM/yyyy'}}</td>
+                                <td>{{process.protocol}}</td>
+                                <td ng-show="process.status == 3" bgcolor="#00FF00">{{process.statusName}}</td>
+                                <td ng-show="process.status == 1" bgcolor="YELLOW">{{process.statusName}}</td>
+                                <td ng-show="process.status == 2" bgcolor="#FF4500">{{process.statusName}}</td>
+                                <td ng-show="process.status == 4" bgcolor="#B22222">{{process.statusName}}</td>
+                                <td>{{process.creationDate | date: 'dd/MM/yyyy'}}</td>
                             </tr>
                         </tbody>
                     </table>

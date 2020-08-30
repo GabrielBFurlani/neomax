@@ -49,7 +49,7 @@
 
         //Button: Edit User
         $scope.detail = function (id) {
-            $state.go('panel.client.detail', { idClient: id });
+            $state.go('panel.client.detail', { idClient: id, fromLocation: 1 });
         };
 
         $scope.back = function () {

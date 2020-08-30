@@ -39,7 +39,6 @@
 
             $http.get(_apiUrl + '/clients/solicitationStatus')
                 .then(function successCallback(response) {
-                    console.log(response);
 
                     $scope.processStatus = response.data.resultData;
 
@@ -63,7 +62,6 @@
 
             $http.post(_apiUrl + '/solicitations/client/search', $scope.filter)
                 .then(function successCallback(response) {
-                    console.log(response);
 
                     $scope.paginationResponse = response.data.resultData;
                     $scope.processes = $scope.paginationResponse.response;

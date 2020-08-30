@@ -1,35 +1,34 @@
 ﻿(function () {
     "use strict";
 
-    angular.module('app').controller('defineProcessController', ['$scope', '$http', 'CONFIG', '$uibModalInstance', function ($scope, $http, CONFIG, $uibModalInstance) {
+    angular.module('app').controller('defineProcessController', ['$scope', '$http', 'CONFIG', '$uibModalInstance', 'title', 'id', function ($scope, $http, CONFIG, $uibModalInstance, title, id) {
         var _apiUrl = CONFIG.apiRootUrl;
 
-        $scope.signUpUser = {
-            username: '',
-            password: '',
-            name: '',
-            nickname: '',
-            cpf: ''
-        };
+        $scope.title = title;
+
+        $scope.id = id;
 
         $scope.openSuggestion = false;
 
-        $scope.reEnterPassword = '';
+        $scope.suggestion = '';
 
         //Load Page
         function loadPage() {
 
         }
-        
-        //Button: Sign-Up
-        $scope.signUp = function () {
-            /*
-            $http.post(_apiUrl + '/user/signUp/', $scope.signUpUser)
-                .then(function successCallback(response) {
 
-                    //Closes the modal and return the login's credentials to auto log-in
-                    $uibModalInstance.close($scope.signUpUser);
-                })*/
+        //Button: Sign-Up
+        $scope.updateStatus = function (status) {
+
+            $scope.statusUpdateObject = {
+                status: status,
+                suggestion: $scope.suggestion
+            }
+
+            $http.put(_apiUrl + '/solicitations/' + id + '/updateProductStatus', $scope.statusUpdateObject)
+                .then(function successCallback(response) {
+                    $uibModalInstance.close();
+                })
         }
 
         //Button: Cancel
@@ -38,7 +37,7 @@
             if ($scope.openSuggestion && !close)
                 $scope.openSuggestion = false;
             else
-            $uibModalInstance.dismiss();
+                $uibModalInstance.dismiss();
         }
 
         loadPage();

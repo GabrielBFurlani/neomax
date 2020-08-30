@@ -2,7 +2,6 @@
 
     angular.module("app").controller('homeController', ['$scope', '$state', '$http', function ($scope, $state, $http) {
 
-        console.log($scope.session);
         $scope.isAdmin = $scope.session.isAdmin;
 
         $scope.sendNextPage = function (pageNumber) {

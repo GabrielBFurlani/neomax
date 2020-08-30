@@ -24,6 +24,7 @@ namespace Neomax.Data.Mapping
             this.Id(x => x.Id, "Codigo").GeneratedBy.Identity();
             this.Map(x => x.Title, "Titulo");
             this.Map(x => x.ProductName, "NomeProduto");
+            this.Map(x => x.Suggestion, "Sugestao");
             this.Map(x => x.CNPJPayingSource, "CNPJFontePagadora");
             this.Map(x => x.CreationDate, "DataCriacao");
             this.Map(x => x.Status, "Status").CustomType<SolicitationStatus>();

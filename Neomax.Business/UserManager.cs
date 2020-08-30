@@ -448,18 +448,11 @@ namespace Neomax.Business
                 throw new BusinessException("Sem dados de senha");
             }
 
-            //// checks logged user permission
-            if (loggedUser.Id != changeInfo.IdUser)
-            {
-                log.Warn("Usuário Id=" + loggedUser.Id.ToString() + " tentou entrar como " + changeInfo.IdUser.ToString());
-                throw new PermissionException();
-            }
-
             //// validate password's rules           
             ValidatePassword(changeInfo.NewPassword, changeInfo.NewPassword);
 
             //// changes user's password
-            UserDao userDao = userRepository.GetById(changeInfo.IdUser);
+            UserDao userDao = userRepository.GetById(loggedUser.Id.Value);
 
             if (userDao == null || !userDao.Active)
             {
@@ -553,6 +546,7 @@ namespace Neomax.Business
         {
             FileManager fileManager = new FileManager();
             UserRepository userRepository = new UserRepository();
+            ClientRepository clientRepository = new ClientRepository();
 
             UserDao userDao = userRepository.GetById(id);
 
@@ -568,13 +562,42 @@ namespace Neomax.Business
                 Username = userDao.Username,
                 Name = userDao.Name,
                 Nickname = userDao.Nickname,
-                Email = userDao.Email,
+                Email = userDao.Email
             };
+
+            if (userDao.Client != null)
+            {
+                userDto.ClientDto = new ClientDto()
+                {
+                    Id = userDao.Client.Id,
+                    AnnualBilling = userDao.Client.AnnualBilling,
+                    CNPJPayingSource = !string.IsNullOrWhiteSpace(userDao.Client.CNPJPayingSource) ? userDao.Client.CNPJPayingSource : "Não Informado",
+                    Gender = userDao.Client.Gender,
+                    NatureBackground = userDao.Client.NatureBackground,
+                    TypeNoteEmited = userDao.Client.TypeNoteEmited,
+                    User = null,
+                    ListBanks = Mapper.Map<List<BankDto>>(userDao.Client.ListBanks),
+                    ListContactDay = Mapper.Map<List<ContactDayDto>>(clientRepository.GetContactDayByIdClient(userDao.Client.Id.Value)),
+                    ListContactTime = Mapper.Map<List<ContactTimeDto>>(clientRepository.GetContactTimeByIdClient(userDao.Client.Id.Value)),
+                    ListTelephones = Mapper.Map<List<TelephoneDto>>(userDao.Client.ListTelephones),
+                    AnnualBillingName = userDao.Client.AnnualBilling.HasValue ? Domain.TextValueFrom(userDao.Client.AnnualBilling) : "Não Informado",
+                    GenderName = userDao.Client.Gender.HasValue ? Domain.TextValueFrom(userDao.Client.Gender) : "Não Informado",
+                    NatureBackgroundName = userDao.Client.NatureBackground.HasValue ? Domain.TextValueFrom(userDao.Client.NatureBackground) : "Não Informado",
+                    TypeNoteEmitedName = userDao.Client.TypeNoteEmited.HasValue ? Domain.TextValueFrom(userDao.Client.TypeNoteEmited) : "Não Informado",
+                    ListDocumentsBase64 = new List<HttpFileBase64Dto>()
+                };
+
+                if (userDao.Client.ListDocuments != null)
+                {
+                    //todo:
+                }
+
+            }
 
             if (userDao.Photo != null)
             {
                 userDto.Photo = fileManager.CreateBase64WithFile(userDao.Photo);
-            }
+            }   
 
             return userDto;
         }

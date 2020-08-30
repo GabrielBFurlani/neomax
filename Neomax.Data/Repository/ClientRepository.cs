@@ -41,12 +41,13 @@ namespace Neomax.Data.Repository
 
                 if (!string.IsNullOrEmpty(filter.Argument))
                 {
-                    query = query.Where(x => x.Name.Contains(filter.Argument) || x.Username.Contains(filter.Argument));
+                    query = query.Where(x => x.Name.ToLower().Contains(filter.Argument.ToLower()) || x.Username.ToLower().Contains(filter.Argument.ToLower()) || x.Nickname.ToLower().Contains(filter.Argument.ToLower()));
                 }
 
                 //// Pagination                
                 paginationResponse.TotalResults = query.Count();
                 paginationResponse.Response = query.OrderBy(x => x.Name).Skip((filter.PageNumber - 1) * filter.ResultsPerPage).Take(filter.ResultsPerPage).ToList();
+                paginationResponse.ResultsPerPage = filter.ResultsPerPage;
 
                 return paginationResponse;
             }
@@ -55,5 +56,33 @@ namespace Neomax.Data.Repository
                 throw new BusinessException(string.Format("Erro ao carregar {0} através de filtro", typeof(UserDao).FullName), e);
             }
         }
+
+        public List<ContactDayDao> GetContactDayByIdClient(int idClient)
+        {
+            var query = GetSession().Query<ContactDayDao>().Where(x => x.Client.Id == idClient);
+
+            return query.ToList();
+        }
+        public List<ContactTimeDao> GetContactTimeByIdClient(int idClient)
+        {
+            var query = GetSession().Query<ContactTimeDao>().Where(x => x.Client.Id == idClient);
+
+            return query.ToList();
+        }
+
+        public void CreateContactTime(ContactTimeDao contactTimeDao)
+        {
+            var session = HibernateHelper.SessionFactory.GetCurrentSession();
+
+            session.Save(contactTimeDao);
+        }
+
+        public void CreateContactHour(ContactDayDao contactDayDao)
+        {
+            var session = HibernateHelper.SessionFactory.GetCurrentSession();
+
+            session.Save(contactDayDao);
+        }
+
     }
 }

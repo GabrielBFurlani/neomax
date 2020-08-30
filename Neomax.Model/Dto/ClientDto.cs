@@ -23,20 +23,47 @@ namespace Neomax.Model.Dto
 
         }
 
-        /// <summary> Gets or sets the client name </summary>
-        public string Name { get; set; }
-
         /// <summary> Gets or sets the client CNPJ </summary>
-        public string CNPJ { get; set; }
+        public string CNPJPayingSource { get; set; }
 
         /// <summary> Gets or sets the client url base </summary>
-        public string Url { get; set; }
+        public Gender? Gender { get; set; }
 
-        /// <summary> Gets or sets the client CNPJ </summary>
-        public HttpFileBase64Dto Photo { get; set; }
+        /// <summary> Gets or sets the client url base </summary>
+        public string GenderName { get; set; }
 
-        /// <summary> Gets or sets a value indicating whether client is active (when deleted, it's kept on the table, but the status is false) </summary>
-        public bool Active { get; set; }
+        /// <summary> Gets or sets the client Blazon </summary>
+        public TypeNoteEmited? TypeNoteEmited { get; set; }
+
+        /// <summary> Gets or sets the client url base </summary>
+        public string TypeNoteEmitedName { get; set; }
+
+        /// <summary> Gets or sets the client Blazon </summary>
+        public AnnualBilling? AnnualBilling { get; set; }
+
+        /// <summary> Gets or sets the client url base </summary>
+        public string AnnualBillingName { get; set; }
+
+        /// <summary> Gets or sets the client Blazon </summary>
+        public CompanyNatureTypes? NatureBackground { get; set; }
+
+        /// <summary> Gets or sets the client url base </summary>
+        public string NatureBackgroundName { get; set; }
+
+        /// <summary> Gets or sets the client Blazon </summary>
+        public IList<BankDto> ListBanks { get; set; }
+
+        /// <summary> Gets or sets the client Blazon </summary>
+        public IList<TelephoneDto> ListTelephones { get; set; }
+
+        /// <summary> Gets or sets the client Blazon </summary>
+        public IList<ContactDayDto> ListContactDay { get; set; }
+
+        /// <summary> Gets or sets the client Blazon </summary>
+        public IList<ContactTimeDto> ListContactTime { get; set; }
+
+        /// <summary> Gets or sets the client Blazon </summary>
+        public IList<HttpFileBase64Dto> ListDocumentsBase64 { get; set; }
 
         /// <summary> Gets or sets the client url base </summary>
         public UserDto User { get; set; }

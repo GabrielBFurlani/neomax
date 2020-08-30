@@ -7,34 +7,24 @@
 
         $scope.paginationResponse = {
             totalResults: 2,
-            resultsPerPage: 10,
-            response:
-                {}
+            ResultsPerPage: 10,
+            response:{}
         };
 
-        $scope.clients = [
-            { name: 'João Antonio', cpf: '78803885161', cnpj: '38042126000100', id: 1},
-            { name: 'Pedro Dotaviano', cpf: '62311649850', cnpj: '33983543000125', id: 2 }
-        ];
+        $scope.clients = [];
 
         $scope.isFilterOpen = false;
 
         $scope.filter = {
             nameOrUsername: '',
             idProfile: null,
-            pageNumber: 1
+            pageNumber: 1,
+            ResultsPerPage: 10
         };
 
         //loadPage()
         function loadPage() {
-            /*
-            $http.get(_apiUrl + '/profile/all')
-                .then(function successCallback(response) {
-                    $scope.profiles = response.data.resultData;                   
-                });
-
             $scope.search();
-        */
         }
 
         //Button: Search
@@ -49,27 +39,13 @@
 
         //Search (also called when pagination changes)
         $scope.search = function () {
-            /*
-            $http.post(_apiUrl + '/user/management/search', $scope.filter)
+
+            $http.post(_apiUrl + '/clients/busca', $scope.filter)
                 .then(function successCallback(response) {
-
                     $scope.paginationResponse = response.data.resultData;;
-                    $scope.users = $scope.paginationResponse.response;
-                })*/
+                    $scope.clients = $scope.paginationResponse.response;
+                })
         }
-
-        //Button: Edit User
-        $scope.edit = function () {
-            //$state.go('panel.user.management.edit', { idUser: id });
-
-             
-            //open modal
-            var modalInstance = $uibModal.open({
-                templateUrl: 'app/panel/client/modals/accept-client.html',
-                controller: 'acceptClientController'
-            });
-
-        };
 
         //Button: Edit User
         $scope.detail = function (id) {

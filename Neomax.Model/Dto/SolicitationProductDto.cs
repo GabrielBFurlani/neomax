@@ -24,6 +24,9 @@ namespace Neomax.Model.Dto
 
         }
 
+        /// <summary> Gets or sets the client CNPJ </summary>
+        public string Suggestion { get; set; }
+
         /// <summary> Gets or sets the client name </summary>
         public string Title { get; set; }
 
@@ -34,7 +37,7 @@ namespace Neomax.Model.Dto
         public string CNPJPayingSource { get; set; }
 
         /// <summary> Gets or sets the client name </summary>
-        public string ProductType { get; set; }
+        public string ProductName { get; set; }
 
         /// <summary> Gets or sets the client CNPJ </summary>
         public SolicitationStatus Status { get; set; }

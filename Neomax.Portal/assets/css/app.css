@@ -191,6 +191,14 @@ table tbody tr td {
 
 
 /*................................................. Other classes .............................................. */
+.multiselect-full-width .multiselect-parent {
+    width: 100%;
+}
+
+    .multiselect-full-width .multiselect-parent ul {
+        width: 100%;
+    }
+
 .error-message {
     color: #a94442;
     font-weight: bold;

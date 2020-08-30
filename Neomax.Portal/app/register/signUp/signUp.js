@@ -1,6 +1,6 @@
 ﻿(function () {
 
-    angular.module("app").controller('signUpController', ['$scope', '$state', '$http', 'CONFIG', '$stateParams', 'userControl', '$uibModal', function ($scope, $state, $http, CONFIG, $stateParams, userControl, $uibModal) {
+    angular.module("app").controller('signUpController', ['$scope', '$state', '$http', 'CONFIG', '$stateParams', 'userControl', '$uibModal', 'validationMessages', function ($scope, $state, $http, CONFIG, $stateParams, userControl, $uibModal, validationMessages) {
 
         var _apiUrl = CONFIG.apiRootUrl;
         var id = $stateParams.idUser;
@@ -26,6 +26,33 @@
             $(".progress-bar")
                 .css("width", percent + "%")
         }
+
+        //Dropdown Multiselect (with Checkboxs)
+        $scope.dropdownSettings = {
+            checkBoxes: true,
+            scrollable: true,
+            buttonClasses: 'buttonVisibleColumn btn btn-default'
+        };
+
+        //Dropdown Multiselect -- EvaluatingBody
+        $scope.dropdownDayTextsStatus = {
+            checkAll: 'Selecionar Todos',
+            uncheckAll: 'Apagar Todos',
+            buttonDefaultText: 'Dias da Semana',
+            dynamicButtonTextSuffix: 'Selecionado(s)'
+        };
+
+        //Dropdown Multiselect -- EvaluatingBody
+        $scope.dropdownTimeTextsStatus = {
+            checkAll: 'Selecionar Todos',
+            uncheckAll: 'Apagar Todos',
+            buttonDefaultText: 'Horários',
+            dynamicButtonTextSuffix: 'Selecionado(s)'
+        };
+
+        $scope.daysSelecteds = [];
+
+        $scope.timesSelecteds = [];
 
         $scope.client = {
             banks: [],
@@ -71,11 +98,13 @@
             $http.get(_apiUrl + '/clients/days')
                 .then(function successCallback(response) {
                     $scope.days = response.data.resultData;
+                    $scope.daysList = $scope.days.map(function (item) { return { id: item.parameter, label: item.name } });
                 })
 
             $http.get(_apiUrl + '/clients/times')
                 .then(function successCallback(response) {
                     $scope.times = response.data.resultData;
+                    $scope.timesList = $scope.times.map(function (item) { return { id: item.parameter, label: item.name } });
                 })
         }
 
@@ -244,8 +273,6 @@
                 agency: $scope.newBank.agency
             });
 
-            console.log($scope.client.banks);
-
             $scope.newBank = {
                 account: null,
                 bank: null,
@@ -312,8 +339,6 @@
 
             angular.copy(phone, editPhone);
 
-            console.log(editPhone);
-
             $scope.newTelephone.contactName = editPhone.contactName;
 
             $scope.newTelephone.telephoneType = $scope.telephoneTypes[editPhone.telephoneType - 1];
@@ -325,13 +350,10 @@
 
         $scope.next = function () {
 
-            if ($scope.step == 5)
-            {
-                /*
-                $state.go('login');
-                */
+            if ($scope.step == 5) {
 
-                console.log($scope.client);
+                $scope.client.ContactDays = $scope.daysSelecteds.map(function (item) { return item.id })
+                $scope.client.ContactTimes = $scope.timesSelecteds.map(function (item) { return item.id })
 
                 $http.post(_apiUrl + '/clients', $scope.client)
                     .success(function successCallback(response) {
@@ -341,34 +363,28 @@
             }
 
             else
+                if ($scope.step == 1 && $scope.form1.$valid)
                 $scope.step++;
         }
 
         /* Save form 1 */
         $scope.saveForm1 = function () {
-            //if ($scope.form1.$valid && $scope.client.banks.length > 0) {
-            //    loadIssueBody();
-            //}
-
-            $scope.step = 2;
+            if ($scope.form1.$valid && $scope.client.telephones.length > 0) {
+                $scope.step = 2;
+            }
         }
 
         /* Save form 2 */
         $scope.saveForm2 = function () {
-            //if ($scope.form2.$valid) {
-
-            //};
-            $scope.step = 3;
+            if ($scope.form2.$valid) {
+                $scope.step = 3;
+            };
         }
 
         /* Save forms 3 */
         $scope.saveForm3 = function () {
             //if ($scope.form3.$valid) {
-            //    $scope.step = 4;
-            //    loadEducationLevels();
-            //    loadEducationUnits();
-            //    loadDisabilityTypes();
-            //    loadLocomotionEquipaments();
+
             //}
 
             $scope.step = 4;
@@ -387,7 +403,7 @@
             //if ($scope.form4.$valid) {
             //};
 
-           // $scope.step = 5;
+            // $scope.step = 5;
 
         }
 

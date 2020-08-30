@@ -10,7 +10,6 @@
 
             $http.post(_apiUrl + '/user/newUserLinkValidation/' + $stateParams.newUserToken + '/')
                 .then(function successCallback(response) {
-                    console.log(response);
 
                     if (response.data.resultData == null)
                         $state.go("login");
@@ -32,8 +31,6 @@
 
         //Button: Save
         $scope.save = function () {
-
-            console.log($scope.newUser);
 
             $http.post(_apiUrl + '/user/registrar', $scope.newUser)
                 .then(function successCallback(response) {

@@ -21,6 +21,7 @@ namespace Neomax.Business
     using AutoMapper;
     using System.Security.Cryptography;
     using System.Text;
+    using DocumentFormat.OpenXml.Office2010.PowerPoint;
 
     /// <summary>
     /// Manages business rules related to profile
@@ -134,6 +135,7 @@ namespace Neomax.Business
                 TypeNoteEmited = clientInputDto.TypeNoteEmited,
                 ListBanks = new List<BankDao>(),
                 ListContactDay = new List<ContactDayDao>(),
+                ListContactTime = new List<ContactTimeDao>(),
                 ListDocuments = new List<FileDao>(),
                 ListTelephones = new List<TelephoneDao>(),
             };
@@ -192,6 +194,8 @@ namespace Neomax.Business
                     };
 
                     clientDao.ListContactDay.Add(newContactDay);
+
+                    clientRepository.CreateContactHour(newContactDay);
                 }
             }
 
@@ -208,6 +212,8 @@ namespace Neomax.Business
                     };
 
                     clientDao.ListContactTime.Add(newContactTime);
+
+                    clientRepository.CreateContactTime(newContactTime);
                 }
             }
 

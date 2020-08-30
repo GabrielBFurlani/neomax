@@ -123,6 +123,35 @@ namespace Neomax.WebApi.Controllers
         }
 
         /// <summary>
+        /// Update solicitation
+        /// </summary>
+        [Route("{id}/updateProductStatus")]
+        [HttpPut]
+        [SimpleAuthentication]
+        public IHttpActionResult UpdateProductStatus (int id, UpdateProductStatusInputDto updateProductStatusInputModel)
+        {
+            try
+            {
+                var message = SolicitationManager.UpdateProductStatus(id, updateProductStatusInputModel);
+
+                return this.Ok(new HttpResultModel(message));
+            }
+            catch (PermissionException)
+            {
+                return this.Unauthorized();
+            }
+            catch (BusinessException e)
+            {
+                return this.BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                log.Fatal("GetAllProfiles: " + e.ToString() + " // InnerException: " + e.InnerException?.ToString());
+                return this.BadRequest("Não foi possível atualizar o solicitatione");
+            }
+        }
+
+        /// <summary>
         /// Search by filter
         /// </summary>
         /// <returns>Http result with the paginated list of solicitations</returns>

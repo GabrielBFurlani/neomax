@@ -47,6 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dto\UpdateProductStatusInputDto.cs" />
+    <Compile Include="Dto\ContactDayDto.cs" />
+    <Compile Include="Dto\ContactTimeDto.cs" />
     <Compile Include="Dto\SolicitationProductDto.cs" />
     <Compile Include="Dto\SolicitationProductInputDto.cs" />
     <Compile Include="Dto\SolicitationDto.cs" />

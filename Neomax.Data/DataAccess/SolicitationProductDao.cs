@@ -41,6 +41,9 @@ namespace Neomax.Data.DataAccess
         public virtual string Title { get; set; }
 
         /// <summary> Gets or sets the client CNPJ </summary>
+        public virtual string Suggestion { get; set; }
+
+        /// <summary> Gets or sets the client CNPJ </summary>
         public virtual IList<FileDao> ListDocuments { get; set; }
 
         /// <summary> Gets or sets the client name </summary>

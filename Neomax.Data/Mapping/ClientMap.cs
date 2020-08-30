@@ -31,6 +31,8 @@ namespace Neomax.Data.Mapping
             HasManyToMany(x => x.ListTelephones).Table("ClienteTelefone").ParentKeyColumn("CodigoCliente").ChildKeyColumn("CodigoTelefone").Cascade.All();
             HasManyToMany(x => x.ListBanks).Table("ClienteBanco").ParentKeyColumn("CodigoCliente").ChildKeyColumn("CodigoBanco").Cascade.All();
             HasManyToMany(x => x.ListDocuments).Table("ClienteDocumento").ParentKeyColumn("CodigoCliente").ChildKeyColumn("CodigoDocumento").Cascade.All();
+            //HasManyToMany(x => x.ListContactTime).Table("ClienteHoraContato").ParentKeyColumn("CodigoCliente").Cascade.All();
+            //HasManyToMany(x => x.ListContactDay).Table("ClienteDiaContato").ParentKeyColumn("CodigoCliente").Cascade.All();
         }
     }
 }

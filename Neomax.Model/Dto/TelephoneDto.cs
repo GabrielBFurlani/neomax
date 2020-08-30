@@ -29,6 +29,9 @@ namespace Neomax.Model.Dto
         /// <summary> Gets or sets the client CNPJ </summary>
         public TelephoneType TelephoneType { get; set; }
 
+        /// <summary> Gets or sets the client CNPJ </summary>
+        public string TelephoneTypeName { get; set; }
+
         /// <summary> Gets or sets the client url base </summary>
         public string ContactName { get; set; }
     }

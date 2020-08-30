@@ -171,6 +171,8 @@
     <Content Include="assets\libs\angular-ui-mask\dist\mask.js" />
     <Content Include="assets\libs\angular-ui-mask\dist\mask.min.js" />
     <Content Include="assets\libs\angular-ui-router\release\angular-ui-router.min.js" />
+    <Content Include="assets\libs\angularjs-dropdown-multiselect\dist\angularjs-dropdown-multiselect.min.js" />
+    <Content Include="assets\libs\angularjs-dropdown-multiselect\dist\index.css" />
     <Content Include="assets\libs\angular\angular-bootstrap\ui-bootstrap-csp.css" />
     <Content Include="assets\libs\angular\angular-bootstrap\ui-bootstrap-tpls.js" />
     <Content Include="assets\libs\angular\angular-bootstrap\ui-bootstrap-tpls.min.js" />

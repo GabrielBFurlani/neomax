@@ -157,7 +157,7 @@
 
             /* nested views - Level 3 (client edit)  */
             .state('panel.client.detail', {
-                url: "/edit/:idClient",
+                url: "/edit/:idClient/:fromLocation/:idSolicitation",
                 templateUrl: "app/panel/client/detail/detail.html",
                 controller: "clientDetailController"
             })

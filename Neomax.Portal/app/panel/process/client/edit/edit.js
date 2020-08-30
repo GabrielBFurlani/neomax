@@ -93,14 +93,12 @@
         //Button: Save
         $scope.save = function () {
 
-            console.log($scope.products);
 
             if (id == 0 || id == null) {
                 //create
 
                 $http.post(_apiUrl + '/solicitations', $scope.products)
                     .then(function successCallback(response) {
-                        console.log(response);
                         $state.go('panel.process.client.list')
                     })
             }

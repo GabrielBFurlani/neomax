@@ -8,6 +8,7 @@ namespace Neomax.Data.Mapping
 {
     using FluentNHibernate.Mapping;
     using Neomax.Data.DataAccess;
+    using Neomax.Model.Util;
     using NHibernate.Type;
 
     /// <summary>
@@ -23,7 +24,7 @@ namespace Neomax.Data.Mapping
             this.Table("ClienteHoraContato");
             this.Id(x => x.Id, "Codigo").GeneratedBy.Identity();
             this.References(x => x.Client, "CodigoCliente");
-            this.Map(x => x.ContactTime, "horaContato");
+            this.Map(x => x.ContactTime, "horarioContato").CustomType<ContactTime>(); ;
         }
     }
 }

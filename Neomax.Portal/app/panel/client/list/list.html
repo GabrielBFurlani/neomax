@@ -16,8 +16,8 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label">Nome/CPF/CNPJ</label>
-                                    <input type="text" id="nameOrUsername" name="nameOrUsername" class="form-control" ng-model="filter.nameOrUsername" maxLength="100" />
+                                    <label class="control-label">Nome/Apelido/CPF/CNPJ</label>
+                                    <input type="text" id="nameOrUsername" name="nameOrUsername" class="form-control" ng-model="filter.argument" maxLength="100" />
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -50,6 +50,8 @@
                             <tr>
                                 <th></th>
                                 <th>Nome</th>
+                                <th>Email</th>
+                                <th>Apelido</th>
                                 <th>CPF/CNPJ</th>
                             </tr>
                         </thead>
@@ -61,7 +63,9 @@
                                     </button>
                                 </td>
                                 <td>{{client.name}}</td>
-                                <td>{{client.cpf}}</td>
+                                <td>{{client.email}}</td>
+                                <td>{{client.nickname}}</td>
+                                <td>{{client.username}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -83,10 +87,7 @@
         <div class="row line-space-20">
             <div class="col-md-12 text-center">
                 <button type="button" class="btn btn-default" ng-click="back()">Cancelar</button>
-                <button type="submit" class="btn btn-primary column-space">
-                    <span class="glyphicon glyphicon-floppy-disk"></span> Salvar
-                </button>
-            </div>
+            </div>S
         </div>
 
     </div>

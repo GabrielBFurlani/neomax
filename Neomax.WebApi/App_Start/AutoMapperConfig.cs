@@ -15,7 +15,21 @@ namespace Neomax.WebApi
         {
             Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<ClientDto, ClientDao>().ReverseMap();
+                cfg.CreateMap<ClientDto, ClientDao>().ReverseMap()
+                .ForMember(x => x.GenderName, y => y.MapFrom(z => Domain.TextValueFrom(z.Gender)))
+                .ForMember(x => x.AnnualBillingName, y => y.MapFrom(z => Domain.TextValueFrom(z.AnnualBilling)))
+                .ForMember(x => x.NatureBackgroundName, y => y.MapFrom(z => Domain.TextValueFrom(z.NatureBackground)))
+                .ForMember(x => x.TypeNoteEmitedName, y => y.MapFrom(z => Domain.TextValueFrom(z.TypeNoteEmited)));
+
+                cfg.CreateMap<ContactDayDto, ContactDayDao>().ReverseMap()
+                .ForMember(x => x.ContactDayName, y => y.MapFrom(z => Domain.TextValueFrom(z.ContactDay)));
+
+                cfg.CreateMap<ContactTimeDto, ContactTimeDao>().ReverseMap()
+                .ForMember(x => x.ContactTimeName, y => y.MapFrom(z => Domain.TextValueFrom(z.ContactTime)));
+
+                cfg.CreateMap<TelephoneDto, TelephoneDao>().ReverseMap()
+                .ForMember(x => x.TelephoneTypeName, y => y.MapFrom(z => Domain.TextValueFrom(z.TelephoneType)));
+
                 cfg.CreateMap<UserDto, UserDao>().ReverseMap();
                 cfg.CreateMap<SolicitationDao, SolicitationDto>()
                 .ForMember(x => x.StatusName, y => y.MapFrom(z => Domain.TextValueFrom(z.Status)));

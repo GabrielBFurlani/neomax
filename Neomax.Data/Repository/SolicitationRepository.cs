@@ -57,7 +57,7 @@ namespace Neomax.Data.Repository
                 //// Pagination                
                 paginationResponse.TotalResults = query.Count();
                 //
-                paginationResponse.Response = query.ToList().OrderByDescending(x => x.Status).ThenByDescending(x => x.CreationDate).Skip((filter.PageNumber - 1) * filter.ResultsPerPage).Take(filter.ResultsPerPage).ToList();
+                paginationResponse.Response = query.ToList().OrderBy(x => x.Status).ThenByDescending(x => x.CreationDate).Skip((filter.PageNumber - 1) * filter.ResultsPerPage).Take(filter.ResultsPerPage).ToList();
 
                 return paginationResponse;
             }

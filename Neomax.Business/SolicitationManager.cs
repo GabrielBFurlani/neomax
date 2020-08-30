@@ -56,6 +56,32 @@ namespace Neomax.Business
             return solicitationDto;
         }
 
+        public static string UpdateProductStatus(int idProduct, UpdateProductStatusInputDto updateProductStatusInputModel) {
+
+            SolicitationProductRepository solicitationProductRepository = new SolicitationProductRepository();
+
+            SolicitationProductDao solicitationProductDao = solicitationProductRepository.GetById(idProduct);
+
+            if (solicitationProductDao == null)
+            {
+                throw new BusinessException("Produto não encontrado");
+            }
+
+            /*if (solicitationProductDao.Status == SolicitationStatus.Approved)
+            { }*/
+
+            solicitationProductDao.Status = updateProductStatusInputModel.Status;
+
+            if(updateProductStatusInputModel.Status == SolicitationStatus.RevisionSolicited)
+            solicitationProductDao.Suggestion = updateProductStatusInputModel.Suggestion;
+            else
+                solicitationProductDao.Suggestion = string.Empty;
+
+            solicitationProductRepository.CreateOrUpdate(solicitationProductDao);
+
+            return "Atualização de Status Concluída com Sucesso!";
+        }
+
         public static string Create(SolicitationInputDto solicitationInputDto)
         {
             SolicitationRepository solicitationRepository = new SolicitationRepository();
@@ -216,15 +242,30 @@ namespace Neomax.Business
 
             var solicitations = solicitationRepository.GetForAdmin(filter);
 
+            List<SolicitationDto> listSolicitatios = new List<SolicitationDto>();
+
             foreach (var solicitation in solicitations.Response)
             {
-                solicitation.Client.User = userRepository.GetById(solicitation.Client.User.Id.Value);
+                solicitation.Client.User = solicitation.Client.User.Id.HasValue ? userRepository.GetById(solicitation.Client.User.Id.Value) : null;
+
+                SolicitationDto solicitationDto = new SolicitationDto()
+                {
+                    CreationDate = solicitation.CreationDate,
+                    Id = solicitation.Id,
+                    ProductsList = new List<SolicitationProductDto>(),
+                    Protocol = solicitation.Protocol,
+                    Status = solicitation.Status,
+                    StatusName = Domain.TextValueFrom(solicitation.Status),
+                    Client = Mapper.Map<ClientDto>(solicitation.Client)
+                };
+
+                listSolicitatios.Add(solicitationDto);
             }
 
             PaginationResponseDto<SolicitationDto> paginationResponseDto = new PaginationResponseDto<SolicitationDto>()
             {
                 CurrentPage = filter.PageNumber,
-                Response = Mapper.Map<List<SolicitationDto>>(solicitations.Response),
+                Response = listSolicitatios,
                 ResultsPerPage = filter.ResultsPerPage,
                 TotalResults = solicitations.TotalResults
             };

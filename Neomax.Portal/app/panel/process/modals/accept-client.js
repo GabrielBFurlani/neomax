@@ -25,7 +25,7 @@
                 suggestion: $scope.suggestion
             }
 
-            $http.put(_apiUrl + '/solicitations/' + id + '/updateProductStatus', $scope.statusUpdateObject)
+            $http.post(_apiUrl + '/solicitations/' + id + '/updateProductStatus', $scope.statusUpdateObject)
                 .then(function successCallback(response) {
                     $uibModalInstance.close();
                 })

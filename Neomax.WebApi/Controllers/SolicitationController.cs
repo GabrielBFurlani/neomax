@@ -126,7 +126,7 @@ namespace Neomax.WebApi.Controllers
         /// Update solicitation
         /// </summary>
         [Route("{id}/updateProductStatus")]
-        [HttpPut]
+        [HttpPost]
         [SimpleAuthentication]
         public IHttpActionResult UpdateProductStatus (int id, UpdateProductStatusInputDto updateProductStatusInputModel)
         {

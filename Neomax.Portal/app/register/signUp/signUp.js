@@ -11,6 +11,8 @@
             fileList: []
         }
 
+        $scope.validationMessages = validationMessages;
+
         $scope.stepsNames = ["1 - Dados Pessoais", "2 - Seus Documentos e Filiações", "3 - Residência", "4 - Informações Complementares",
             "5 - Foto do Perfil", "6 - Comprovante de Anexos"];
 
@@ -364,7 +366,9 @@
 
             else
                 if ($scope.step == 1 && $scope.form1.$valid)
-                $scope.step++;
+                    $scope.step++;
+                else
+                    $scope.step++;
         }
 
         /* Save form 1 */

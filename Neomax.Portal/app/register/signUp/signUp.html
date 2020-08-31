@@ -34,10 +34,10 @@
                 <div class="form-group" ng-class="{'has-error': form1.username.$error.required && (form1.username.$dirty || form1.$submitted)}">
                     <label class="control-label">*CPF/CNPJ (Login)</label>
                     <input name="username" id="username" class="form-control" ng-model="client.username" required ng-change="usernameFormater()" />
-                    <div ng-messages="form1.username.$error" class="error-message" role="alert" ng-show="form1.username.$error && (form1.username.$dirty || form1.$submitted)">
+                    <!--<div ng-messages="form1.username.$error" class="error-message" role="alert" ng-show="form1.username.$error && (form1.username.$dirty || form1.$submitted)">
                         <div ng-message="required">{{validationMessages.required}}</div>
                         <div ng-message="invalid">{{validationMessages.invalid}}</div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
 
@@ -45,45 +45,45 @@
                 <div class="form-group" ng-class="{'has-error': form1.cnpjPaying.$error.required && (form1.cnpjPaying.$dirty || form1.$submitted)}">
                     <label class="control-label">*CNPJ Fonte Pagadora</label>
                     <input type="text" name="cnpjPaying" id="cnpjPaying" class="form-control" ng-model="client.cnpjPaying" required ng-change="cnpjPayingFormater()" />
-                    <div ng-messages="form1.cnpjPagador.$error" class="error-message" role="alert" ng-show="form1.cnpjPaying.$error && (form1.cnpjPaying.$dirty || form1.$submitted)">
+                    <!--<div ng-messages="form1.cnpjPagador.$error" class="error-message" role="alert" ng-show="form1.cnpjPaying.$error && (form1.cnpjPaying.$dirty || form1.$submitted)">
                         <div ng-message="required">{{validationMessages.required}}</div>
                         <div ng-message="invalid">{{validationMessages.invalid}}</div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
 
         <div class="row line-space-10">
             <div class="col-md-6">
-                <div class="form-group">
+                <div class="form-group" ng-class="{'has-error': form1.password.$error.required && (form1.password.$dirty || form1.$submitted)}">
                     <label class="control-label">*Senha</label>
                     <input type="password" id="password" name="password" class="form-control" ng-model="client.password" maxLength="50"
                            validate-on="submit" required required-message="'Obrigatório'" />
-                    <div ng-messages="form1.password.$error" class="error-message" role="alert" ng-show="form1.password.$error && (form1.password.$dirty || form1.$submitted)">
+                    <!--<div ng-messages="form1.password.$error" class="error-message" role="alert" ng-show="form1.password.$error && (form1.password.$dirty || form1.$submitted)">
                         <div ng-message="required">{{validationMessages.required}}</div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="form-group">
+                <div class="form-group" ng-class="{'has-error': form1.passwordConfirmation.$error.required && (form1.passwordConfirmation.$dirty || form1.$submitted)}">
                     <label class="control-label">*Confirmação Senha</label>
                     <input type="password" id="passwordConfirmation" name="passwordConfirmation" class="form-control" ng-model="client.passwordConfirmation" maxLength="50"
                            validate-on="submit" required required-message="'Obrigatório'" />
-                    <div ng-messages="form1.passwordConfirmation.$error" class="error-message" role="alert" ng-show="form1.passwordConfirmation.$error && (form1.passwordConfirmation.$dirty || form1.$submitted)">
+                    <!--<div ng-messages="form1.passwordConfirmation.$error" class="error-message" role="alert" ng-show="form1.passwordConfirmation.$error && (form1.passwordConfirmation.$dirty || form1.$submitted)">
                         <div ng-message="required">{{validationMessages.required}}</div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
 
         <div class="row line-space-10">
             <div class="col-md-6">
-                <div class="form-group" ng-class="{'has-error': (form1.nome.$error.required || form1.nome.$error.invalid) && (form1.nome.$dirty || form1.$submitted)}">
+                <div class="form-group" ng-class="{'has-error': form1.name.$error.required && (form1.name.$dirty || form1.$submitted)}">
                     <label class="control-label">*Nome Completo</label>
                     <input type="text" id="name" name="name" autocomplete="new-password" class="form-control" ng-model="client.name" maxLength="100" required />
-                    <div ng-messages="form1.name.$error" class="error-message" role="alert" ng-show="form1.name.$error && (form1.nome.$dirty || form1.$submitted)">
+                    <!--<div ng-messages="form1.name.$error" class="error-message" role="alert" ng-show="form1.name.$error && (form1.nome.$dirty || form1.$submitted)">
                         <div ng-message="required">{{validationMessages.required}}</div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
             <div class="col-md-6">
@@ -94,14 +94,14 @@
             </div>
         </div>
 
-        <div class="row line-space-10">S
+        <div class="row line-space-10">
             <div class="col-md-6">
-                <div class="form-group">
-                    <label class="control-label">Endere&ccedil;o Eletr&ocirc;nico (E-mail)</label>
+                <div class="form-group" ng-class="{'has-error': form1.email.$error.required && (form1.email.$dirty || form1.$submitted)}">
+                    <label class="control-label">*Endere&ccedil;o Eletr&ocirc;nico (E-mail)</label>
                     <input type="text" id="email" name="email" autocomplete="new-password" class="form-control" ng-model="client.email" maxLength="100" required />
-                    <div ng-messages="form1.email.$error" class="error-message" role="alert" ng-show="form1.email.$error && (form1.email.$dirty || form1.$submitted)">
+                    <!--<div ng-messages="form1.email.$error" class="error-message" role="alert" ng-show="form1.email.$error && (form1.email.$dirty || form1.$submitted)">
                         <div ng-message="required">{{validationMessages.required}}</div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
             <div class="col-md-6">

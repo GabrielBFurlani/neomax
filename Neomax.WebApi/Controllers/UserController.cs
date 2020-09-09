@@ -323,6 +323,42 @@ namespace Neomax.WebApi.Controllers
         }
 
         /// <summary>
+        /// Gets an user data by its identifier (requested by the correspondent user)
+        /// </summary>
+        /// <param name="id">User identifier</param>
+        /// <returns>Http Result with the User object</returns>
+        [Route("loggedUser")]
+        [HttpGet]
+        [SimpleAuthenticationAttribute]
+        public IHttpActionResult GetUserLogged()
+        {
+            var loggedUser = new UserRepository().GetByAcessToken(ActionContext.Request.Headers.Authorization.Parameter);
+
+            if (loggedUser == null)
+            {
+                return Unauthorized();
+            }
+
+            try
+            {
+                return this.Ok(new HttpResultModel(string.Empty, UserManager.GetUserById(loggedUser, loggedUser.Id.Value)));
+            }
+            catch (PermissionException)
+            {
+                return this.Unauthorized();
+            }
+            catch (BusinessException e)
+            {
+                return this.BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                log.Fatal("GetUserByIdByUser: " + e.ToString() + " // InnerException: " + e.InnerException?.ToString());
+                return this.BadRequest("Não foi possível efetuar a operação");
+            }
+        }
+
+        /// <summary>
         /// Updates user's data (done by the user)
         /// </summary>
         /// <param name="user">User data</param>

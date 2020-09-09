@@ -79,6 +79,8 @@
     <Content Include="app\login\modals\sign-up.js" />
     <Content Include="app\login\modals\forgot-password.html" />
     <Content Include="app\login\modals\forgot-password.js" />
+    <Content Include="app\panel\client\data\data.html" />
+    <Content Include="app\panel\client\data\data.js" />
     <Content Include="app\panel\client\detail\detail.html" />
     <Content Include="app\panel\client\detail\detail.js" />
     <Content Include="app\panel\client\list\list.html" />

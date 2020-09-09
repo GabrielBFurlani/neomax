@@ -89,8 +89,8 @@ namespace Neomax.Business
             {
                 MailManager.SendCreationUserEmail(userAvailableDao.Email, userAvailableDao.Token);
             }
-            catch (Exception)
-            {
+            catch (Exception e)
+            {   
                 userRepository.RollbackTransaction();
                 return "Não foi possível enviar o e-mail";
             }

@@ -152,14 +152,21 @@ namespace Neomax.WebApi.Controllers
         /// <summary>
         /// Update client
         /// </summary>
-        [Route("{id}")]
+        [Route("")]
         [HttpPut]
         [SimpleAuthentication]
-        public IHttpActionResult Update(int id, ClientInputDto clientInputDto)
+        public IHttpActionResult Update(ClientInputDto clientInputDto)
         {
             try
             {
-                return this.Ok(new HttpResultModel(string.Empty, ClientManager.CreateOrUpdate(id, clientInputDto)));
+                var loggedUser = new UserRepository().GetByAcessToken(ActionContext.Request.Headers.Authorization.Parameter);
+
+                if (loggedUser == null)
+                {
+                    return Unauthorized();
+                }
+
+                return this.Ok(new HttpResultModel("Dados atualizados com sucesso!", ClientManager.CreateOrUpdate(loggedUser.Id, clientInputDto)));
             }
             catch (PermissionException)
             {
@@ -381,7 +388,7 @@ namespace Neomax.WebApi.Controllers
                 return this.BadRequest("COULD_NOT_PERFORM_OPERATION");
             }
         }
-        
+
 
         #endregion
     }

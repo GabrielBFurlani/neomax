@@ -162,5 +162,12 @@
                 controller: "clientDetailController"
             })
 
+            /* nested views - Level 3 (client) */
+            .state('panel.client.data', {
+                url: "/data",
+                templateUrl: "app/panel/client/data/data.html",
+                controller: "dataController"
+            })
+
     });
 }());

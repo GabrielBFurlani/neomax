@@ -9,7 +9,7 @@
                 if ($scope.isAdmin)
                     $state.go('panel.user.userArea.edit');
                 else
-                    $state.go('panel.myAccount');
+                    $state.go('panel.client.data');
             }
             else {
                 if (pageNumber == 2) {

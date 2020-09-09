@@ -63,42 +63,66 @@ namespace Neomax.Business
 
             clientInputDto.Username = clientInputDto.Username.Replace(".", "").Replace("-", "").Replace("/", "");
 
-            if (!IsCnpj(clientInputDto.CnpjPaying))
-            {
-                throw new BusinessException("CNPJ da fonte pagadora inválido");
-            }
+            /*    if (!IsCnpj(clientInputDto.CnpjPaying))
+                {
+                    throw new BusinessException("CNPJ da fonte pagadora inválido");
+                }*/
 
-            clientInputDto.CnpjPaying = clientInputDto.CnpjPaying.Replace(".", "").Replace("-", "").Replace("/", "");
+            //clientInputDto.CnpjPaying = clientInputDto.CnpjPaying.Replace(".", "").Replace("-", "").Replace("/", "");
 
-            if (string.IsNullOrWhiteSpace(clientInputDto.Password))
+            if (!id.HasValue && string.IsNullOrWhiteSpace(clientInputDto.Password))
             {
                 throw new BusinessException("A senha deve ser informada");
             }
 
-            if (string.IsNullOrWhiteSpace(clientInputDto.PasswordConfirmation))
+            if (!id.HasValue && string.IsNullOrWhiteSpace(clientInputDto.PasswordConfirmation))
             {
                 throw new BusinessException("A confirmação da senha deve ser informada");
             }
 
-            if (!clientInputDto.Password.Equals(clientInputDto.PasswordConfirmation))
+            if (!id.HasValue && !clientInputDto.Password.Equals(clientInputDto.PasswordConfirmation))
             {
                 throw new BusinessException("Senhas não combinam!");
             }
 
-            if (userRepository.GetByUsername(clientInputDto.Username) != null)
+            UserDao userDao;
+
+            if (!id.HasValue)
+                userDao = userRepository.GetByUsername(clientInputDto.Username);
+            else
+                userDao = userRepository.GetById(id.Value);
+
+            if (userDao == null && id.HasValue)
             {
-                throw new BusinessException("CPF/CNPJ já cadastrado");
+                throw new BusinessException("Usuário não encontrado");
             }
 
-            UserDao userDao = new UserDao()
+            /*if (userDao != null && id != userDao.Id)
             {
-                Active = true,
-                Email = clientInputDto.Email,
-                Name = clientInputDto.Name,
-                Nickname = clientInputDto.NickName,
-                Password = Encrypt(clientInputDto.Password),
-                Username = clientInputDto.Username
-            };
+                throw new BusinessException("CPF/CNPJ já cadastrado");
+            }*/
+
+            if (userDao != null)
+            {
+                userDao.Active = true;
+                userDao.Email = clientInputDto.Email;
+                userDao.Name = clientInputDto.Name;
+                userDao.Nickname = clientInputDto.NickName;
+                //userDao.Username = clientInputDto.Username
+            }
+            else
+            {
+                userDao = new UserDao()
+                {
+                    Active = true,
+                    Email = clientInputDto.Email,
+                    Name = clientInputDto.Name,
+                    Nickname = clientInputDto.NickName,
+                    Password = Encrypt(clientInputDto.Password),
+                    Username = clientInputDto.Username
+                };
+            }
+
 
             if (clientInputDto.Photo != null)
             {
@@ -125,20 +149,41 @@ namespace Neomax.Business
 
             userRepository.CreateOrUpdate(userDao);
 
-            ClientDao clientDao = new ClientDao()
+            ClientDao clientDao = id.HasValue ? userDao.Client : new ClientDao();
+
+            if (!id.HasValue)
             {
-                User = userDao,
-                AnnualBilling = clientInputDto.AnnualBilling,
-                CNPJPayingSource = clientInputDto.CnpjPaying,
-                Gender = clientInputDto.Gender,
-                NatureBackground = clientInputDto.CompanyNatureType,
-                TypeNoteEmited = clientInputDto.TypeNoteEmited,
-                ListBanks = new List<BankDao>(),
-                ListContactDay = new List<ContactDayDao>(),
-                ListContactTime = new List<ContactTimeDao>(),
-                ListDocuments = new List<FileDao>(),
-                ListTelephones = new List<TelephoneDao>(),
-            };
+                clientDao = new ClientDao()
+                {
+                    User = userDao,
+                    AnnualBilling = clientInputDto.AnnualBilling,
+                    CNPJPayingSource = clientInputDto.CnpjPaying,
+                    Gender = clientInputDto.Gender,
+                    NatureBackground = clientInputDto.CompanyNatureType,
+                    TypeNoteEmited = clientInputDto.TypeNoteEmited,
+                    ListBanks = new List<BankDao>(),
+                    ListContactDay = new List<ContactDayDao>(),
+                    ListContactTime = new List<ContactTimeDao>(),
+                    ListDocuments = new List<FileDao>(),
+                    ListTelephones = new List<TelephoneDao>(),
+                };
+            }
+            else
+            {
+                clientDao.User = userDao;
+                clientDao.AnnualBilling = clientInputDto.AnnualBilling;
+                clientDao.CNPJPayingSource = clientInputDto.CnpjPaying;
+                clientDao.Gender = clientInputDto.Gender;
+                clientDao.NatureBackground = clientInputDto.CompanyNatureType;
+                clientDao.TypeNoteEmited = clientInputDto.TypeNoteEmited;
+                clientDao.ListBanks = new List<BankDao>();
+                clientDao.ListContactDay = new List<ContactDayDao>();
+                clientDao.ListContactTime = new List<ContactTimeDao>();
+                clientDao.ListDocuments = new List<FileDao>();
+                clientDao.ListTelephones = new List<TelephoneDao>();
+            }
+
+            clientDao.ListBanks.Clear();
 
             if (clientInputDto.Banks?.Count > 0)
             {
@@ -157,6 +202,8 @@ namespace Neomax.Business
                 }
             }
 
+            clientDao.ListTelephones.Clear();
+
             if (clientInputDto.Telephones?.Count > 0)
             {
                 TelephoneDao newTelephone = null;
@@ -174,12 +221,16 @@ namespace Neomax.Business
                 }
             }
 
+            clientDao.ListDocuments.Clear();
+
             if (clientInputDto.Documents?.Count > 0)
             {
 
             }
 
             clientRepository.CreateOrUpdate(clientDao);
+
+            clientDao.ListContactDay.Clear();
 
             if (clientInputDto.ContactDays?.Count > 0)
             {
@@ -198,6 +249,8 @@ namespace Neomax.Business
                     clientRepository.CreateContactHour(newContactDay);
                 }
             }
+
+            clientDao.ListContactTime.Clear();
 
             if (clientInputDto.ContactTimes?.Count > 0)
             {

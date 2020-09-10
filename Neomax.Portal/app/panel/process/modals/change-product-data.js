@@ -1,87 +1,36 @@
 ﻿(function () {
+    "use strict";
 
-    angular.module("app").controller('processClientEditController', ['$scope', '$state', '$http', 'CONFIG', '$stateParams', '$uibModal', function ($scope, $state, $http, CONFIG, $stateParams, $uibModal) {
+    angular.module('app').controller('changeProductDataController', ['$scope', '$http', 'CONFIG', '$uibModalInstance', 'product', function ($scope, $http, CONFIG, $uibModalInstance, product) {
         var _apiUrl = CONFIG.apiRootUrl;
-        var id = $stateParams.idProcess;
 
-        $scope.user = {};
+        $scope.product = angular.copy(product);
 
-        $scope.step = 1;
-
-        $scope.hasPhoto = false;
-        $scope.newPhoto = false;
-        $scope.loadPhoto = false;
-
-        $scope.conteudoArquivoFoto = null;
-
-        $scope.productSelected = null;
-
-        $scope.fileUpload = {
-            fileList: []
-        }
+        console.log($scope.product);
 
         //Load Page
         function loadPage() {
 
-            $http.get(_apiUrl + '/solicitations/' + id)
-                .then(function successCallback(response) {
-                    $scope.solicitation = response.data;
-                    console.log($scope.solicitation)
-                });
-
-            //Check if its update operation
         }
 
-        //Button: Save
-        $scope.save = function () {
-            $http.put(_apiUrl + '/solicitations/' + id, $scope.products)
+        //Button: Sign-Up
+        $scope.send = function (status) {
+
+            $http.post(_apiUrl + '/solicitations/product/' + product.id, $scope.product)
                 .then(function successCallback(response) {
-                    $state.go('panel.process.client.list')
+                    $uibModalInstance.close();
                 })
+
         }
 
-        $scope.edit = function (product) {
+        //Button: Cancel
+        $scope.cancel = function (close) {
 
-            console.log(product);
-
-            var modalInstance = $uibModal.open({
-                templateUrl: 'app/panel/process/modals/change-product-data.html',
-                controller: 'changeProductDataController',
-                backdrop: 'static',
-                resolve: {
-                    product: function () {
-                        return product;
-                    },
-                }
-            });
-
-            modalInstance.result.then(function () {
-                loadPage();
-            });
+            if ($scope.openSuggestion && !close)
+                $scope.openSuggestion = false;
+            else
+                $uibModalInstance.dismiss();
         }
-
-        //Button: Back
-        $scope.back = function () {
-            if ($scope.step == 1)
-                $state.go("panel.process.client.list");
-
-            if ($scope.step == 2)
-                $scope.step--;
-        }
-
-        $scope.add = function () {
-
-            $scope.products.products.push({ productType: $scope.productSelected == 1 ? "Direito de Endosso" : "Direito de Crédito", title: $scope.newProduct.title, nFiles: $scope.fileUpload.fileList.length, files: null, CNPJPayingSource: $scope.newProduct.CNPJPayingSource })
-
-            $scope.newProduct = {
-                title: ""
-            };
-
-            $scope.productSelected = null;
-
-            $scope.step--;
-        }
-
 
         $scope.cnpjPayingFormater = function () {
 
@@ -160,7 +109,6 @@
 
         }
 
-        //procedural script
         loadPage();
 
     }]);

@@ -1,0 +1,51 @@
+﻿<div class="modal-header ng-scope">
+    <h3 class="modal-title text-center">Altera&ccedil;&atilde;o de Dados do Produto</h3>
+</div>
+<form role="form" novalidate angular-validator angular-validator-submit="signUp()" ng-submit="send()" name="editProductForm">
+
+
+    <div class="row line-space-70 text-center">
+        <div class="col-md-10 col-md-offset-1">
+            <label class="control-label">T&iacute;tulo Para o Item da Solicita&ccedil;&atilde;o</label>
+            <input type="text" id="title" name="title" class="form-control" ng-model="product.title" maxLength="100" />
+        </div>
+    </div>
+
+    <div class="row line-space-30 text-center">
+        <div class="col-md-10 col-md-offset-1">
+            <label class="control-label">CNPJ Fonte Pagadora</label>
+            <input type="text" name="CNPJPayingSource" id="CNPJPayingSource" class="form-control" ng-model="product.cnpjPayingSource" required ng-change="cnpjPayingFormater()" />
+        </div>
+    </div>
+
+    <div class="row line-space-30 text-center">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="form-group">
+                <label class="control-label">Escolha os Arquivos que Deseja Adicionar (.jpeg.jpg.png):</label>
+                <input type="file" id="fileInput" name="fileInput" class="form-control" file-input file-model="fileUpload.fileList" change="loadPhoto(fileUpload.fileList[0])"
+                       show-Drag-Drop="false" show-Preview="true" accept='image/*' show-Remove="true" allowed-File-Extensions="['jpg', 'png', 'jpeg', 'pdf']" multiple />
+            </div>
+        </div>
+    </div>
+
+    <div class="row line-space-20 text-center" ng-show="product.suggestion != null && product.suggestion != ''">
+        <div class="col-md-10 col-md-offset-1">
+            <label class="control-label">Sugest&atilde;o</label>
+            <!--<input type="text" id="observacao" name="observacao" class="form-control uppercase-mask" ng-model="tipoDocumento.observacao"
+            maxLength="200" ng-disabled="!modoEditar" />-->
+            <textarea style="resize: none" type="text" id="suggestion" name="suggestion" class="form-control" ng-model="product.suggestion" disabled
+                      maxLength="1000" rows="10" />
+        </div>
+    </div>
+
+    <div class="modal-footer ng-scope line-space-20">
+        <div class="row">
+            <div class="col-md-4">
+                <button type="button" class="btn btn-default" ng-click="cancel()">Voltar</button>
+            </div>
+            <div class="col-md-offset-2 col-md-4 text-right">
+                <button type="submit" class="btn btn-success">Enviar Altera&ccedil;&otilde;es</button>
+            </div>
+        </div>
+    </div>
+</form>

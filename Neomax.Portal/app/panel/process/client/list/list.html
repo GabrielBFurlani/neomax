@@ -17,7 +17,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="control-label">Protocolo</label>
-                                    <input type="text" id="protocolNumber" name="protocolNumber" class="form-control" ng-model="filter.argument" maxLength="12" ng-change="search()"/>
+                                    <input type="text" id="protocolNumber" name="protocolNumber" class="form-control" ng-model="filter.argument" maxLength="12" ng-change="search()" />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -58,7 +58,7 @@
     <!--New Item Button-->
     <div class="row line-space-10">
         <div class="col-md-8 col-md-offset-2">
-            <button type="button" class="btn btn-success" ng-click="edit(0)">
+            <button type="button" class="btn btn-success" ng-click="create()">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Novo Processo
             </button>
         </div>
@@ -89,10 +89,10 @@
                         <tbody>
                             <tr ng-repeat="process in processes track by $index">
                                 <td>
-                                    <button type="button" class="btn btn-sm btn-warning column-space" uib-tooltip="Visualizar" ng-click="detail(client.id)">
+                                    <button type="button" class="btn btn-sm btn-warning column-space" uib-tooltip="Visualizar"  ng-click="edit(process.id)" ng-if="process.status != 2">
                                         <i class="fas fa-search-plus"></i>
                                     </button>
-                                    <button type="button" class="btn btn-sm btn-default column-space" uib-tooltip="Editar" ng-click="edit(process.id)" ng-if="process.id == 3">
+                                    <button type="button" class="btn btn-sm btn-default column-space" uib-tooltip="Editar" ng-click="edit(process.id)" ng-if="process.status == 2">
                                         <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                                     </button>
                                 </td>

@@ -85,6 +85,10 @@
     <Content Include="app\panel\client\detail\detail.js" />
     <Content Include="app\panel\client\list\list.html" />
     <Content Include="app\panel\client\list\list.js" />
+    <Content Include="app\panel\process\client\create\create.html" />
+    <Content Include="app\panel\process\client\create\create.js" />
+    <Content Include="app\panel\process\modals\change-product-data.html" />
+    <Content Include="app\panel\process\modals\change-product-data.js" />
     <Content Include="app\panel\process\modals\accept-client.html" />
     <Content Include="app\panel\process\modals\accept-client.js" />
     <Content Include="app\panel\client\user.html" />

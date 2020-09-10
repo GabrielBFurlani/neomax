@@ -1,8 +1,7 @@
 ﻿(function () {
 
-    angular.module("app").controller('processClientEditController', ['$scope', '$state', '$http', 'CONFIG', '$stateParams', '$uibModal', function ($scope, $state, $http, CONFIG, $stateParams, $uibModal) {
+    angular.module("app").controller('processClientCreateController', ['$scope', '$state', '$http', 'CONFIG', '$stateParams', '$uibModal', function ($scope, $state, $http, CONFIG, $stateParams, $uibModal) {
         var _apiUrl = CONFIG.apiRootUrl;
-        var id = $stateParams.idProcess;
 
         $scope.user = {};
 
@@ -20,44 +19,23 @@
             fileList: []
         }
 
+        $scope.newProduct = {
+            title: ""
+        };
+
+        $scope.products = { products: [], idclient: null };
+
         //Load Page
         function loadPage() {
 
-            $http.get(_apiUrl + '/solicitations/' + id)
-                .then(function successCallback(response) {
-                    $scope.solicitation = response.data;
-                    console.log($scope.solicitation)
-                });
-
-            //Check if its update operation
         }
 
         //Button: Save
         $scope.save = function () {
-            $http.put(_apiUrl + '/solicitations/' + id, $scope.products)
+            $http.post(_apiUrl + '/solicitations', $scope.products)
                 .then(function successCallback(response) {
                     $state.go('panel.process.client.list')
                 })
-        }
-
-        $scope.edit = function (product) {
-
-            console.log(product);
-
-            var modalInstance = $uibModal.open({
-                templateUrl: 'app/panel/process/modals/change-product-data.html',
-                controller: 'changeProductDataController',
-                backdrop: 'static',
-                resolve: {
-                    product: function () {
-                        return product;
-                    },
-                }
-            });
-
-            modalInstance.result.then(function () {
-                loadPage();
-            });
         }
 
         //Button: Back

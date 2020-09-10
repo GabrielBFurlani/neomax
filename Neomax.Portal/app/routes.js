@@ -142,6 +142,13 @@
                 controller: "processClientEditController"
             })
 
+            /* nested views - Level 4 (process client edit)  */
+            .state('panel.process.client.create', {
+                url: "/create",
+                templateUrl: "app/panel/process/client/create/create.html",
+                controller: "processClientCreateController"
+            })
+
             /* nested views - Level 2 (client) */
             .state('panel.client', {
                 url: "/client",

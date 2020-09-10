@@ -43,7 +43,7 @@
                     $scope.processStatus = response.data.resultData;
 
                     $scope.search();
-                    
+
                 });
         }
 
@@ -73,6 +73,9 @@
             $state.go('panel.process.client.edit', { idProcess: id });
         };
 
+        $scope.create = function () {
+            $state.go('panel.process.client.create');
+        }
 
         //Button: Back
         $scope.back = function () {

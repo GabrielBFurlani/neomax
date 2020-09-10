@@ -22,6 +22,7 @@ namespace Neomax.Business
     using System.Security.Cryptography;
     using System.Text;
     using DocumentFormat.OpenXml.Office2010.Excel;
+    using System.Net.NetworkInformation;
 
     /// <summary>
     /// Manages business rules related to profile
@@ -56,7 +57,45 @@ namespace Neomax.Business
             return solicitationDto;
         }
 
-        public static string UpdateProductStatus(int idProduct, UpdateProductStatusInputDto updateProductStatusInputModel) {
+        public static string UpdateProduct(int? id, SolicitationProductInputDto solicitationProductInputDto)
+        {
+            SolicitationProductRepository solicitationProductRepository = new SolicitationProductRepository();
+
+            if (!id.HasValue)
+            {
+                throw new BusinessException("Código do produto não informado");
+            }
+
+            SolicitationProductDao solicitationProductDao = solicitationProductRepository.GetById(id.Value);
+
+            if (solicitationProductDao == null)
+            {
+                throw new BusinessException("Produto não encontrado");
+            }
+
+            /*if (solicitationProductDao.Status == SolicitationStatus.Approved)
+            { }*/
+
+            solicitationProductDao.Status = SolicitationStatus.WaitingApprove;
+
+            solicitationProductDao.Suggestion = string.Empty;
+
+            solicitationProductDao.CNPJPayingSource = solicitationProductInputDto.CNPJPayingSource.Replace(".", "").Replace("/", "").Replace("-", "");
+
+            solicitationProductDao.Title = solicitationProductInputDto.Title;
+
+            if (solicitationProductInputDto.Files != null)
+            { 
+            
+            }
+
+            solicitationProductRepository.CreateOrUpdate(solicitationProductDao);
+
+            return "Atualização do Produto Concluída com Sucesso!";
+        }
+
+        public static string UpdateProductStatus(int idProduct, UpdateProductStatusInputDto updateProductStatusInputModel)
+        {
 
             SolicitationProductRepository solicitationProductRepository = new SolicitationProductRepository();
 
@@ -72,8 +111,8 @@ namespace Neomax.Business
 
             solicitationProductDao.Status = updateProductStatusInputModel.Status;
 
-            if(updateProductStatusInputModel.Status == SolicitationStatus.RevisionSolicited)
-            solicitationProductDao.Suggestion = updateProductStatusInputModel.Suggestion;
+            if (updateProductStatusInputModel.Status == SolicitationStatus.RevisionSolicited)
+                solicitationProductDao.Suggestion = updateProductStatusInputModel.Suggestion;
             else
                 solicitationProductDao.Suggestion = string.Empty;
 
@@ -303,12 +342,14 @@ namespace Neomax.Business
 
             var lastProtocolNumber = solicitationRepository.GetLastProtocolNumber();
 
+            lastProtocolNumber = (int.Parse(lastProtocolNumber) + 1).ToString();
+
             while (lastProtocolNumber.Length != 6)
             {
                 lastProtocolNumber = "0" + lastProtocolNumber;
             }
 
-            protocolNumber = lastProtocolNumber + 1 + "/" + DateTime.Now.Year;
+            protocolNumber = lastProtocolNumber + "/" + DateTime.Now.Year;
 
             return protocolNumber;
         }

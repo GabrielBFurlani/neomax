@@ -287,14 +287,16 @@ namespace Neomax.Business
             {
                 solicitation.Client.User = solicitation.Client.User.Id.HasValue ? userRepository.GetById(solicitation.Client.User.Id.Value) : null;
 
+                var qtdApproveds = solicitation.ProductsList.Where(x => x.Status == SolicitationStatus.Approved).Count();
+
                 SolicitationDto solicitationDto = new SolicitationDto()
                 {
                     CreationDate = solicitation.CreationDate,
                     Id = solicitation.Id,
                     ProductsList = new List<SolicitationProductDto>(),
                     Protocol = solicitation.Protocol,
-                    Status = solicitation.Status,
-                    StatusName = Domain.TextValueFrom(solicitation.Status),
+                    Status = qtdApproveds > 0 ? SolicitationStatus.Approved : solicitation.Status,
+                    StatusName = qtdApproveds > 0 ? "Aprovado "+qtdApproveds+"/"+ solicitation.ProductsList.Count() : Domain.TextValueFrom(solicitation.Status),
                     Client = Mapper.Map<ClientDto>(solicitation.Client)
                 };
 
@@ -319,12 +321,35 @@ namespace Neomax.Business
 
             SolicitationRepository solicitationRepository = new SolicitationRepository();
 
+            UserRepository userRepository = new UserRepository();
+
             var solicitations = solicitationRepository.GetForClient(filter);
+
+            List<SolicitationDto> listSolicitatios = new List<SolicitationDto>();
+
+            foreach (var solicitation in solicitations.Response)
+            {
+                solicitation.Client.User = solicitation.Client.User.Id.HasValue ? userRepository.GetById(solicitation.Client.User.Id.Value) : null;
+
+                var qtdApproveds = solicitation.ProductsList.Where(x => x.Status == SolicitationStatus.Approved).Count();
+
+                SolicitationDto solicitationDto = new SolicitationDto()
+                {
+                    CreationDate = solicitation.CreationDate,
+                    Id = solicitation.Id,
+                    ProductsList = new List<SolicitationProductDto>(),
+                    Protocol = solicitation.Protocol,
+                    Status = qtdApproveds > 0 ? SolicitationStatus.Approved : solicitation.Status,
+                    StatusName = qtdApproveds > 0 ? "Aprovado " + qtdApproveds + "/" + solicitation.ProductsList.Count() : Domain.TextValueFrom(solicitation.Status),
+                };
+
+                listSolicitatios.Add(solicitationDto);
+            }
 
             PaginationResponseDto<SolicitationDto> paginationResponseDto = new PaginationResponseDto<SolicitationDto>()
             {
                 CurrentPage = filter.PageNumber,
-                Response = Mapper.Map<List<SolicitationDto>>(solicitations.Response),
+                Response = listSolicitatios,
                 ResultsPerPage = filter.ResultsPerPage,
                 TotalResults = solicitations.TotalResults
             };

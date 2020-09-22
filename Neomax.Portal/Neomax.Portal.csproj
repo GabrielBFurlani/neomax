@@ -122,6 +122,7 @@
     <Content Include="app\shared\directives\file-input-image.directive.js" />
     <Content Include="app\shared\directives\file-upload-model.directive.js" />
     <Content Include="app\shared\directives\tile-button.js" />
+    <Content Include="app\shared\services\file-download-upload.service.js" />
     <Content Include="app\shared\services\file-upload.service.js" />
     <Content Include="app\newUserCreate\newUserCreate.html" />
     <Content Include="app\newUserCreate\newUserCreate.js" />
@@ -143,7 +144,10 @@
     <Content Include="assets\css\app.css" />
     <Content Include="assets\css\loading-icon.css" />
     <Content Include="assets\css\zPanel.css" />
-    <Content Include="assets\img\logo.png" />
+    <Content Include="assets\img\icone.PNG" />
+    <Content Include="assets\img\logo_panel.PNG" />
+    <Content Include="assets\img\logo.PNG" />
+    <Content Include="assets\img\logo_panel_new.PNG" />
     <Content Include="assets\img\no_image.jpg" />
     <Content Include="assets\img\no_photo.png" />
     <Content Include="assets\img\zetacorp.png" />

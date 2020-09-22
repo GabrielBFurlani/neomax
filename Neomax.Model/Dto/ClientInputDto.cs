@@ -73,5 +73,8 @@ namespace Neomax.Model.Dto
 
         /// <summary> Gets or sets the client configurations list (it's a many-to-many reference) </summary>
         public List<HttpFileBase64Dto> Documents { get; set; }
+
+        /// <summary> Gets or sets the client configurations list (it's a many-to-many reference) </summary>
+        public bool HasPhoto { get; set; }
     }
 }

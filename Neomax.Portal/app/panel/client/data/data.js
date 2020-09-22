@@ -462,7 +462,7 @@
 
             if ($scope.step == 1) {
                 //back to menu
-                $state.go('login');
+                $state.go('panel.home');
             }
             else {
                 $scope.step--;

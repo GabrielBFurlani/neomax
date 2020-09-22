@@ -366,7 +366,7 @@ namespace Neomax.WebApi.Controllers
                 return this.BadRequest("COULD_NOT_PERFORM_OPERATION");
             }
         }
-
+         
         /// <summary>
         /// Get all activities types
         /// </summary>

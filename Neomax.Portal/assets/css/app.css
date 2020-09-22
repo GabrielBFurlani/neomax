@@ -1,11 +1,11 @@
 ﻿/*................................. Global Variables .................................*/
 :root {
     /*.............. Main ..............*/
-    --PrimaryBackgroundColor: #404040;
-    --PrimaryBackgroundColorHover: #4e4e4e;
-    --PrimaryTextColor: white;
-    --PrimaryTextColorHover: black;
-    --PrimaryTextBackgroundColorHover: #808080;
+    --PrimaryBackgroundColor:#3d233c;
+    --PrimaryBackgroundColorHover:#3d233c;
+    --PrimaryTextColor:#3d233c;
+    --PrimaryTextColorHover:#3d233c;
+    --PrimaryTextBackgroundColorHover:#3d233c;
     /*.............. specific variables (using the main variables) ..............*/
     --LoginBoxBackgroundColor: white;
     --LoginBoxHeaderBackgroundColor: var(--PrimaryBackgroundColor);
@@ -140,8 +140,8 @@ table tbody tr td {
 
 /*................................................. Login classes .............................................. */
 .login-logo-size {
-    height: 200px;
-}
+    height: 250px;
+}   
 
 .login-logo-place {
     margin-top: 1%;
@@ -171,7 +171,10 @@ table tbody tr td {
     border-color: var(--loginBoxIconBorderColor);
 }
 
-
+.login-icon {
+    height: 40px;
+    margin-top: -10px;
+}
 /*................................................. Primary Button .............................................. */
 .btn-primary {
     background-image: linear-gradient(to bottom,var(--PrimaryBackgroundColor) 0, var(--PrimaryBackgroundColorHover) 100%);

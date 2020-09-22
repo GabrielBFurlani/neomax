@@ -36,18 +36,23 @@
                                 </ul>
                             </div>
                         </uib-accordion>
+
+
                     </li>
                 </ul>
             </li>
             <!----- Brand ----->
         </ul>
+
+        <img src="assets/img/logo_panel_new.PNG" alt="Logo" class="brand-logo" />
+
         <!------------ right side ----------->
         <ul class="nav navbar-nav navbar-right">
             <!----- Profilebar ----->
             <li class="dropdown">
                 <div class="dropdown-toggle profilebar-toggle-button" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                     <img ng-src="data:{{session.photo.mimeType}};base64,{{session.photo.imageData}}" alt="Foto" class="img-circle user-profilebar-photo" ng-if="hasPhoto" />
-    <img src="assets/img/no_photo.png" alt="Foto" class="img-circle user-profilebar-photo" ng-if="!hasPhoto" />
+                    <img src="assets/img/no_photo.png" alt="Foto" class="img-circle user-profilebar-photo" ng-if="!hasPhoto" />
                     <label class="user-profilebar-button-label">{{session.nickname}}</label>
                     <!--<label class="user-profilebar-button-label line-space-10">Olá, Gabriel</label>-->
                     <label class="user-profilebar-button-label"><span class="glyphicon glyphicon-menu-down"></span></label>

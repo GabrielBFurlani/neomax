@@ -5,7 +5,7 @@
 /*..............Global Variables ..............*/
 :root {
     /*.............. Main ..............*/
-    --PrimaryBackgroundColor: #404040;
+    --PrimaryBackgroundColor: #3d233c;
     --PrimaryBackgroundColorHover: #4e4e4e;
     --PrimaryTextColor: white;
     --PrimaryTextColorHover: black;
@@ -70,7 +70,7 @@
     .menubar-toggle-button:hover {
         background-color: var(--ButtonMenuBarHover);
     }
-    
+
 .menu-icon {
     color: white;
     font-size: 28px;
@@ -89,9 +89,7 @@
     }
 
 .brand-logo-image {
-    height: 120px;     /*the full height of menubar is 55px*/
-    width: 140px;
-    margin-top: 5px;
+    height: 100px;
 }
 
 .profilebar-toggle-button {

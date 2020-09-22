@@ -37,7 +37,6 @@
         boundariesOutsideCity: 'Limites fora do município'
     });
 
-
     angular.module('app').config(function (blockUIConfig) {
         blockUIConfig.template = '<div style="width: 100%; height: 100%; opacity: .5; background-color: #777;"></div><div class="uil-cube-css" style="-webkit-transform:scale(0.25)"><div></div><div></div><div></div><div></div></div>';
     });

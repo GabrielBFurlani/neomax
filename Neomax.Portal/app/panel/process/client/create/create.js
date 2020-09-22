@@ -43,8 +43,10 @@
             if ($scope.step == 1)
                 $state.go("panel.process.client.list");
 
-            if ($scope.step == 2)
+            if ($scope.step == 2) {
                 $scope.step--;
+                $scope.productSelected = null;
+            }
         }
 
         $scope.add = function () {

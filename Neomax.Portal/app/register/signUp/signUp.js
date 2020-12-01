@@ -4,7 +4,7 @@
 
         var _apiUrl = CONFIG.apiRootUrl;
         var id = $stateParams.idUser;
-        var steps = 6;
+        var steps = 5;
         $scope.step = 1;
 
         $scope.fileUpload = {
@@ -60,8 +60,8 @@
             banks: [],
             telephones: [],
             contactDays: [],
-            ContactTimes: [],
-            Documents: []
+            contactTimes: [],
+            documents: []
         };
 
         $scope.newBankErrors = {};
@@ -354,13 +354,65 @@
 
             if ($scope.step == 5) {
 
-                $scope.client.ContactDays = $scope.daysSelecteds.map(function (item) { return item.id })
-                $scope.client.ContactTimes = $scope.timesSelecteds.map(function (item) { return item.id })
+                $scope.client.contactDays = $scope.daysSelecteds.map(function (item) { return item.id })
+                $scope.client.contactTimes = $scope.timesSelecteds.map(function (item) { return item.id })
 
-                $http.post(_apiUrl + '/clients', $scope.client)
-                    .success(function successCallback(response) {
-                        $state.go("login");
-                    })
+                console.log($scope.fileUpload.fileList);
+
+                if ($scope.client.documents == null)
+                    $scope.client.documents = [];
+
+                if ($scope.fileUpload.fileList != null) {
+
+                    for (var index = 0; index < $scope.fileUpload.fileList.length; index++) {
+
+                        console.log($scope.fileUpload.fileList[index]);
+
+                        $scope.client.documents[index] = {
+                            imageBase64: "",
+                            mimeType: $scope.fileUpload.fileList[index].type,
+                            fileName: $scope.fileUpload.fileList[index].name
+                        }
+
+                        const reader = new FileReader();
+                        reader.readAsDataURL($scope.fileUpload.fileList[index]);
+                        reader.onload = () => $scope.conteudoArquivoFoto = reader.result;
+                        reader.onerror = error => reject(error);
+                        reader.onloadend = () => {
+                            var i = 0;
+                            for (achou = false; achou == false;) {
+                                if ($scope.client.documents[i].imageBase64 == "")
+                                    achou = true;
+                                else
+                                    i++
+                            }
+
+
+                            $scope.client.documents[i].imageBase64 = $scope.conteudoArquivoFoto;
+
+                            console.log(i);
+                            console.log($scope.fileUpload.fileList.length-1);
+                            if (i == $scope.fileUpload.fileList.length-1) {
+                                $http.post(_apiUrl + '/clients', $scope.client)
+                                    .success(function successCallback(response) {
+                                        $state.go("login");
+                                    })
+                            }
+                        }
+
+                        /*var initialDataPatch = $scope.client.listaDocs[index].mimeType == "image/png" ? "data:image/png;base64," : "data:image/jpg;base64,/9j/";
+
+                        $scope.client.listaFotos[index] = {
+                            imageData: $scope.conteudoArquivoFoto1,
+                            mimeType: $scope.client.listaDocs[index].mimeType
+                        }*/
+                    }
+                }
+
+                console.log($scope.client.documents);
+
+                console.log("teste2");
+
 
             }
 

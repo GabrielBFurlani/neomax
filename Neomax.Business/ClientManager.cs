@@ -124,28 +124,28 @@ namespace Neomax.Business
             }
 
 
-            if (clientInputDto.Photo != null)
-            {
-                try
-                {
-                    var stringToConvert = FileManager.RemovePathString(clientInputDto.Photo);
+            //if (clientInputDto.Photo != null)
+            //{
+            //    try
+            //    {
+            //        var stringToConvert = FileManager.RemovePathString(clientInputDto.Photo);
 
-                    FileDao fileDao = new FileDao()
-                    {
-                        Name = "Brasao - " + clientInputDto.Name + "/" + clientInputDto.Username,
-                        CreateDate = DateTime.Now,
-                        Content = Convert.FromBase64String(stringToConvert),
-                        MimeType = clientInputDto.Photo.MimeType
-                    };
+            //        FileDao fileDao = new FileDao()
+            //        {
+            //            Name = "Brasao - " + clientInputDto.Name + "/" + clientInputDto.Username,
+            //            CreateDate = DateTime.Now,
+            //            Content = Convert.FromBase64String(stringToConvert),
+            //            MimeType = clientInputDto.Photo.MimeType
+            //        };
 
-                    fileRepository.CreateOrUpdate(fileDao);
-                    userDao.Photo = fileDao;
-                }
-                catch (Exception e)
-                {
-                    throw new BusinessException("Erro ao inserir foto do brasão");
-                }
-            }
+            //        fileRepository.CreateOrUpdate(fileDao);
+            //        userDao.Photo = fileDao;
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        throw new BusinessException("Erro ao inserir foto do brasão");
+            //    }
+            //}
 
             userRepository.CreateOrUpdate(userDao);
 
@@ -225,7 +225,30 @@ namespace Neomax.Business
 
             if (clientInputDto.Documents?.Count > 0)
             {
+                foreach (var photo in clientInputDto.Documents)
+                {
+                    try
+                    {
+                        var stringToConvert = FileManager.RemovePathString(photo);
 
+                        FileDao fileDao = new FileDao()
+                        {
+                            Name = photo.FileName,
+                            CreateDate = DateTime.Now,
+                            Content = Convert.FromBase64String(stringToConvert),
+                            MimeType = photo.MimeType,
+                        };
+
+                        fileRepository.CreateOrUpdate(fileDao);
+
+                        clientDao.ListDocuments.Add(fileDao);
+
+                    }
+                    catch (Exception e)
+                    {
+                        throw new BusinessException("Erro ao inserir foto do brasão");
+                    }
+                }
             }
 
             clientRepository.CreateOrUpdate(clientDao);

@@ -80,6 +80,32 @@ namespace Neomax.Business
         }
 
         /// <summary>
+        /// Takes only the image data and sets aside the type / patch of the image file
+        /// <param name="imageBase64Dto">Image File</param>
+        /// </summary>
+        /// <returns>List of HttFileDto</returns>
+        public static string RemovePathString(HttpFileBase64Dto imageBase64Dto)
+        {
+            int indexStartData;
+            var imgData = "";
+
+            if (imageBase64Dto.MimeType == "image/png")
+            {
+                indexStartData = imageBase64Dto.ImageBase64.ToLower().IndexOf("base64,");
+
+                imgData = imageBase64Dto.ImageBase64.Substring(indexStartData + 7);
+            }
+
+            //jpeg or jpg
+            indexStartData = imageBase64Dto.ImageBase64.IndexOf("/9j/");
+
+            if (indexStartData >= 0)
+                imgData = imageBase64Dto.ImageBase64.Substring(indexStartData + 4);
+
+            return imgData;
+        }
+
+        /// <summary>
         /// Convert a HttpFileCollection to a list of HttpFileDto (standard DTO, used on all other methods)
         /// <param name="fileCollection">File Collection</param>
         /// </summary>

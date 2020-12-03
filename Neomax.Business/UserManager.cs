@@ -90,7 +90,7 @@ namespace Neomax.Business
                 MailManager.SendCreationUserEmail(userAvailableDao.Email, userAvailableDao.Token);
             }
             catch (Exception e)
-            {   
+            {
                 userRepository.RollbackTransaction();
                 return "Não foi possível enviar o e-mail";
             }
@@ -162,9 +162,9 @@ namespace Neomax.Business
                 IsAdmin = userDao.Client == null
             };
 
-            if (userDao.Photo != null)
+            if (userDao.PhotoDao != null)
             {
-                session.Photo = fileManager.CreateBase64WithFile(userDao.Photo);
+                session.Photo = fileManager.CreateBase64WithFile(userDao.PhotoDao);
             }
 
             return session;
@@ -213,7 +213,7 @@ namespace Neomax.Business
                     };
 
                     fileRepository.CreateOrUpdate(fileDao);
-                    newUser.Photo = fileDao;
+                    newUser.PhotoDao = fileDao;
                 }
                 catch (Exception e)
                 {
@@ -501,9 +501,9 @@ namespace Neomax.Business
                 Client = Mapper.Map<ClientDto>(userDao.Client)
             };
 
-            if (userDao.Photo != null)
+            if (userDao.PhotoDao != null)
             {
-                session.Photo = fileManager.CreateBase64WithFile(userDao.Photo);
+                session.Photo = fileManager.CreateBase64WithFile(userDao.PhotoDao);
             }
 
             return session;
@@ -589,15 +589,19 @@ namespace Neomax.Business
 
                 if (userDao.Client.ListDocuments != null)
                 {
-                    //todo:
-                }
+                    foreach (var doc in userDao.Client.ListDocuments)
+                    {
+                        var docInBase64 = fileManager.CreateBase64WithFile(doc);
 
+                        userDto.ClientDto.ListDocumentsBase64.Add(docInBase64);
+                    }
+                }
             }
 
-            if (userDao.Photo != null)
+            if (userDao.PhotoDao != null)
             {
-                userDto.Photo = fileManager.CreateBase64WithFile(userDao.Photo);
-            }   
+                userDto.Photo = fileManager.CreateBase64WithFile(userDao.PhotoDao);
+            }
 
             return userDto;
         }
@@ -658,7 +662,7 @@ namespace Neomax.Business
                     };
 
                     fileRepository.CreateOrUpdate(fileDao);
-                    userDao.Photo = fileDao;
+                    userDao.PhotoDao = fileDao;
                 }
                 catch (Exception e)
                 {
@@ -746,7 +750,7 @@ namespace Neomax.Business
                     };
 
                     fileRepository.CreateOrUpdate(fileDao);
-                    userDao.Photo = fileDao;
+                    userDao.PhotoDao = fileDao;
                 }
                 catch (Exception e)
                 {

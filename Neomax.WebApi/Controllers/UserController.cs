@@ -14,6 +14,9 @@ namespace Neomax.WebApi.Controllers
     using Neomax.Model.Util;
     using Neomax.WebApi.Filter;
     using Neomax.Data.Repository;
+    using System.Net.Http;
+    using System.Net;
+    using System.Net.Http.Headers;
 
     /// <summary>
     /// User Controller
@@ -518,5 +521,94 @@ namespace Neomax.WebApi.Controllers
         }
 
         #endregion
+
+        /// <summary>
+        /// Baixar arquivo pelo código
+        /// </summary>
+        /// <param name="arquivo">Código identificador do arquivo </param>
+        [HttpPost]
+        [Route("anexo/baixar/{codigoArquivo}")]
+        public HttpResponseMessage DownloadFile(int? codigoArquivo)
+        {
+            HttpResponseMessage httpResponse;
+
+            try
+            {
+                FileManager fileManager = new FileManager();
+
+                HttpFileBase64Dto httpFile = fileManager.GetBase64ByIdFile(codigoArquivo.Value);
+
+                var initialPatch = httpFile.MimeType == "image/png" ? "data:image/png;base64," : ( httpFile.MimeType == "application/pdf" ? "data:application/pdf;base64," : "data:image/jpeg;base64,/9j/");
+
+                httpResponse = Request.CreateResponse(HttpStatusCode.OK);
+
+                httpResponse.Content = new ByteArrayContent(Convert.FromBase64String(httpFile.ImageBase64));
+
+                httpResponse.Content.Headers.ContentType = new MediaTypeHeaderValue(httpFile.MimeType);
+
+                httpResponse.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") { FileName = httpFile.FileName };
+
+                return httpResponse;
+            }
+            catch (BusinessException e)
+            {
+                httpResponse = Request.CreateResponse(HttpStatusCode.PreconditionFailed, e.Message);
+                return httpResponse;
+            }
+            catch (Exception e)
+            {
+                httpResponse = Request.CreateResponse(HttpStatusCode.BadRequest, "Ocorreu um erro inesperado ao fazer o download");
+                return httpResponse;
+            }
+        }
+
+        /// <summary>
+        /// Baixar arquivo pelo código
+        /// </summary>
+        /// <param name="arquivo">Código identificador do arquivo </param>
+        [HttpDelete]
+        [Route("anexo/excluir/{codigoUsuario}/{codigoArquivo}")]
+        public IHttpActionResult DeleteFile(int? codigoUsuario, int? codigoArquivo)
+        {
+            try
+            {
+                FileManager fileManager = new FileManager();
+
+               fileManager.UnlinkDoc(codigoUsuario.Value ,codigoArquivo.Value);
+
+                return this.Ok(new HttpResultModel("Documento excluído com sucesso"));
+
+            }
+            catch (Exception e)
+            {
+                log.Fatal("DeleteUser: " + e.ToString() + " // InnerException: " + e.InnerException?.ToString());
+                return this.BadRequest("Não foi possível excluir o documento");
+            }
+        }
+
+
+        /// <summary>
+        /// Baixar arquivo pelo código
+        /// </summary>
+        /// <param name="arquivo">Código identificador do arquivo </param>
+        [HttpDelete]
+        [Route("foto/excluir/{codigoUsuario}")]
+        public IHttpActionResult DeletePhoto(int? codigoUsuario)
+        {
+            try
+            {
+                FileManager fileManager = new FileManager();
+
+                fileManager.UnlinkPhoto(codigoUsuario.Value);
+
+                return this.Ok(new HttpResultModel("Documento excluído com sucesso"));
+
+            }
+            catch (Exception e)
+            {
+                log.Fatal("DeleteUser: " + e.ToString() + " // InnerException: " + e.InnerException?.ToString());
+                return this.BadRequest("Não foi possível excluir o documento");
+            }
+        }
     }
 }

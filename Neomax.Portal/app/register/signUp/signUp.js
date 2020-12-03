@@ -362,6 +362,22 @@
                 if ($scope.client.documents == null)
                     $scope.client.documents = [];
 
+                if ($scope.fileUpload.photo != null && $scope.fileUpload.photo.length > 0) {
+                    $scope.client.photo = {
+                        imageBase64: "",
+                        mimeType: $scope.fileUpload.photo[0].type,
+                        fileName: $scope.fileUpload.photo[0].name
+                    }
+
+                    const reader = new FileReader();
+                    reader.readAsDataURL($scope.fileUpload.photo[0]);
+                    reader.onload = () => $scope.conteudoArquivoFoto1 = reader.result;
+                    reader.onerror = error => reject(error);
+                    reader.onloadend = () => {
+                        $scope.client.photo.imageBase64 = $scope.conteudoArquivoFoto1;
+                    }
+                }
+
                 if ($scope.fileUpload.fileList != null) {
 
                     for (var index = 0; index < $scope.fileUpload.fileList.length; index++) {
@@ -391,29 +407,22 @@
                             $scope.client.documents[i].imageBase64 = $scope.conteudoArquivoFoto;
 
                             console.log(i);
-                            console.log($scope.fileUpload.fileList.length-1);
-                            if (i == $scope.fileUpload.fileList.length-1) {
+                            console.log($scope.fileUpload.fileList.length - 1);
+                            if (i == $scope.fileUpload.fileList.length - 1) {
                                 $http.post(_apiUrl + '/clients', $scope.client)
                                     .success(function successCallback(response) {
                                         $state.go("login");
                                     })
                             }
                         }
-
-                        /*var initialDataPatch = $scope.client.listaDocs[index].mimeType == "image/png" ? "data:image/png;base64," : "data:image/jpg;base64,/9j/";
-
-                        $scope.client.listaFotos[index] = {
-                            imageData: $scope.conteudoArquivoFoto1,
-                            mimeType: $scope.client.listaDocs[index].mimeType
-                        }*/
                     }
                 }
-
-                console.log($scope.client.documents);
-
-                console.log("teste2");
-
-
+                else {
+                    $http.post(_apiUrl + '/clients', $scope.client)
+                        .success(function successCallback(response) {
+                            $state.go("login");
+                        })
+                }
             }
 
             else

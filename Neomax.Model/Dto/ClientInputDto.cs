@@ -57,7 +57,7 @@ namespace Neomax.Model.Dto
         public CompanyNatureTypes? CompanyNatureType { get; set; }
 
         /// <summary> Gets or sets the client CNPJ </summary>
-        public ImageBase64Dto Photo { get; set; }
+        public HttpFileBase64Dto Photo { get; set; }
 
         /// <summary> Gets or sets the client configurations list (it's a many-to-many reference) </summary>
         public List<BankDto> Banks { get; set; }

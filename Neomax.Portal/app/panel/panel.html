@@ -51,7 +51,7 @@
             <!----- Profilebar ----->
             <li class="dropdown">
                 <div class="dropdown-toggle profilebar-toggle-button" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                    <img ng-src="data:{{session.photo.mimeType}};base64,{{session.photo.imageData}}" alt="Foto" class="img-circle user-profilebar-photo" ng-if="hasPhoto" />
+                    <img ng-src="data:{{session.photo.mimeType}};base64,{{session.photo.imageBase64}}" alt="Foto" class="img-circle user-profilebar-photo" ng-if="hasPhoto" />
                     <img src="assets/img/no_photo.png" alt="Foto" class="img-circle user-profilebar-photo" ng-if="!hasPhoto" />
                     <label class="user-profilebar-button-label">{{session.nickname}}</label>
                     <!--<label class="user-profilebar-button-label line-space-10">Olá, Gabriel</label>-->

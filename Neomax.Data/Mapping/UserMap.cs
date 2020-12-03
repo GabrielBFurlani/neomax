@@ -26,7 +26,7 @@ namespace Neomax.Data.Mapping
             this.Map(x => x.Name, "Nome");
             this.Map(x => x.Nickname, "Nickname");
             this.Map(x => x.Email, "Email");
-            this.References(x => x.Photo, "CodigoFoto");            
+            this.References(x => x.PhotoDao, "CodigoFoto");            
             this.References(x => x.Client, "CodigoCliente");          
             this.Map(x => x.AccessToken, "TokenAcesso");
             this.Map(x => x.AccessTokenCreationDate, "TokenAcessoDataCriacao");

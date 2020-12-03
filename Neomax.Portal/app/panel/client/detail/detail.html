@@ -13,8 +13,13 @@
                 <hr />
             </div>
 
+            <div class="col-md-12 line-space-30" ng-if="user.photo.fileData">
+                <div class="col-md-8 col-md-offset-2 text-center">
+                    <img src="{{user.photo.fileData}}" alt="doc" class="img-photo finalUserPhoto" id="doc" name="doc" />
+                </div>
+            </div>
 
-            <div class="row line-space-10">
+            <div class="row line-space-20">
                 <div class="col-md-4">
                     <h4 class="form-group">
                         <label class="control-label">Nome:</label> {{user.name}}
@@ -221,42 +226,42 @@
                 <hr />
             </div>
 
-            <div class="row" ng-show="client.listDocuments == null || client.listDocuments.length <= 0">
+            <div class="row" ng-show="client.listDocumentsBase64 == null || client.listDocumentsBase64.length <= 0">
                 <div class="col-md-12 text-center">
                     <h4>Nenhum documento adicionado</h4>
                 </div>
             </div>
 
-            <div class="row" ng-show="client.listDocuments.length > 0">
-
-                <div class="row" ng-show="client.listDocuments.length > 0">
-                    <div class="col-md-6 col-md-offset-3">
-
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Banco</th>
-                                    <th>Ag&ecirc;ncia</th>
-                                    <th>Conta</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="bank in client.listDocuments track by $index">
-                                    <td>{{bank.bank}}
-                                    <td class="uppercase-mask">{{bank.agency}}</td>
-                                    <td class="uppercase-mask">{{bank.account}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+            <div class="row line-space-30" ng-show="client.listDocumentsBase64.length > 0">
+                <div class="col-md-8 col-md-offset-2">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th width="120px"></th>
+                                <th class="text-center">Nome Documento</th>
+                                <th class="text-center">Documento</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="doc in client.listDocumentsBase64 track by $index">
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-success column-space" uib-tooltip="Baixar" ng-click="downloadFile(doc.fileId)">
+                                        <i class="fas fa-file-download"></i>
+                                    </button>
+                                </td>
+                                <td class="text-center">
+                                    {{doc.fileName}}
+                                </td>
+                                <td class="text-center">
+                                    <img src="{{doc.fileData}}" alt="doc" class="img-photo finalUserPhoto" id="doc" name="doc" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
-
         </div>
-
-
-
 
         <!--Form Buttons-->
         <div class="row line-space-20">

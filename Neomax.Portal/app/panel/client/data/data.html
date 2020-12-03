@@ -35,8 +35,8 @@
                     <label class="control-label">*Nome Completo</label>
                     <input type="text" id="name" name="name" autocomplete="new-password" class="form-control" ng-model="client.name" maxLength="100" required />
                     <!--<div ng-messages="form1.name.$error" class="error-message" role="alert" ng-show="form1.name.$error && (form1.nome.$dirty || form1.$submitted)">
-                <div ng-message="required">{{validationMessages.required}}</div>
-            </div>-->
+                        <div ng-message="required">{{validationMessages.required}}</div>
+                    </div>-->
                 </div>
             </div>
         </div>
@@ -47,9 +47,9 @@
                     <label class="control-label">*CPF/CNPJ (Login)</label>
                     <input name="username" id="username" class="form-control" ng-model="client.username" required ng-change="usernameFormater()" />
                     <!--<div ng-messages="form1.username.$error" class="error-message" role="alert" ng-show="form1.username.$error && (form1.username.$dirty || form1.$submitted)">
-                <div ng-message="required">{{validationMessages.required}}</div>
-                <div ng-message="invalid">{{validationMessages.invalid}}</div>
-            </div>-->
+                        <div ng-message="required">{{validationMessages.required}}</div>
+                        <div ng-message="invalid">{{validationMessages.invalid}}</div>
+                    </div>-->
                 </div>
             </div>
             <div class="col-md-6">
@@ -357,7 +357,7 @@
         <div class="line-space-10">
             <div class="col-md-12 text-center">
                 <div ng-if="hasPhoto">
-                    <img ng-if="!newPhoto" ng-src="data:image/png;base64,{{conteudoArquivoFoto}}" alt="Foto" class="img-photo finalUserPhoto" />
+                    <img ng-if="!newPhoto" ng-src="{{conteudoArquivoFotoPerfil}}" alt="Foto" class="img-photo finalUserPhoto" />
                     <img ng-if="newPhoto" ng-src="{{conteudoArquivoFoto}}" alt="Foto" class="img-photo finalUserPhoto" />
                 </div>
                 <img src="assets/img/no_photo.png" alt="Foto" class="img-circle user-final-photo" ng-if="!hasPhoto" />
@@ -392,14 +392,45 @@
 
 <form class="col-md-6 col-md-offset-3" role="form" name="form3" ng-submit="saveForm5()" novalidate ng-show="step==5">
 
-    <div class="row line-space-30 text-center">
+    <div class="row line-space-10 text-center">
         <div class="col-md-8 col-md-offset-2">
             <div class="form-group">
-                <label class="control-label">Escolha seus Documentos (.jpeg.jpg.png):</label>
-                <input type="file" id="fileInput" name="fileInput" class="form-control" file-input file-model="fileUpload.fileList" change="loadPhoto(fileUpload.fileList[0])"
-                       show-Drag-Drop="false" show-Preview="true" accept='image/*' show-Remove="true" allowed-File-Extensions="['jpg', 'png', 'jpeg', 'pdf']" multiple />
+                <label class="control-label">Escolha seus documentos(.jpeg.jpg.png.pdf):</label>
+                <input type="file" id="fileInput" name="fileInput" class="form-control" file-input file-model="fileUpload.fileList"
+                       show-Drag-Drop="false" show-Preview="true" accept='image/*' show-Remove="true" allowed-File-Extensions="['jpg','png','jpeg','pdf']" multiple />
             </div>
         </div>
+    </div>
+
+    <div class="row line-space-30" ng-show="client.listDocumentsBase64.length > 0">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th width="120px"></th>
+                    <th>Nome Documento</th>
+                    <th>Documento</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="doc in client.listDocumentsBase64 track by $index">
+                    <td>
+                        <button type="button" class="btn btn-sm btn-danger column-space" uib-tooltip="Excluir" ng-click="deleteDoc(doc.fileId, $index)">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-success column-space" uib-tooltip="Baixar" ng-click="downloadFile(doc.fileId)">
+                            <i class="fas fa-file-download"></i>
+                        </button>
+                    </td>
+                    <td>
+                        {{doc.fileName}}
+                    </td>
+                    <td>
+                        <img src="{{doc.fileData}}" alt="doc" class="img-photo finalUserPhoto" id="doc" name="doc" />
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <div class="row line-space-20">
@@ -415,263 +446,3 @@
     </div>
 
 </form>
-
-
-<!--STEP 4 COMPLEMENTARY INFORMATIONS-->
-<!--
-<form class="col-md-8 col-md-offset-2" role="form" name="form4" ng-submit="saveForm4()" novalidate ng-show="step==4">
-
-    <div class="row line-space-10">
-        <div class="col-md-12">
-            <div class="form-group" ng-class="{'has-error': form4.grauEscolaridade.$error.required && (form4.grauEscolaridade.$dirty || form4.$submitted)}">
-                <label class="control-label" ng-show="grauEscolaridadeObrigatorio">*Grau de Escolaridade</label>
-                <label class="control-label" ng-show="!grauEscolaridadeObrigatorio">Grau de Escolaridade</label>
-                <select name="grauEscolaridade" id="grauEscolaridade" class="form-control" ng-model="client.grauEscolaridade" ng-required="grauEscolaridadeObrigatorio"
-                        ng-options="item.parameter as item.name for item in grausEscolaridade" ng-change="changeEducationLevel()">
-                    <option value="">---Selecione---</option>
-                </select>
-                <div ng-messages="form4.grauEscolaridade.$error" class="error-message" role="alert" ng-show="form4.grauEscolaridade.$error && (form4.grauEscolaridade.$dirty || form4.$submitted)">
-                    <div ng-message="required">{{validationMessages.required}}</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row line-space-10">
-
-        <div class="col-md-12">
-            <div class="row line-space-10">
-                <div class="col-md-6" ng-show="client.grauEscolaridade == 5 || client.grauEscolaridade == 7 || client.grauEscolaridade == 9 || client.grauEscolaridade == 4" ng-class="{'has-error': !frequentaEscola && (form4.grauEscolaridade.$dirty || form4.$submitted)}">
-
-                    <div class="form-group">
-                        <label for="frequentaEscola" class="control-label">*Frequenta Escola</label>
-                        <input type="radio" class="btn btn-default" name="frequentaEscolaSim" value="{{1}}" ng-model="frequentaEscola" ng-required="client.grauEscolaridade == 5 || client.grauEscolaridade == 7 || client.grauEscolaridade == 9 || client.grauEscolaridade == 4"> Sim
-                        <input type="radio" class="btn btn-default" name="frequentaEscolaNao" value="{{0}}" ng-model="frequentaEscola" ng-required="client.grauEscolaridade == 5 || client.grauEscolaridade == 7 || client.grauEscolaridade == 9 || client.grauEscolaridade == 4"> N&atilde;o
-                    </div>
-
-                </div>
-
-                <div class="col-md-6" ng-show="frequentaEscola == 1" ng-class="{'has-error': !estudanteRedePublica && (form4.grauEscolaridade.$dirty || form4.$submitted)}">
-
-                    <div class="form-group">
-                        <label for="estudanteRedePublica" class="control-label">Aluno de Rede de Ensino</label>
-                        <input type="radio" class="btn btn-default" name="estudanteRedePublicaSim" value="{{1}}" ng-model="estudanteRedePublica" ng-required="frequentaEscola == 1"> Sim
-                        <input type="radio" class="btn btn-default" name="estudanteRedePublicaNao" value="{{0}}" ng-model="estudanteRedePublica" ng-required="frequentaEscola == 1"> N&atilde;o
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <div class="row line-space-10" ng-show="frequentaEscola == 1 && estudanteRedePublica == 1 && (client.grauEscolaridade == 5 || client.grauEscolaridade == 7 || client.grauEscolaridade == 9 || client.grauEscolaridade == 4)">
-            <div class="col-md-12">
-                <div class="form-group" ng-class="{'has-error': form4.unidadeEnsino.$error.required && (form4.unidadeEnsino.$dirty || form4.$submitted)}">
-                    <label class="control-label" ng-show="unidadeEnsinoObrigatorio">*Unidade de Ensino</label>
-                    <label class="control-label" ng-show="!unidadeEnsinoObrigatorio">Unidade de Ensino</label>
-                    <select name="unidadeEnsino" id="unidadeEnsino" class="form-control" ng-model="client.codigoUnidadeEnsino" ng-required="frequentaEscola == 1 && estudanteRedePublica == 1 && (client.grauEscolaridade == 5 || client.grauEscolaridade == 7 || client.grauEscolaridade == 9 || client.grauEscolaridade == 4) && unidadeEnsinoObrigatorio"
-                            ng-options="item.codigo as item.descricao for item in unidadesEnsino">
-                        <option value="">---Selecione---</option>
-                    </select>
-                    <div ng-messages="form4.unidadeEnsino.$error" class="error-message" role="alert" ng-show="form4.unidadeEnsino.$error && (form4.unidadeEnsino.$dirty || form4.$submitted)">
-                        <div ng-message="required">{{validationMessages.required}}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row line-space-10">
-
-        <div class="col-md-6">
-            <div class="form-group">
-                <input type="checkbox" id="planoSaude" name="planoSaude" class="line-space-5" ng-model="client.convenioMedico" />
-                <label for="planoSaude" class="control-label">Possui Plano de Sa&uacute;de Privado</label>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="row line-space-10">
-
-        <div class="col-md-6">
-            <label name="labelPossuiDeficiencia" class="control-label" ng-class="{'has-error': form4.possuiDeficiencia.$error.required && form4.$submitted}">Possu&iacute; Defici&ecirc;ncia?</label>
-            <div class="form-group" ng-class="{'has-error': form4.tipoDeficiencia.$error.required && (form4.tipoDeficiencia.$dirty || form4.$submitted)}">
-                <input type="radio" class="btn btn-default" name="possuiDeficiencia" value="{{1}}" ng-model="possuiDeficiencia" required> Sim
-                <input type="radio" class="btn btn-default" name="naoPossuiDeficiencia" value="{{0}}" ng-model="possuiDeficiencia" required> N&atilde;o
-                <div ng-messages="form4.possuiDeficiencia.$error" class="error-message" role="alert" ng-show="form4.possuiDeficiencia.$error && form4.$submitted">
-                    <div ng-message="required">{{validationMessages.required}}</div>
-                </div>
-                <p></p>
-                <label class="control-label" ng-show="possuiDeficiencia == 1">Tipo de Defici&ecirc;ncia</label>
-                <select name="tipoDeficiencia" id="tipoDeficiencia" class="form-control" ng-model="client.tipoDeficiencia" ng-required="possuiDeficiencia == 1"
-                        ng-options="item.parameter as item.name for item in tiposDeficiencia" ng-show="possuiDeficiencia == 1">
-                    <option value="">---Selecione---</option>
-                </select>
-                <div ng-messages="form4.tipoDeficiencia.$error" class="error-message" role="alert" ng-show="form4.tipoDeficiencia.$error && (form4.tipoDeficiencia.$dirty || form4.$submitted)">
-                    <div ng-message="required">{{validationMessages.required}}</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <label name="necessitaEquipamentoLocomocao" class="control-label">Necessita Equipamento de Locomoção</label>
-            <div class="form-group" ng-class="{'has-error': form4.equipamentoLocomocao.$error.required && (form4.equipamentoLocomocao.$dirty || form4.$submitted)}">
-                <input type="radio" class="btn btn-default" name="necessitaEquimanto" value="{{1}}" ng-model="necessitaEquipamentoLocomocao" required> Sim
-                <input type="radio" class="btn btn-default" name="naoNecessitaEquipamento" value="{{0}}" ng-model="necessitaEquipamentoLocomocao" required> N&atilde;o
-                <div ng-messages="form4.necessitaEquimanto.$error" class="error-message" role="alert" ng-show="form4.necessitaEquimanto.$error && form4.$submitted">
-                    <div ng-message="required">{{validationMessages.required}}</div>
-                </div>
-                <p></p>
-                <label class="control-label" ng-show="necessitaEquipamentoLocomocao == 1">Equipamento Locomo&ccedil;&atilde;o</label>
-                <select name="equipamentoLocomocao" id="equipamentoLocomocao" class="form-control" ng-model="client.codigoEquipamentoLocomocao" ng-required="necessitaEquipamentoLocomocao ==1"
-                        ng-options="item.codigo as item.descricao for item in equipamentosLocomocao" ng-show="necessitaEquipamentoLocomocao == 1">
-                    <option value="">---Selecione---</option>
-                </select>
-                <div ng-messages="form4.equipamentoLocomocao.$error" class="error-message" role="alert" ng-show="form4.equipamentoLocomocao.$error && (form4.equipamentoLocomocao.$dirty || form4.$submitted)">
-                    <div ng-message="required">{{validationMessages.required}}</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row line-space-20">
-        <div class="col-md-12 text-center">
-            <div ng-if="!submited">
-                <button type="button" class="btn btn-default" ng-click="back()"><i class="fas fa-arrow-left"></i> Voltar</button>
-                <button type="submit" class="btn btn-default">
-                    Avan&ccedil;ar  <span class="fas fa-arrow-right"></span>
-                </button>
-            </div>
-            <div class="lds-roller-sm" ng-if="submited" ng-bind-html="showLoading()"></div>
-        </div>
-    </div>
-
-</form>
-
-STEP 5
-
-<form class="col-md-8 col-md-offset-2" role="form" name="form5" ng-submit="saveForm5()" novalidate ng-show="step==5">
-
-    <div class="lds-roller-sm text-center" ng-show="loadPhoto" ng-bind-html="showLoading()"></div>
-
-    <div ng-show="!loadPhoto">
-        <div class="line-space-10">
-            <div class="col-md-12 text-center">
-                <div ng-if="hasPhoto">
-                    <img ng-if="!newPhoto" ng-src="data:image/png;base64,{{conteudoArquivoFoto}}" alt="Foto" class="img-photo finalUserPhoto" />
-                    <img ng-if="newPhoto" ng-src="{{conteudoArquivoFoto}}" alt="Foto" class="img-photo finalUserPhoto" />
-                </div>
-                <img src="assets/img/no_photo.png" alt="Foto" class="img-circle user-final-photo" ng-if="!hasPhoto" />
-            </div>
-        </div>
-
-        <div class="row line-space-20">
-            <div class="col-md-12 text-center">
-                <button type="button" class="btn btn btn-primary column-space" ng-click="openModalImage()"><i class="fas fa-camera-retro"></i> Incluir/Alterar Foto</button>
-                <button type="button" class="btn btn btn-danger" ng-click="deletePhoto()" ng-if="hasPhoto">
-                    <i class="fas fa-times"></i> Excluir Foto
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div class="row line-space-30">
-        <div class="col-md-12 text-center">
-            <div ng-if="!submited">
-                <button type="button" class="btn btn-default" ng-click="back()"><i class="fas fa-arrow-left"></i> Voltar</button>
-                <button type="submit" class="btn btn-primary column-space">
-                    Avan&ccedil;ar <span class="fas fa-arrow-right"></span>
-                </button>
-            </div>
-            <div class="lds-roller-sm" ng-if="submited" ng-bind-html="showLoading()"></div>
-        </div>
-    </div>
-
-</form>
-
-STEP 6
-
-<form class="col-md-8 col-md-offset-2" role="form" name="form6" ng-submit="submitForm()" novalidate ng-show="step==6">
-
-    LAYOUT PARA DOCUMENTOS
-
-    <div class="row line-space-10">
-        <div class="col-md-8 col-md-offset-2">
-            <label class="control-label">Tipo Documento</label> <span ng-if="newDocument.type" class="far fa-question-circle" uib-tooltip="{{newDocument.type.descricao}}"></span>
-            <select name="tipoDocumento" id="tipoDocumento" class="form-control" ng-model="newDocument.type"
-                    ng-options=" item as item.descricao for item in tiposDocumentos | orderBy:'obrigatorio' | orderBy:'descricao' ">
-                <option value="">---Selecione---</option>
-            </select>
-            <div class="error-message" ng-show="newDocumentErrors.type && newDocument.type == null">Obrigat&oacute;rio!</div>
-        </div>
-    </div>
-
-    <div class="row line-space-10">
-
-        <div class="col-md-8 col-md-offset-2">
-            <label class="control-label">Anexo</label>
-            <div class="form-group">
-                <input type="file" id="file-input-doc" name="file-input-doc" class="form-control" file-input file-model="newDocument.file"
-                       show-Drag-Drop="false" show-Preview="true" accept='image/*' allowed-File-Extensions="['jpg', 'png', 'jpeg']" />
-            </div>
-            <div class="error-message" ng-show="newDocumentErrors.file && newDocument.file == null">Obrigat&oacute;rio!</div>
-        </div>
-
-        <div class="col-md-1 line-space-20">
-            <div class="form-group">
-                <button type="button" id="addDocument" class="btn btn-primary line-space-5 column-space" ng-click="addDocument()" uib-tooltip="Adicionar" ng-show="!viewMode">
-                    <i class="fas fa-plus"></i>
-                </button>
-                <img class="btn btn-sm" src="assets/img/icon_add.svg" height="45" ng-click="addDocument()" uib-tooltip="Adicionar" ng-show="!viewMode" />
-            </div>
-        </div>
-    </div>
-
-    <div class="section row line-space-35 text-center" ng-show="documentos && documentos.length > 0">
-        <span>Lista de Documentos</span>
-    </div>
-
-    <div class="row line-space-10" ng-show="documentos && documentos.length > 0">
-        <div class="col-md-12">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th width="120px"></th>
-                        <th width="150px">Tipo Documento</th>
-                        <th width="150px">Arquivo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="doc in documentos track by $index">
-                        <td>
-                            <button type="button" class="btn btn-sm btn-danger column-space" uib-tooltip="Excluir" ng-click="documentos.splice($index, 1)">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </td>
-                        <td class="uppercase-mask">{{doc.type.descricao}}</td>
-                        <td class="align-center">
-                            <img ng-if="!doc.new" ng-src="data:image/png;base64,{{doc.contentFilePhoto}}" alt="Foto" class="img-photo finalUserPhoto" />
-                            <img ng-if="doc.new" ng-src="{{doc.contentFilePhoto}}" alt="Foto" class="img-photo finalUserPhoto" />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div ng-show="docsMissing && docsMissing.length > 1"> <h3 class="error-message text-center"> Documentos Obrigat&oacute;rios Faltantes: {{docsMissing}} </h3></div>
-
-    <div class="row line-space-20">
-        <div class="col-md-12 text-center">
-            <div ng-if="!submited">
-                <button type="button" class="btn btn-default" ng-click="back()"><i class="fas fa-arrow-left"></i> Voltar</button>
-                <button type="submit" class="btn btn-primary column-space">
-                    Enviar <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
-            <div class="lds-roller-sm" ng-if="submited" ng-bind-html="showLoading()"></div>
-        </div>
-    </div>
-
-</form>
-    -->

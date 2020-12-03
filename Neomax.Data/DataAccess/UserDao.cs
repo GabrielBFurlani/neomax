@@ -38,7 +38,7 @@ namespace Neomax.Data.DataAccess
         public virtual string Email { get; set; }
 
         /// <summary> Gets or sets the user's photo (it's a reference for another DAO) </summary>
-        public virtual FileDao Photo { get; set; }    
+        public virtual FileDao PhotoDao { get; set; }    
 
         /// <summary> Gets or sets the user's access token for API </summary>
         public virtual string AccessToken { get; set; }

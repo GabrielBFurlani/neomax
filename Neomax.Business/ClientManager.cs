@@ -97,10 +97,10 @@ namespace Neomax.Business
                 throw new BusinessException("Usuário não encontrado");
             }
 
-            /*if (userDao != null && id != userDao.Id)
+            if (userDao != null && id != userDao.Id)
             {
                 throw new BusinessException("CPF/CNPJ já cadastrado");
-            }*/
+            }
 
             if (userDao != null)
             {
@@ -124,28 +124,29 @@ namespace Neomax.Business
             }
 
 
-            //if (clientInputDto.Photo != null)
-            //{
-            //    try
-            //    {
-            //        var stringToConvert = FileManager.RemovePathString(clientInputDto.Photo);
+            if (clientInputDto.Photo != null)
+            {
+                try
+                {
+                    var stringToConvert = FileManager.RemovePathString(clientInputDto.Photo);
 
-            //        FileDao fileDao = new FileDao()
-            //        {
-            //            Name = "Brasao - " + clientInputDto.Name + "/" + clientInputDto.Username,
-            //            CreateDate = DateTime.Now,
-            //            Content = Convert.FromBase64String(stringToConvert),
-            //            MimeType = clientInputDto.Photo.MimeType
-            //        };
+                    FileDao fileDao = new FileDao()
+                    {
+                        Name = "Foto perfil- " + clientInputDto.Username,
+                        CreateDate = DateTime.Now,
+                        Content = Convert.FromBase64String(stringToConvert),
+                        MimeType = clientInputDto.Photo.MimeType
+                    };
 
-            //        fileRepository.CreateOrUpdate(fileDao);
-            //        userDao.Photo = fileDao;
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        throw new BusinessException("Erro ao inserir foto do brasão");
-            //    }
-            //}
+                    fileRepository.CreateOrUpdate(fileDao);
+                    userDao.PhotoDao = fileDao;
+                    userRepository.CreateOrUpdate(userDao);
+                }
+                catch (Exception e)
+                {
+                    throw new BusinessException("Erro ao inserir foto do brasão");
+                }
+            }
 
             userRepository.CreateOrUpdate(userDao);
 
@@ -179,7 +180,7 @@ namespace Neomax.Business
                 clientDao.ListBanks = new List<BankDao>();
                 clientDao.ListContactDay = new List<ContactDayDao>();
                 clientDao.ListContactTime = new List<ContactTimeDao>();
-                clientDao.ListDocuments = new List<FileDao>();
+                clientDao.ListDocuments = clientDao.ListDocuments == null ? new List<FileDao>() : clientDao.ListDocuments;
                 clientDao.ListTelephones = new List<TelephoneDao>();
             }
 
@@ -221,7 +222,7 @@ namespace Neomax.Business
                 }
             }
 
-            clientDao.ListDocuments.Clear();
+            //clientDao.ListDocuments.Clear();
 
             if (clientInputDto.Documents?.Count > 0)
             {

@@ -1,6 +1,6 @@
 ﻿(function () {
 
-    angular.module("app").controller('dataController', ['$scope', '$state', '$http', 'CONFIG', '$stateParams', 'userControl', '$uibModal', 'validationMessages', function ($scope, $state, $http, CONFIG, $stateParams, userControl, $uibModal, validationMessages) {
+    angular.module("app").controller('dataController', ['$scope', '$state', '$http', 'CONFIG', '$stateParams', 'userControl', '$uibModal', 'validationMessages', 'fileDownloadUpload', function ($scope, $state, $http, CONFIG, $stateParams, userControl, $uibModal, validationMessages, fileDownloadUpload) {
 
         var _apiUrl = CONFIG.apiRootUrl;
         var steps = 6;
@@ -60,13 +60,13 @@
             telephones: [],
             contactDays: [],
             ContactTimes: [],
-            Documents: []
+            documents: []
         };
 
         $scope.newBankErrors = {};
         $scope.newTelephoneErrors = {};
 
-        $scope.newTelephone = { }
+        $scope.newTelephone = {}
 
         //Load Page
         function loadPage() {
@@ -110,49 +110,91 @@
                     $scope.timesList = $scope.times.map(function (item) { return { id: item.parameter, label: item.name } });
                 })
 
-                $http.get(_apiUrl + '/user/loggedUser')
-                    .then(function successCallback(response) {
-                        console.log(response);
-                        $scope.user = response.data.resultData;
-                        $scope.client = $scope.user.clientDto;
+            $http.get(_apiUrl + '/user/loggedUser')
+                .then(function successCallback(response) {
+                    console.log(response);
+                    $scope.user = response.data.resultData;
+                    $scope.client = $scope.user.clientDto;
 
-                        $scope.client.username = $scope.user.username;
-                        $scope.client.nickName = $scope.user.nickname;
-                        $scope.client.email = $scope.user.email;
-                        $scope.client.name = $scope.user.name;
-                        $scope.client.CompanyNatureType = $scope.user.clientDto.natureBackground;
-                        $scope.client.TypeNoteEmited = $scope.user.clientDto.typeNoteEmited;
+                    $scope.client.username = $scope.user.username;
+                    $scope.client.nickName = $scope.user.nickname;
+                    $scope.client.email = $scope.user.email;
+                    $scope.client.name = $scope.user.name;
+                    $scope.client.CompanyNatureType = $scope.user.clientDto.natureBackground;
+                    $scope.client.TypeNoteEmited = $scope.user.clientDto.typeNoteEmited;
+                    $scope.client.documents = [];
 
-                        $scope.client.telephones = [];
+                    $scope.client.listDocumentsBase64.map(function (item) {
 
-                        $scope.client.listTelephones.map(function (item) {
-                            $scope.client.telephones.push({
-                                contactName: item.contactName,
-                                telephoneType: item.telephoneType,
-                                telephoneTypeObj: $scope.telephoneTypes[$scope.telephoneTypes.findIndex(x => x.parameter == item.telephoneType)],
-                                number: item.number,
-                            });
-                        })
+                        var initialDataPatch = item.mimeType == "image/png" ? "data:image/png;base64," : (item.mimeType == "application/pdf" ? "data:application/pdf;base64," : "data:image/jpeg;base64,/9j/");
 
-                        $scope.client.listContactDay.map(function (item) {
-                            $scope.daysSelecteds.push(item);
-                        })
+                        item.fileData = initialDataPatch + "" + item.imageBase64;
+                    })
 
-                        $scope.client.listContactTime.map(function (item) {
-                            $scope.timesSelecteds.push(item);
-                        })
+                    console.log($scope.user);
 
-                        $scope.client.banks = [];
+                    $scope.hasPhoto = false;
 
-                        $scope.client.listBanks.map(function (item) {
-                            $scope.client.banks.push({
-                                account: item.account,
-                                bank: item.bank,
-                                agency: item.agency
-                            });
-                        })
+                    if ($scope.user.photo) {
 
-            })
+                        var initialDataPatch = $scope.user.photo.mimeType == "image/png" ? "data:image/png;base64," : "data:image/jpg;base64,/9j/";
+
+                        $scope.conteudoArquivoFotoPerfil = initialDataPatch + $scope.user.photo.imageBase64;
+
+                        $scope.hasPhoto = true;
+                    }
+
+                    $scope.client.telephones = [];
+
+                    $scope.client.listTelephones.map(function (item) {
+                        $scope.client.telephones.push({
+                            contactName: item.contactName,
+                            telephoneType: item.telephoneType,
+                            telephoneTypeObj: $scope.telephoneTypes[$scope.telephoneTypes.findIndex(x => x.parameter == item.telephoneType)],
+                            number: item.number,
+                        });
+                    })
+
+                    $scope.client.listContactDay.map(function (item) {
+                        $scope.daysSelecteds.push(item);
+                    })
+
+                    $scope.client.listContactTime.map(function (item) {
+                        $scope.timesSelecteds.push(item);
+                    })
+
+                    $scope.client.banks = [];
+
+                    $scope.client.listBanks.map(function (item) {
+                        $scope.client.banks.push({
+                            account: item.account,
+                            bank: item.bank,
+                            agency: item.agency
+                        });
+                    })
+
+                })
+        }
+
+
+        $scope.downloadFile = function (idFile) {
+            fileDownloadUpload.downloadFileToUrl(_apiUrl + '/user/anexo/baixar/' + idFile);
+        };
+
+        $scope.deleteDoc = function (idFile, index) {
+            $http.delete(_apiUrl + '/user/anexo/excluir/' + $scope.user.id + "/" + idFile)
+                .success(function successCallback(response) {
+                    $scope.client.listDocumentsBase64.splice(index, 1);
+                })
+        }
+
+        $scope.deletePhoto = function () {
+            $http.delete(_apiUrl + '/user/foto/excluir/' + $scope.user.id)
+                .success(function successCallback(response) {
+                    $scope.user.photo = [];
+                    $scope.conteudoArquivoFotoPerfil = null;
+                    $scope.hasPhoto = false;
+                })
         }
 
         $scope.cnpjPayingFormater = function () {
@@ -404,11 +446,55 @@
                 $scope.client.ContactDays = $scope.daysSelecteds.map(function (item) { return item.id })
                 $scope.client.ContactTimes = $scope.timesSelecteds.map(function (item) { return item.id })
 
-                $http.put(_apiUrl + '/clients', $scope.client)
-                    .success(function successCallback(response) {
-                        $state.go("panel.home");
-                    })
+                console.log($scope.fileUpload.fileList != null);
+                console.log($scope.fileUpload.fileList != []);
+                console.log($scope.fileUpload.fileList);
 
+
+                if ($scope.fileUpload.fileList != null && $scope.fileUpload.fileList.length > 0) {
+
+                    for (var index = 0; index < $scope.fileUpload.fileList.length; index++) {
+
+                        console.log($scope.fileUpload.fileList[index]);
+
+                        $scope.client.documents[index] = {
+                            imageBase64: "",
+                            mimeType: $scope.fileUpload.fileList[index].type,
+                            fileName: $scope.fileUpload.fileList[index].name
+                        }
+
+                        const reader = new FileReader();
+                        reader.readAsDataURL($scope.fileUpload.fileList[index]);
+                        reader.onload = () => $scope.conteudoArquivoFoto = reader.result;
+                        reader.onerror = error => reject(error);
+                        reader.onloadend = () => {
+                            var i = 0;
+                            for (achou = false; achou == false;) {
+                                if ($scope.client.documents[i].imageBase64 == "")
+                                    achou = true;
+                                else
+                                    i++
+                            }
+
+                            $scope.client.documents[i].imageBase64 = $scope.conteudoArquivoFoto;
+
+                            console.log(i);
+                            console.log($scope.fileUpload.fileList.length - 1);
+                            if (i == $scope.fileUpload.fileList.length - 1) {
+                                $http.put(_apiUrl + '/clients', $scope.client)
+                                    .success(function successCallback(response) {
+                                        $state.go("panel.home");
+                                    })
+                            }
+                        }
+                    }
+                }
+                else {
+                    $http.put(_apiUrl + '/clients', $scope.client)
+                        .success(function successCallback(response) {
+                            $state.go("panel.home");
+                        })
+                }
             }
 
             else

@@ -18,6 +18,7 @@ namespace Neomax.Business
     using System.Collections;
     using System.IO.Compression;
     using Neomax.Model.Exception;
+    using Neomax.Data.Repository;
 
     /// <summary>
     /// Manager for files persisted by the application
@@ -28,6 +29,37 @@ namespace Neomax.Business
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         #region Basic file operations
+
+        public void UnlinkDoc(int idUser, int idFile)
+        {
+            FileRepository fileRepository = new FileRepository();
+
+            var file = fileRepository.GetById(idFile);
+
+            UserRepository userRepository = new UserRepository();
+
+            var user = userRepository.GetById(idUser);
+
+            var fileToUnlink = user.Client.ListDocuments.FirstOrDefault(x => x.Id == idFile);
+
+            if (fileToUnlink == null)
+            {
+                throw new BusinessException("Não foi possível recuperar o arquivo");
+            }
+
+            user.Client.ListDocuments.Remove(fileToUnlink);
+        }
+
+        public void UnlinkPhoto(int idUser)
+        {
+            UserRepository userRepository = new UserRepository();
+
+            var user = userRepository.GetById(idUser);
+
+            user.PhotoDao = null;
+
+            userRepository.CreateOrUpdate(user);
+        }
 
         public HttpFileBase64Dto CreateBase64WithFile(Neomax.Data.DataAccess.FileDao file)
         {
@@ -51,6 +83,26 @@ namespace Neomax.Business
             {
                 throw new BusinessException("Não foi possível recuperar o arquivo");
             }
+        }
+
+        /// <inheritdoc cref="IFileManager.GetBase64ByIdFile(int)"/>
+        public HttpFileBase64Dto GetBase64ByIdFile(int idFile)
+        {
+            if (idFile == 0)
+            {
+                throw new BusinessException("Código do arquivo não informado");
+            }
+
+            FileRepository fileRepository = new FileRepository();
+
+            Data.DataAccess.FileDao file = fileRepository.GetById(idFile);
+
+            if (file == null)
+            {
+                return null;
+            }
+
+            return CreateBase64WithFile(file);
         }
 
         /// <summary>
@@ -96,11 +148,22 @@ namespace Neomax.Business
                 imgData = imageBase64Dto.ImageBase64.Substring(indexStartData + 7);
             }
 
-            //jpeg or jpg
-            indexStartData = imageBase64Dto.ImageBase64.IndexOf("/9j/");
+            if (imageBase64Dto.MimeType == "application/pdf")
+            {
+                indexStartData = imageBase64Dto.ImageBase64.IndexOf(",");
 
-            if (indexStartData >= 0)
-                imgData = imageBase64Dto.ImageBase64.Substring(indexStartData + 4);
+                if (indexStartData >= 0)
+                    imgData = imageBase64Dto.ImageBase64.Substring(indexStartData + 1);
+            }
+
+            if (imageBase64Dto.MimeType == "image/jpg" || imageBase64Dto.MimeType == "image/jpeg")
+            {
+                //jpeg or jpg
+                indexStartData = imageBase64Dto.ImageBase64.IndexOf("/9j/");
+
+                if (indexStartData >= 0)
+                    imgData = imageBase64Dto.ImageBase64.Substring(indexStartData + 4);
+            }
 
             return imgData;
         }

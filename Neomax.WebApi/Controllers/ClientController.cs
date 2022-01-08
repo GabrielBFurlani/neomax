@@ -67,7 +67,6 @@ namespace Neomax.WebApi.Controllers
         /// <returns>Http result with the client </returns>
         [Route("{id}")]
         [HttpDelete]
-        [SimpleAuthentication]
         public IHttpActionResult DeleteClientById(int id)
         {
             try
@@ -76,10 +75,10 @@ namespace Neomax.WebApi.Controllers
 
                 return Ok(new HttpResultModel("Desativado com Sucesso"));
             }
-            catch (PermissionException)
-            {
-                return this.Unauthorized();
-            }
+            //catch (PermissionException)
+            //{
+            //    return this.Unauthorized();
+            //}
             catch (BusinessException e)
             {
                 return this.BadRequest(e.Message);
@@ -97,7 +96,6 @@ namespace Neomax.WebApi.Controllers
         /// <returns>Http result with the client </returns>
         [Route("reativar/{id}")]
         [HttpPost]
-        [SimpleAuthentication]
         public IHttpActionResult Reactivate(int id)
         {
             try
@@ -106,10 +104,10 @@ namespace Neomax.WebApi.Controllers
 
                 return Ok(new HttpResultModel("Reativado com Sucesso"));
             }
-            catch (PermissionException)
-            {
-                return this.Unauthorized();
-            }
+            //catch (PermissionException)
+            //{
+            //    return this.Unauthorized();
+            //}
             catch (BusinessException e)
             {
                 return this.BadRequest(e.Message);
@@ -134,10 +132,10 @@ namespace Neomax.WebApi.Controllers
 
                 return Ok(new HttpResultModel(message));
             }
-            catch (PermissionException)
-            {
-                return this.Unauthorized();
-            }
+            //catch (PermissionException)
+            //{
+            //    return this.Unauthorized();
+            //}
             catch (BusinessException e)
             {
                 return this.BadRequest(e.Message);
@@ -152,26 +150,25 @@ namespace Neomax.WebApi.Controllers
         /// <summary>
         /// Update client
         /// </summary>
-        [Route("")]
-        [HttpPut]
-        [SimpleAuthentication]
+        [Route("update")]
+        [HttpPost]
         public IHttpActionResult Update(ClientInputDto clientInputDto)
         {
             try
             {
-                var loggedUser = new UserRepository().GetByAcessToken(ActionContext.Request.Headers.Authorization.Parameter);
+                //var loggedUser = new UserRepository().GetByAcessToken(ActionContext.Request.Headers.Authorization.Parameter);
 
-                if (loggedUser == null)
-                {
-                    return Unauthorized();
-                }
+                //if (loggedUser == null)
+                //{
+                //    return Unauthorized();
+                //}
 
-                return this.Ok(new HttpResultModel("Dados atualizados com sucesso!", ClientManager.CreateOrUpdate(loggedUser.Id, clientInputDto)));
+                return this.Ok(new HttpResultModel("Dados atualizados com sucesso!", ClientManager.CreateOrUpdate(clientInputDto.IdUser, clientInputDto)));
             }
-            catch (PermissionException)
-            {
-                return this.Unauthorized();
-            }
+            //catch (PermissionException)
+            //{
+            //    return this.Unauthorized();
+            //}
             catch (BusinessException e)
             {
                 return this.BadRequest(e.Message);
@@ -189,17 +186,16 @@ namespace Neomax.WebApi.Controllers
         /// <returns>Http result with the paginated list of clients</returns>
         [Route("busca")]
         [HttpPost]
-        [SimpleAuthentication]
         public IHttpActionResult Search(ClientFilterDto filter)
         {
             try
             {
                 return this.Ok(new HttpResultModel(string.Empty, ClientManager.Search(filter)));
             }
-            catch (PermissionException)
-            {
-                return this.Unauthorized();
-            }
+            //catch (PermissionException)
+            //{
+            //    return this.Unauthorized();
+            //}
             catch (BusinessException e)
             {
                 return this.BadRequest(e.Message);

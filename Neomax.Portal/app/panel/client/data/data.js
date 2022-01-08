@@ -10,6 +10,8 @@
             fileList: []
         }
 
+        $scope.session = userControl.userSession;
+
         $scope.validationMessages = validationMessages;
 
         $scope.stepsNames = ["1 - Dados Pessoais", "2 - Seus Documentos e Filiações", "3 - Residência", "4 - Informações Complementares",
@@ -110,7 +112,7 @@
                     $scope.timesList = $scope.times.map(function (item) { return { id: item.parameter, label: item.name } });
                 })
 
-            $http.get(_apiUrl + '/user/loggedUser')
+            $http.get(_apiUrl + '/user/loggedUser/' + $scope.session.id)
                 .then(function successCallback(response) {
                     console.log(response);
                     $scope.user = response.data.resultData;
@@ -123,6 +125,7 @@
                     $scope.client.CompanyNatureType = $scope.user.clientDto.natureBackground;
                     $scope.client.TypeNoteEmited = $scope.user.clientDto.typeNoteEmited;
                     $scope.client.documents = [];
+                    $scope.client.idUser = $scope.session.id;
 
                     $scope.client.listDocumentsBase64.map(function (item) {
 
@@ -490,7 +493,7 @@
                     }
                 }
                 else {
-                    $http.put(_apiUrl + '/clients', $scope.client)
+                    $http.post(_apiUrl + '/clients/update', $scope.client)
                         .success(function successCallback(response) {
                             $state.go("panel.home");
                         })

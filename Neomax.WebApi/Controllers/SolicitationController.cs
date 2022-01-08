@@ -37,7 +37,6 @@ namespace Neomax.WebApi.Controllers
         /// <returns>Http result with the solicitation </returns>
         [Route("{id}")]
         [HttpGet]
-        [SimpleAuthentication]
         public IHttpActionResult GetById(int id)
         {
             try
@@ -46,10 +45,10 @@ namespace Neomax.WebApi.Controllers
 
                 return Ok(response);
             }
-            catch (PermissionException)
-            {
-                return this.Unauthorized();
-            }
+            //catch (PermissionException)
+            //{
+            //    return this.Unauthorized();
+            //}
             catch (BusinessException e)
             {
                 return this.BadRequest(e.Message);
@@ -64,24 +63,23 @@ namespace Neomax.WebApi.Controllers
         /// <summary>
         /// Create new solicitation
         /// </summary>
-        [Route("")]
+        [Route("{idUser}")]
         [HttpPost]
-        public IHttpActionResult Create(SolicitationInputDto solicitationInputDto)
+        public IHttpActionResult Create(SolicitationInputDto solicitationInputDto, int idUser)
         {
             try
             {
-                var user = new UserRepository().GetByAcessToken(ActionContext.Request.Headers.Authorization.Parameter);
-
-                solicitationInputDto.IdClient = user.Client.Id;
+                //adjust
+                solicitationInputDto.IdClient = idUser;
 
                 var message = SolicitationManager.Create(solicitationInputDto);
 
-                return Ok(new HttpResultModel(message));
+                return this.Ok(new HttpResultModel(string.Empty, message));
             }
-            catch (PermissionException)
-            {
-                return this.Unauthorized();
-            }
+            //catch (PermissionException)
+            //{
+            //    return this.Unauthorized();
+            //}
             catch (BusinessException e)
             {
                 return this.BadRequest(e.Message);
@@ -98,7 +96,6 @@ namespace Neomax.WebApi.Controllers
         /// </summary>
         [Route("{id}")]
         [HttpPut]
-        [SimpleAuthentication]
         public IHttpActionResult Update(int id, SolicitationInputDto solicitationInputDto)
         {
             try
@@ -107,10 +104,10 @@ namespace Neomax.WebApi.Controllers
 
                 return this.Ok(new HttpResultModel(message));
             }
-            catch (PermissionException)
-            {
-                return this.Unauthorized();
-            }
+            //catch (PermissionException)
+            //{
+            //    return this.Unauthorized();
+            //}
             catch (BusinessException e)
             {
                 return this.BadRequest(e.Message);
@@ -127,7 +124,6 @@ namespace Neomax.WebApi.Controllers
         /// </summary>
         [Route("{id}/updateProductStatus")]
         [HttpPost]
-        [SimpleAuthentication]
         public IHttpActionResult UpdateProductStatus(int id, UpdateProductStatusInputDto updateProductStatusInputModel)
         {
             try
@@ -136,10 +132,10 @@ namespace Neomax.WebApi.Controllers
 
                 return this.Ok(new HttpResultModel(message));
             }
-            catch (PermissionException)
-            {
-                return this.Unauthorized();
-            }
+            //catch (PermissionException)
+            //{
+            //    return this.Unauthorized();
+            //}
             catch (BusinessException e)
             {
                 return this.BadRequest(e.Message);
@@ -156,7 +152,6 @@ namespace Neomax.WebApi.Controllers
         /// </summary>
         [Route("product/{id}")]
         [HttpPost]
-        [SimpleAuthentication]
         public IHttpActionResult UpdateProductStatus(int? id, SolicitationProductInputDto solicitationProductInputDto)
         {
             try
@@ -165,10 +160,10 @@ namespace Neomax.WebApi.Controllers
 
                 return this.Ok(new HttpResultModel(message));
             }
-            catch (PermissionException)
-            {
-                return this.Unauthorized();
-            }
+            //catch (PermissionException)
+            //{
+            //    return this.Unauthorized();
+            //}
             catch (BusinessException e)
             {
                 return this.BadRequest(e.Message);
@@ -186,24 +181,23 @@ namespace Neomax.WebApi.Controllers
         /// <returns>Http result with the paginated list of solicitations</returns>
         [Route("admin/search")]
         [HttpPost]
-        [SimpleAuthentication]
         public IHttpActionResult AdminSearch(SolicitationFilterDto filter)
         {
             try
             {
-                var isAdmin = new UserRepository().GetByAcessToken(ActionContext.Request.Headers.Authorization.Parameter).Client != null ? false : true;
+                //var isAdmin = new UserRepository().GetByAcessToken(ActionContext.Request.Headers.Authorization.Parameter).Client != null ? false : true;
 
-                if (!isAdmin)
-                {
-                    return this.BadRequest("Busca somente para administradores");
-                }
+                //if (!isAdmin)
+                //{
+                //    return this.BadRequest("Busca somente para administradores");
+                //}
 
                 return this.Ok(new HttpResultModel(string.Empty, SolicitationManager.AdminSearch(filter)));
             }
-            catch (PermissionException)
-            {
-                return this.Unauthorized();
-            }
+            //catch (PermissionException)
+            //{
+            //    return this.Unauthorized();
+            //}
             catch (BusinessException e)
             {
                 return this.BadRequest(e.Message);
@@ -219,26 +213,26 @@ namespace Neomax.WebApi.Controllers
         /// Search by filter
         /// </summary>
         /// <returns>Http result with the paginated list of solicitations</returns>
-        [Route("client/search")]
+        [Route("client/search/{idUser}")]
         [HttpPost]
-        [SimpleAuthentication]
-        public IHttpActionResult ClientSearch(SolicitationFilterDto filter)
+        public IHttpActionResult ClientSearch(SolicitationFilterDto filter, int idUser)
         {
             try
             {
-                filter.IdClient = new UserRepository().GetByAcessToken(ActionContext.Request.Headers.Authorization.Parameter).Client?.Id;
+                //adjust
+                filter.IdClient = idUser;
 
-                if (filter.IdClient == null)
-                {
-                    return this.Unauthorized();
-                }
+                //if (filter.IdClient == null)
+                //{
+                //    return this.Unauthorized();
+                //}
 
                 return this.Ok(new HttpResultModel(string.Empty, SolicitationManager.ClientSearch(filter)));
             }
-            catch (PermissionException)
-            {
-                return this.Unauthorized();
-            }
+            //catch (PermissionException)
+            //{
+            //    return this.Unauthorized();
+            //}
             catch (BusinessException e)
             {
                 return this.BadRequest(e.Message);

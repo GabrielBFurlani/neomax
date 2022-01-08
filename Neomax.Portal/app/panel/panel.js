@@ -12,7 +12,7 @@
 
             $scope.isAdmin = $scope.session.isAdmin;
 
-            console.log($scope.session.photo);
+            console.log($scope.session); 
 
             //checks if the logged user has photo
             if ($scope.session.photo) {

@@ -1,7 +1,9 @@
 ﻿(function () {
 
-    angular.module("app").controller('processClientCreateController', ['$scope', '$state', '$http', 'CONFIG', '$stateParams', '$uibModal', function ($scope, $state, $http, CONFIG, $stateParams, $uibModal) {
+    angular.module("app").controller('processClientCreateController', ['$scope', '$state', '$http', 'CONFIG', '$stateParams', '$uibModal','userControl', function ($scope, $state, $http, CONFIG, $stateParams, $uibModal, userControl) {
         var _apiUrl = CONFIG.apiRootUrl;
+
+        $scope.session = userControl.userSession;
 
         $scope.user = {};
 
@@ -30,9 +32,11 @@
 
         }
 
+        console.log($scope.session);
+
         //Button: Save
         $scope.save = function () {
-            $http.post(_apiUrl + '/solicitations', $scope.products)
+            $http.post(_apiUrl + '/solicitations/' + $scope.session.id, $scope.products)
                 .then(function successCallback(response) {
                     $state.go('panel.process.client.list')
                 })

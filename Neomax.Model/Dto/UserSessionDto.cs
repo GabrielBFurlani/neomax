@@ -35,6 +35,8 @@ namespace Neomax.Model.Dto
         /// <summary> Gets or sets the user's photo </summary>
         public ClientDto Client { get; set; }
 
+        public int? IdClient { get; set; }
+
         /// <summary> Gets or sets the user's nickname </summary>
         public string Nickname { get; set; }
 

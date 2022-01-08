@@ -31,17 +31,17 @@ namespace Neomax.WebApi.Controllers
         /// <returns>Http result with the list of profiles</returns>
         [Route("all")]
         [HttpGet]
-        [SimpleAuthenticationAttribute]
+
         public IHttpActionResult GetAllProfiles()
         {
             try
             {
                 return this.Ok(new HttpResultModel(string.Empty, ProfileManager.GetAllProfiles()));
             }
-            catch (PermissionException)
-            {
-                return this.Unauthorized();
-            }
+            //catch (PermissionException)
+            //{
+            //    return this.Unauthorized();
+            //}
             catch (BusinessException e)
             {
                 return this.BadRequest(e.Message);

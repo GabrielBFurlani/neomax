@@ -138,7 +138,8 @@ namespace Neomax.Business
                 throw new BusinessException("Solicitação não informado");
             }
 
-            ClientDao clientDao = clientRepository.GetById(solicitationInputDto.IdClient.Value);
+            //adjust
+            ClientDao clientDao = clientRepository.GetByIdUser(solicitationInputDto.IdClient.Value);
 
             if (clientDao == null)
             {
@@ -322,6 +323,8 @@ namespace Neomax.Business
             SolicitationRepository solicitationRepository = new SolicitationRepository();
 
             UserRepository userRepository = new UserRepository();
+
+            filter.IdClient = userRepository.GetById(filter.IdClient.Value).Client.Id;
 
             var solicitations = solicitationRepository.GetForClient(filter);
 

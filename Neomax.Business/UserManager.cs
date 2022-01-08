@@ -489,6 +489,8 @@ namespace Neomax.Business
                 throw new BusinessException("O usuário não existe");
             }
 
+            ClientRepository clientRepository = new ClientRepository();
+
             UserSessionDto session = new UserSessionDto()
             {
                 Id = userDao.Id.Value,
@@ -498,8 +500,21 @@ namespace Neomax.Business
                 AccessToken = userDao.AccessToken,
                 Email = userDao.Email,
                 IsAdmin = userDao.Client == null,
-                Client = Mapper.Map<ClientDto>(userDao.Client)
+                Client = Mapper.Map<ClientDto>(clientRepository.GetByIdUser(userDao.Id.Value)),
+                IdClient = clientRepository.GetByIdUser(userDao.Id.Value).Id
             };
+
+            //if (session.Client == null)
+            //{
+            //    //var clientDao = clientRepository.GetByIdUser(session.Id);
+
+            //    session.Client = new ClientDto()
+            //    {
+            //        Id = userDao.Client.Id
+            //    };
+
+            //    session.IdClient = userDao.Client.Id;
+            //}
 
             if (userDao.PhotoDao != null)
             {

@@ -3,6 +3,8 @@
     angular.module("app").controller('processClientListController', ['$scope', '$state', '$http', 'CONFIG', '$uibModal', 'userControl', function ($scope, $state, $http, CONFIG, $uibModal, userControl) {
         var _apiUrl = CONFIG.apiRootUrl;
 
+        $scope.session = userControl.userSession;
+
         $scope.processStatus = CONFIG.processStatus;
 
         $scope.maxVisiblePages = 5;
@@ -60,7 +62,7 @@
         //Search (also called when pagination changes)
         $scope.search = function () {
 
-            $http.post(_apiUrl + '/solicitations/client/search', $scope.filter)
+            $http.post(_apiUrl + '/solicitations/client/search/' + $scope.session.id, $scope.filter)
                 .then(function successCallback(response) {
 
                     $scope.paginationResponse = response.data.resultData;

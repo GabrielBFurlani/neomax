@@ -17,6 +17,7 @@ namespace Neomax.WebApi.Controllers
     using System.Net.Http;
     using System.Net;
     using System.Net.Http.Headers;
+    using System.Web.Http.Cors;
 
     /// <summary>
     /// User Controller
@@ -43,10 +44,10 @@ namespace Neomax.WebApi.Controllers
             {
                 return this.Ok(new HttpResultModel(string.Empty, UserManager.Login(credentials)));
             }
-            catch (PermissionException)
-            {
-                return this.Unauthorized();
-            }
+            //catch (PermissionException)
+            //{
+            //    return this.Unauthorized();
+            //}
             catch (BusinessException e)
             {
                 return this.BadRequest(e.Message);
@@ -65,7 +66,6 @@ namespace Neomax.WebApi.Controllers
         /// <returns>Http Result with User Session object</returns>
         [Route("releaseEmail/{email}")]
         [HttpPost]
-        [SimpleAuthenticationAttribute]
         public IHttpActionResult ReleaseEmail(string email)
         {
             try
@@ -75,10 +75,10 @@ namespace Neomax.WebApi.Controllers
                 return this.Ok(new HttpResultModel(successMessage));
 
             }
-            catch (PermissionException)
-            {
-                return this.Unauthorized();
-            }
+            //catch (PermissionException)
+            //{
+            //    return this.Unauthorized();
+            //}
             catch (BusinessException e)
             {
                 return this.BadRequest(e.Message);
@@ -131,10 +131,10 @@ namespace Neomax.WebApi.Controllers
 
                 return this.Ok(new HttpResultModel(successMessage));
             }
-            catch (PermissionException)
-            {
-                return this.Unauthorized();
-            }
+            //catch (PermissionException)
+            //{
+            //    return this.Unauthorized();
+            //}
             catch (BusinessException e)
             {
                 return this.BadRequest(e.Message);
@@ -235,7 +235,6 @@ namespace Neomax.WebApi.Controllers
         /// <returns>Http Result with the User Session object</returns>
         [Route("userSession/{username}")]
         [HttpGet]
-        [SimpleAuthenticationAttribute]
         public IHttpActionResult GetUserSessionByUsername(string username)
         {
             var loggedUser = new UserRepository().GetByAcessToken(ActionContext.Request.Headers.Authorization.Parameter);
@@ -246,10 +245,10 @@ namespace Neomax.WebApi.Controllers
 
                 return this.Ok(new HttpResultModel(string.Empty, session));
             }
-            catch (PermissionException)
-            {
-                return this.Unauthorized();
-            }
+            //catch (PermissionException)
+            //{
+            //    return this.Unauthorized();
+            //}
             catch (BusinessException e)
             {
                 return this.BadRequest(e.Message);
@@ -268,7 +267,6 @@ namespace Neomax.WebApi.Controllers
         /// <returns>Http Result with simple message</returns>
         [Route("userArea/internalPasswordChange")]
         [HttpPost]
-        [SimpleAuthenticationAttribute]
         public IHttpActionResult ChangePasswordForLoggedUser(ChangePasswordDto changeInfo)
         {
             var loggedUser = new UserRepository().GetByAcessToken(ActionContext.Request.Headers.Authorization.Parameter);
@@ -279,10 +277,10 @@ namespace Neomax.WebApi.Controllers
 
                 return this.Ok(new HttpResultModel("Senha alterada com sucesso"));
             }
-            catch (PermissionException)
-            {
-                return this.Unauthorized();
-            }
+            //catch (PermissionException)
+            //{
+            //    return this.Unauthorized();
+            //}
             catch (BusinessException e)
             {
                 return this.BadRequest(e.Message);
@@ -301,7 +299,6 @@ namespace Neomax.WebApi.Controllers
         /// <returns>Http Result with the User object</returns>
         [Route("userArea/{id}")]
         [HttpGet]
-        [SimpleAuthenticationAttribute]
         public IHttpActionResult GetUserByIdByUser(int id)
         {
             var loggedUser = new UserRepository().GetByAcessToken(ActionContext.Request.Headers.Authorization.Parameter);
@@ -310,10 +307,10 @@ namespace Neomax.WebApi.Controllers
             {
                 return this.Ok(new HttpResultModel(string.Empty, UserManager.GetUserById(loggedUser, id)));
             }
-            catch (PermissionException)
-            {
-                return this.Unauthorized();
-            }
+            //catch (PermissionException)
+            //{
+            //    return this.Unauthorized();
+            //}
             catch (BusinessException e)
             {
                 return this.BadRequest(e.Message);
@@ -330,26 +327,29 @@ namespace Neomax.WebApi.Controllers
         /// </summary>
         /// <param name="id">User identifier</param>
         /// <returns>Http Result with the User object</returns>
-        [Route("loggedUser")]
+        [Route("loggedUser/{id}")]
         [HttpGet]
-        [SimpleAuthenticationAttribute]
-        public IHttpActionResult GetUserLogged()
+        public IHttpActionResult GetUserLogged(int id)
         {
-            var loggedUser = new UserRepository().GetByAcessToken(ActionContext.Request.Headers.Authorization.Parameter);
+            //var loggedUser = new UserRepository().GetByAcessToken(ActionContext.Request.Headers.Authorization.Parameter);
 
-            if (loggedUser == null)
-            {
-                return Unauthorized();
-            }
+            //if (loggedUser == null)
+            //{
+            //    return Unauthorized();
+            //}
+
+            UserRepository userRepository = new UserRepository();
+
+            var loggedUser = userRepository.GetById(id);
 
             try
             {
                 return this.Ok(new HttpResultModel(string.Empty, UserManager.GetUserById(loggedUser, loggedUser.Id.Value)));
             }
-            catch (PermissionException)
-            {
-                return this.Unauthorized();
-            }
+            //catch (PermissionException)
+            //{
+            //    return this.Unauthorized();
+            //}
             catch (BusinessException e)
             {
                 return this.BadRequest(e.Message);
@@ -368,7 +368,6 @@ namespace Neomax.WebApi.Controllers
         /// <returns>Http Result with simple message</returns>
         [Route("userArea/update")]
         [HttpPost]
-        [SimpleAuthenticationAttribute]
         public IHttpActionResult UpdateUserByUser(UserInputDto user)
         {
             var loggedUser = new UserRepository().GetByAcessToken(ActionContext.Request.Headers.Authorization.Parameter);
@@ -379,10 +378,10 @@ namespace Neomax.WebApi.Controllers
 
                 return this.Ok(new HttpResultModel("Dados alterados com sucesso"));
             }
-            catch (PermissionException)
-            {
-                return this.Unauthorized();
-            }
+            //catch (PermissionException)
+            //{
+            //    return this.Unauthorized();
+            //}
             catch (BusinessException e)
             {
                 return this.BadRequest(e.Message);
@@ -405,17 +404,16 @@ namespace Neomax.WebApi.Controllers
         /// <returns>Http Result with the list of users</returns>
         [Route("search")]
         [HttpPost]
-        [SimpleAuthenticationAttribute]
         public IHttpActionResult Search(UserFilterDto filter)
         {
             try
             {
                 return this.Ok(new HttpResultModel(string.Empty, UserManager.Search(filter)));
             }
-            catch (PermissionException)
-            {
-                return this.Unauthorized();
-            }
+            //catch (PermissionException)
+            //{
+            //    return this.Unauthorized();
+            //}
             catch (BusinessException e)
             {
                 return this.BadRequest(e.Message);
@@ -434,7 +432,6 @@ namespace Neomax.WebApi.Controllers
         /// <returns>Http Result with the User object</returns>
         [Route("{id}")]
         [HttpGet]
-        [SimpleAuthenticationAttribute]
         public IHttpActionResult GetById(int id)
         {
             var loggedUser = new UserRepository().GetByAcessToken(ActionContext.Request.Headers.Authorization.Parameter);
@@ -443,10 +440,10 @@ namespace Neomax.WebApi.Controllers
             {
                 return this.Ok(new HttpResultModel(string.Empty, UserManager.GetUserById(loggedUser, id)));
             }
-            catch (PermissionException)
-            {
-                return this.Unauthorized();
-            }
+            //catch (PermissionException)
+            //{
+            //    return this.Unauthorized();
+            //}
             catch (BusinessException e)
             {
                 return this.BadRequest(e.Message);
@@ -465,7 +462,6 @@ namespace Neomax.WebApi.Controllers
         /// <returns>Http Result with simple message</returns>
         [Route("management/save")]
         [HttpPost]
-        [SimpleAuthenticationAttribute]
         public IHttpActionResult SaveUser(UserInputDto user)
         {
             try
@@ -474,10 +470,10 @@ namespace Neomax.WebApi.Controllers
 
                 return this.Ok(new HttpResultModel(successMessage));
             }
-            catch (PermissionException)
-            {
-                return this.Unauthorized();
-            }
+            //catch (PermissionException)
+            //{
+            //    return this.Unauthorized();
+            //}
             catch (BusinessException e)
             {
                 return this.BadRequest(e.Message);
@@ -496,7 +492,6 @@ namespace Neomax.WebApi.Controllers
         /// <returns>Http Result with simple message</returns>
         [Route("management/{idUser}")]
         [HttpDelete]
-        [SimpleAuthenticationAttribute]
         public IHttpActionResult DeleteUser(int idUser)
         {
             try
@@ -505,10 +500,10 @@ namespace Neomax.WebApi.Controllers
 
                 return this.Ok(new HttpResultModel("Usuário excluído com sucesso"));
             }
-            catch (PermissionException)
-            {
-                return this.Unauthorized();
-            }
+            //catch (PermissionException)
+            //{
+            //    return this.Unauthorized();
+            //}
             catch (BusinessException e)
             {
                 return this.BadRequest(e.Message);

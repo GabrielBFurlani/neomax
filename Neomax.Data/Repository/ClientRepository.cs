@@ -63,6 +63,14 @@ namespace Neomax.Data.Repository
 
             return query.ToList();
         }
+
+        public ClientDao GetByIdUser(int idUser)
+        {
+            var query = GetSession().Query<ClientDao>().Where(x => x.User.Id == idUser).FirstOrDefault();
+
+            return query;
+        }
+
         public List<ContactTimeDao> GetContactTimeByIdClient(int idClient)
         {
             var query = GetSession().Query<ContactTimeDao>().Where(x => x.Client.Id == idClient);
